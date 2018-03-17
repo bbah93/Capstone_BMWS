@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "154640006937",
+    "firebase_url": "https://polymerse-5d8d1.firebaseio.com",
+    "project_id": "polymerse-5d8d1",
+    "storage_bucket": "polymerse-5d8d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154640006937:android:6e40442f30c311a2",
+        "android_client_info": {
+          "package_name": "com.nyc.polymerse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154640006937-4ceoohshb1ib5a7bgl57d0itack5q6ak.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nyc.polymerse",
+            "certificate_hash": "e234df5835700c906183153bd85fa4671553d8c8"
+          }
+        },
+        {
+          "client_id": "154640006937-k52labm3en4uigr2og3d0chmggebk7fn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7a_0dY2VGy5HCWfxWeTsEbOtUUfNpQFo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154640006937-k52labm3en4uigr2og3d0chmggebk7fn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
