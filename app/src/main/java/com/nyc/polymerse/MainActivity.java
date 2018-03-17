@@ -72,4 +72,7 @@ public class MainActivity extends AppCompatActivity {
             auth.removeAuthStateListener(authListener);
         }
     }
+
+
+
 }
