@@ -101,12 +101,6 @@ public class LoginActivity extends AppCompatActivity {
         return (password.length() >= 6);
     }
 
-//    private void requestFocus(View view) {
-//        if (view.requestFocus()) {
-//            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-//        }
-//    }
-
     @Override
     protected void onResume() {
         super.onResume();
