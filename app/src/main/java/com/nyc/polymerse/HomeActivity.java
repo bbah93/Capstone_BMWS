@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nyc.polymerse.fragments.UserResultsFragment;
 
 import java.util.List;
 
@@ -36,6 +38,8 @@ public class HomeActivity extends AppCompatActivity
 
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseUser;
+
+    private UserResultsFragment fragment;
 
 
     @Override
@@ -85,6 +89,11 @@ public class HomeActivity extends AppCompatActivity
         mDatabaseUser.addValueEventListener(userEventListener);
 
 
+        fragment = new UserResultsFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.fragment_container,fragment, "frag");
+        transaction.commit();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -112,6 +121,7 @@ public class HomeActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
+        getMenuInflater().inflate(R.menu.menu_nav, menu);
         return true;
     }
 
@@ -121,6 +131,26 @@ public class HomeActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch (id) {
+            case R.id.nav_people:
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+
+                if (fragment.isVisible()) {
+                    transaction.hide(fragment);
+                    transaction.commit();
+                } else {
+                    transaction.show(fragment);
+                    transaction.commit();
+                }
+                return true;
+            case R.id.nav_messages:
+                return true;
+            case R.id.nav_calendar:
+                return true;
+            case R.id.nav_notification:
+                return true;
+        }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
