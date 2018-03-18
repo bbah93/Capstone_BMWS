@@ -12,8 +12,17 @@
         android:src="@mipmap/ic_launcher_round"
         android:layout_width="@dimen/avatar_dimen"
         android:layout_height="@dimen/avatar_dimen" />
+
+    <TextView
+        android:text="SHANTAL TAVERAS"
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/user_results_user_name"
+        app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     
     <TextView
+        app:layout_constraintTop_toBottomOf="@id/user_results_user_name"
         android:padding="@dimen/user_results_view_padding"
         android:id="@+id/learning_field"
         android:text="@string/learning"
@@ -22,12 +31,22 @@
         app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"/>
 
     <TextView
+        app:layout_constraintTop_toBottomOf="@id/user_results_user_name"
         android:padding="@dimen/user_results_view_padding"
         android:id="@+id/learning_value"
         android:text="Spanish"
         app:layout_constraintLeft_toRightOf="@id/learning_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/user_results_user_name"
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/learning_fluency"
+        android:text="Beginner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/learning_value"/>
 
     <TextView
         android:padding="@dimen/user_results_view_padding"
@@ -47,6 +66,15 @@
         app:layout_constraintTop_toBottomOf="@id/learning_field"
         app:layout_constraintLeft_toRightOf="@id/sharing_field"/>
 
+    <TextView
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/sharing_fluency"
+        android:text="Fluent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/learning_field"
+        app:layout_constraintLeft_toRightOf="@id/sharing_value"/>
+
 
 
     <TextView
@@ -55,8 +83,7 @@
         android:id="@+id/located_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
-        app:layout_constraintTop_toBottomOf="@id/sharing_field"/>
+        app:layout_constraintLeft_toRightOf="@id/user_results_user_name" />
 
     <RatingBar
         android:padding="@dimen/user_results_view_padding"
@@ -67,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
-        app:layout_constraintTop_toBottomOf="@id/located_value"/>
+        app:layout_constraintTop_toBottomOf="@id/sharing_field"/>
 
 
 </android.support.constraint.ConstraintLayout>
