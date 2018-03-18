@@ -18,6 +18,7 @@ public class Name_Fragment extends Fragment {
 
 
     public static String TAG;
+    View rootView;
 
     public Name_Fragment() {
         // Required empty public constructor
@@ -28,8 +29,9 @@ public class Name_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_name, container, false);
+         rootView = inflater.inflate(R.layout.name_frag, container, false);
 
+         return rootView;
 
     }
 
