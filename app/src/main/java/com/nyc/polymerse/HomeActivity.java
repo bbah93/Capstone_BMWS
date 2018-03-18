@@ -1,6 +1,7 @@
 package com.nyc.polymerse;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -16,6 +17,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,6 +33,10 @@ public class HomeActivity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     private FirebaseUser user;
+
+    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +60,30 @@ public class HomeActivity extends AppCompatActivity
                 }
             }
         };
-        new GetUserList().getUserList();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabaseUser = mDatabase.child("Users").child("Test");
+        ValueEventListener userEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                User post = dataSnapshot.getValue(User.class);
+                if (post != null) {
+                    Log.d(TAG, "onDataChange: " + post.getUsername());
+                    //This is an interface to put the data into a different activity.
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // ...
+
+            }
+        };
+        mDatabaseUser.addValueEventListener(userEventListener);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
