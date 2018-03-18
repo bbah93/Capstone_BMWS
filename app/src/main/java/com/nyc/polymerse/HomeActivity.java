@@ -114,8 +114,10 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }else if (id == R.id.sign_out) {
+        } else if (id == R.id.nav_sign_out) {
             signOutButton();
+            Toast.makeText(this,"Sign out", Toast.LENGTH_SHORT).show();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
