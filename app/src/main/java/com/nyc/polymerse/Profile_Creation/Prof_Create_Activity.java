@@ -13,8 +13,10 @@ import com.nyc.polymerse.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Prof_Create extends AppCompatActivity {
+public class Prof_Create_Activity extends AppCompatActivity {
     //TODO:Give Language and Location Fragments spinners instead of EditTexts
+    //TODO:Add TextViews to Fragments
+    //TODO:Add Transition Animation to fragment swipes
 
 
     TabLayout createUserTab;
@@ -24,26 +26,33 @@ public class Prof_Create extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prof__create);
-        if (savedInstanceState == null){
-            Name_Fragment name_fragment = new Name_Fragment();
-            name_fragment.getFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_container, name_fragment, Name_Fragment.TAG)
-                    .commit();
-        }
+
         createUserTab = (TabLayout) findViewById(R.id.create_tabs);
         frag_Pager = (ViewPager) findViewById(R.id.create_page);
 
         createUserTab.setupWithViewPager(frag_Pager);
+        SetUpViewPager(frag_Pager);
+    }
+    public void SetUpViewPager(ViewPager viewPager){
+        CreateProf_Adapter adapter = new CreateProf_Adapter(getSupportFragmentManager());
+
+        adapter.AddFragmentPage(new Name_Fragment(), "Name");
+        adapter.AddFragmentPage(new Location_Fragment(), "Location");
+        adapter.AddFragmentPage(new Language_Fragment(), "Language");
+
+        viewPager.setAdapter(adapter);
     }
 
+
     public static class CreateProf_Adapter extends FragmentPagerAdapter{
+
         private List<Fragment> createFragments = new ArrayList<>();
         private List<String> frag_Titles = new ArrayList<>();
 
         public CreateProf_Adapter(FragmentManager manager) {
             super(manager);
         }
+
         public void AddFragmentPage(Fragment frag, String title){
             createFragments.add(frag);
             frag_Titles.add(title);

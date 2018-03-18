@@ -14,6 +14,8 @@ import com.nyc.polymerse.R;
  */
 public class Language_Fragment extends Fragment {
 
+    public static String TAG;
+
 
     public Language_Fragment() {
         // Required empty public constructor
