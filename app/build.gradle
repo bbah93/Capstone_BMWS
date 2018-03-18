@@ -46,6 +46,7 @@ android {
         implementation 'com.google.firebase:firebase-core:11.8.0'
         implementation 'com.google.firebase:firebase-auth:11.8.0'
         implementation 'com.google.firebase:firebase-database:11.8.0'
+        compile 'de.hdodenhof:circleimageview:2.2.0'
 
 
     }
