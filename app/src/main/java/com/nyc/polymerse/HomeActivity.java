@@ -44,9 +44,12 @@ public class HomeActivity extends AppCompatActivity
                 }else{
                     Log.d(TAG, "onAuthStateChanged: user isn't null");
                     Log.d(TAG, "onAuthStateChanged: " + user.getEmail());
+                    Toast.makeText(HomeActivity.this, user.getEmail() + " is logged in", Toast.LENGTH_SHORT).show();
                 }
             }
         };
+        new GetUserList().getUserList();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
