@@ -20,7 +20,9 @@ import com.nyc.polymerse.User;
 import com.nyc.polymerse.controller.UserResultAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,6 +83,43 @@ public class UserResultsFragment extends Fragment {
 
         };
         mDatabaseUser.addValueEventListener(userEventListener);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabaseUser = mDatabase.child("Users");
+        mDatabaseUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    User user = d.getValue(User.class);
+                    Log.d(TAG, "onDataChange: user " + user.getUsername());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("The read failed: " ,databaseError.getMessage());
+
+            }
+        });
+        /**
+         * Firebase ref = new Firebase(FIREBASE_URL);
+
+         ref.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot snapshot) {
+        Log.e("Count " ,""+snapshot.getChildrenCount());
+        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+        <YourClass> post = postSnapshot.getValue(<YourClass>.class);
+        Log.e("Get Data", post.<YourMethod>());
+        }
+        }
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+        Log.e("The read failed: " ,firebaseError.getMessage());
+        }
+        });
+         */
 
     }
 }
