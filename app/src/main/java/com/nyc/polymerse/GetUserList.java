@@ -18,6 +18,7 @@ public class GetUserList {
     private final String TAG = "UserDataBase";
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseUser;
+    private onDataChangedUserInterface onDataChangedUserInterface;
 // ...
 
 
@@ -30,6 +31,7 @@ public class GetUserList {
                 // Get Post object and use the values to update the UI
                 User post = dataSnapshot.getValue(User.class);
                 Log.d(TAG, "onDataChange: " + post.getUsername());
+                onDataChangedUserInterface.onSuccess(post);
             }
 
             @Override
@@ -37,8 +39,16 @@ public class GetUserList {
                 // Getting Post failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
                 // ...
+                onDataChangedUserInterface.ofFailure(databaseError);
+
             }
         };
         mDatabaseUser.addValueEventListener(postListener);
+    }
+
+    public interface onDataChangedUserInterface{
+         void onSuccess(User user);
+
+         void ofFailure(DatabaseError databaseError);
     }
 }
