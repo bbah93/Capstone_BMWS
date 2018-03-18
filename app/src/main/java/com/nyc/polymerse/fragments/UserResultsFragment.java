@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.nyc.polymerse.GetUserList;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 
@@ -19,8 +22,10 @@ import com.nyc.polymerse.User;
 public class UserResultsFragment extends Fragment {
 
     View rootView;
-    private GetUserList.onDataChangedUserInterface onDataChangedUserInterface;
     private final String TAG = "UserResultsFragment";
+
+    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseUser;
 
     public UserResultsFragment() {
         // Required empty public constructor
@@ -37,18 +42,28 @@ public class UserResultsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        onDataChangedUserInterface = new GetUserList.onDataChangedUserInterface() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabaseUser = mDatabase.child("Users").child("Test");
+        ValueEventListener userEventListener = new ValueEventListener() {
             @Override
-            public void onSuccess(User user) {
-                //This is the test user only;
-                Log.d(TAG, "onSuccess: " + user.getCity());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                User post = dataSnapshot.getValue(User.class);
+                if (post != null) {
+                    Log.d(TAG, "onDataChange: " + post.getUsername());
+                    //This is an interface to put the data into a different activity.
+                }
             }
 
             @Override
-            public void ofFailure(DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // ...
 
             }
         };
+        mDatabaseUser.addValueEventListener(userEventListener);
+
     }
 }
