@@ -49,6 +49,7 @@ public class UserResultsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG,"ON VIEW CREATED");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseUser = mDatabase.child("Users").child("Test");
         ValueEventListener userEventListener = new ValueEventListener() {
@@ -59,24 +60,25 @@ public class UserResultsFragment extends Fragment {
                 if (post != null) {
                     Log.d(TAG, "onDataChange: " + post.getUsername());
                     //This is an interface to put the data into a different activity.
-                for(int i = 0; i < 5; i++){
-                    userList.add(post);
+                    for (int i = 0; i < 5; i++) {
+                        userList.add(post);
+                    }
+
+                    RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
+                    LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                    recyclerView.setLayoutManager(manager);
+                    UserResultAdapter adapter = new UserResultAdapter(userList);
+                    recyclerView.setAdapter(adapter);
+                    //This is the test user only;
+                    Log.d(TAG, "onSuccess: " + post.getCity());
                 }
-                RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
-                LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-                recyclerView.setLayoutManager(manager);
-                UserResultAdapter adapter = new UserResultAdapter(userList);
-                //This is the test user only;
-                Log.d(TAG, "onSuccess: " + user.getCity());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                // ...
 
-            }
+            };
+
         };
         mDatabaseUser.addValueEventListener(userEventListener);
 
