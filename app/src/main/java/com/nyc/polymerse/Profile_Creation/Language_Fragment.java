@@ -1,12 +1,16 @@
 package com.nyc.polymerse.Profile_Creation;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 
 /**
@@ -15,6 +19,10 @@ import com.nyc.polymerse.R;
 public class Language_Fragment extends Fragment {
 
     public static String TAG;
+    Button begin_Button;
+    TextInputEditText fluent;
+    TextInputEditText learning;
+    View rootView;
 
 
     public Language_Fragment() {
@@ -26,7 +34,20 @@ public class Language_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.language_fragment, container, false);
+        rootView = inflater.inflate(R.layout.language_fragment, container, false);
+        begin_Button = rootView.findViewById(R.id.begin_button);
+        finishCreate();
+
+        return rootView;
     }
 
+    public void finishCreate(){
+        begin_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 }
