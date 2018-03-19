@@ -36,11 +36,12 @@
 
 
         <android.support.design.widget.BottomNavigationView
+            android:id="@+id/nav_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:id="@+id/nav_tab"
-            design:menu="@menu/menu_nav"/>
+            app:itemBackground="@color/honey"
+            design:menu="@menu/menu_nav" />
     </FrameLayout>
 
 
