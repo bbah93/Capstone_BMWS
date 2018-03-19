@@ -5,6 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="honey">#f8ffae</color>
 
+    <color name="light_blue">#0091EA</color>
+    <color name="sky_blue">#B3E5FC</color>
+    <color name="white">#FFFFFF</color>
 
 
 </resources>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/user_results_padding_margin"
+    android:padding="@dimen/user_results_padding_margin">
+    
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_avatar_user_results"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_width="@dimen/avatar_dimen"
+        android:layout_height="@dimen/avatar_dimen" />
+
+    <TextView
+        android:text="SHANTAL TAVERAS"
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/user_results_user_name"
+        app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/user_results_user_name"
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/learning_field"
+        android:text="@string/learning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"/>
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/user_results_user_name"
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/learning_value"
+        android:text="Spanish"
+        app:layout_constraintLeft_toRightOf="@id/learning_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/user_results_user_name"
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/learning_fluency"
+        android:text="Beginner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/learning_value"/>
+
+    <TextView
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/sharing_field"
+        android:text="@string/sharing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
+        app:layout_constraintTop_toBottomOf="@id/learning_field"/>
+
+    <TextView
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/sharing_value"
+        android:text="English"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/learning_field"
+        app:layout_constraintLeft_toRightOf="@id/sharing_field"/>
+
+    <TextView
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/sharing_fluency"
+        android:text="Fluent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/learning_field"
+        app:layout_constraintLeft_toRightOf="@id/sharing_value"/>
+
+
+
+    <TextView
+        android:padding="@dimen/user_results_view_padding"
+        android:text="Bronx, NY"
+        android:id="@+id/located_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/user_results_user_name" />
+
+    <RatingBar
+        android:padding="@dimen/user_results_view_padding"
+        android:id="@+id/user_resuts_rating_bar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:numStars="5"
+        android:isIndicator="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
+        app:layout_constraintTop_toBottomOf="@id/sharing_field"/>
+
+
+</android.support.constraint.ConstraintLayout>

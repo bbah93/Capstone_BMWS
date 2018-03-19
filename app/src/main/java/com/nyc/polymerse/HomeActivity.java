@@ -1,9 +1,12 @@
 package com.nyc.polymerse;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +19,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.nyc.polymerse.fragments.UserResultsFragment;
+
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,6 +35,13 @@ public class HomeActivity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     private FirebaseUser user;
+    private BottomNavigationView bottomNavigationView;
+
+    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseUser;
+
+    private UserResultsFragment fragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +58,90 @@ public class HomeActivity extends AppCompatActivity
                     // if user is null launch login activity
                     startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                     finish();
-                }else{
+                } else {
                     Log.d(TAG, "onAuthStateChanged: user isn't null");
                     Log.d(TAG, "onAuthStateChanged: " + user.getEmail());
+                    Toast.makeText(HomeActivity.this, user.getEmail() + " is logged in", Toast.LENGTH_SHORT).show();
                 }
             }
         };
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabaseUser = mDatabase.child("Users").child("Test");
+        ValueEventListener userEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                User post = dataSnapshot.getValue(User.class);
+                if (post != null) {
+                    Log.d(TAG, "onDataChange: " + post.getUsername());
+                    //This is an interface to put the data into a different activity.
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // ...
+
+            }
+        };
+        mDatabaseUser.addValueEventListener(userEventListener);
+
+
+        fragment = new UserResultsFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.fragment_container, fragment, "frag");
+        transaction.commit();
+
+        bottomNavigationView = findViewById(R.id.nav_tab);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                switch (id) {
+                    case R.id.nav_people:
+                        if (fragment.isHidden()) {
+                            transaction.show(fragment);
+                        }
+
+                        transaction.commit();
+                        Log.d(TAG, "onOptionsItemSelected: people clicked");
+                        return true;
+                    case R.id.nav_messages:
+                        if (fragment.isVisible()) {
+                            transaction.hide(fragment);
+                        }
+                        Log.d(TAG, "onOptionsItemSelected: messages clicked");
+
+                        transaction.commit();
+                        return true;
+                    case R.id.nav_calendar:
+
+                        if (fragment.isVisible()) {
+                            transaction.hide(fragment);
+                        }
+                        Log.d(TAG, "onOptionsItemSelected: calendar clicked");
+
+                        transaction.commit();
+                        return true;
+                    case R.id.nav_notification:
+
+                        if (fragment.isVisible()) {
+                            transaction.hide(fragment);
+                        }
+                        Log.d(TAG, "onOptionsItemSelected: notification clicked");
+
+                        transaction.commit();
+                        return true;
+                }
+                return false;
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -74,6 +169,7 @@ public class HomeActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
+        getMenuInflater().inflate(R.menu.menu_nav, menu);
         return true;
     }
 
@@ -101,11 +197,11 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            Toast.makeText(this,"Profile", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
             // Handle the camera action
         } else if (id == R.id.nav_home) {
 
-            Toast.makeText(this,"Home", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
 
 
         } else if (id == R.id.nav_history) {
@@ -121,7 +217,7 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_sign_out) {
             signOutButton();
-            Toast.makeText(this,"Sign out", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Sign out", Toast.LENGTH_SHORT).show();
 
         }
 
