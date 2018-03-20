@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity
     private String UserEmail;
 
     private Boolean isProfileCreated = true;
+    private UserDetailsFragment frag;
 
 
     @Override
@@ -144,6 +145,9 @@ public class HomeActivity extends AppCompatActivity
                         if (fragment.isHidden()) {
                             transaction.show(fragment);
                         }
+                        if (frag != null && frag.isHidden()) {
+                            transaction.show(frag);
+                        }
 
                         transaction.commit();
                         Log.d(TAG, "onOptionsItemSelected: people clicked");
@@ -151,6 +155,9 @@ public class HomeActivity extends AppCompatActivity
                     case R.id.nav_messages:
                         if (fragment.isVisible()) {
                             transaction.hide(fragment);
+                        }
+                        if(frag != null && frag.isVisible()) {
+                            transaction.hide(frag);
                         }
                         Log.d(TAG, "onOptionsItemSelected: messages clicked");
 
@@ -325,6 +332,7 @@ public class HomeActivity extends AppCompatActivity
 
     public void switchContent(int id, UserDetailsFragment frag) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        this.frag = frag;
         ft.add(R.id.fragment_container,frag,"details_user_frag");
         ft.addToBackStack("user_detail_frag");
         ft.commit();
