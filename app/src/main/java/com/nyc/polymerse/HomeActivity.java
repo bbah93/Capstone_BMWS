@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity
 
     private String UserEmail;
 
-    private Boolean isProfileCreated = true;
+    private Boolean isProfileNotCreated = true;
     private UserDetailsFragment frag;
 
 
@@ -109,15 +109,18 @@ public class HomeActivity extends AppCompatActivity
         mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User user = d.getValue(User.class);
                     Log.d(TAG, "onDataChange: user " + user.getUsername());
                     profileNotCreated(user);
                 }
-                if (isProfileCreated) {
+                if (isProfileNotCreated) {
+
+                    Log.d(TAG, "onDataChange: uID " + user.getUid());
                     startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
+                    finish();
                 }
+                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
             }
 
             @Override
@@ -156,7 +159,7 @@ public class HomeActivity extends AppCompatActivity
                         if (fragment.isVisible()) {
                             transaction.hide(fragment);
                         }
-                        if(frag != null && frag.isVisible()) {
+                        if (frag != null && frag.isVisible()) {
                             transaction.hide(frag);
                         }
                         Log.d(TAG, "onOptionsItemSelected: messages clicked");
@@ -204,7 +207,7 @@ public class HomeActivity extends AppCompatActivity
         String firebaseUid = this.user.getUid();
         String databaseUid = user.getuID();
         if (firebaseUid.equals(databaseUid)) {
-            isProfileCreated = false;
+            isProfileNotCreated = false;
         }
     }
 
@@ -261,7 +264,7 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this,SettingsActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
@@ -286,7 +289,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this,SettingsActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
 
 
@@ -333,7 +336,7 @@ public class HomeActivity extends AppCompatActivity
     public void switchContent(int id, UserDetailsFragment frag) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         this.frag = frag;
-        ft.add(R.id.fragment_container,frag,"details_user_frag");
+        ft.add(R.id.fragment_container, frag, "details_user_frag");
         ft.addToBackStack("user_detail_frag");
         ft.commit();
 
