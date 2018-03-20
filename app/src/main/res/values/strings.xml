@@ -98,5 +98,13 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="fake_profile_name">Hans</string>
+    <string name="about_details">About:</string>
+    <string name="about_text_details">GUTEN TAG ICH LIEBE DICH DEUTSH</string>
+    <string name="review_details">Emily</string>
+    <string name="review_date">Jan 2018</string>
+    <string name="review_detail_text">ICH LIEBE HANS! ICH LERNE DEUTCH!</string>
+    <string name="invite_button_text">Invite</string>
+    <string name="message_details">Message</string>
 
 </resources>

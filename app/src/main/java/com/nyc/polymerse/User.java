@@ -13,7 +13,16 @@ public class User {
     private String city;
     private String state;
     private Map<String, String> langLearn;
-    private Map<String,String> langTeach;
+    private Map<String, String> langTeach;
+    private String uID;
+
+    public String getuID() {
+        return uID;
+    }
+
+    public void setuID(String uID) {
+        this.uID = uID;
+    }
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -67,3 +76,4 @@ public class User {
         this.langTeach = langTeach;
     }
 }
+

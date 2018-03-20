@@ -49,38 +49,39 @@ public class UserResultsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG,"ON VIEW CREATED");
+        Log.d(TAG, "ON VIEW CREATED");
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabaseUser = mDatabase.child("Users").child("Test");
-        ValueEventListener userEventListener = new ValueEventListener() {
+        mDatabaseUser = mDatabase.child("Users");
+        mDatabaseUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                User post = dataSnapshot.getValue(User.class);
-                if (post != null) {
-                    Log.d(TAG, "onDataChange: " + post.getUsername());
-                    //This is an interface to put the data into a different activity.
-                    for (int i = 0; i < 5; i++) {
-                        userList.add(post);
-                    }
+                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    User user = d.getValue(User.class);
+                    userList.add(user);
+                    Log.d(TAG, "onDataChange: user " + user.getUsername());
+
 
                     RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
                     LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(manager);
-                    UserResultAdapter adapter = new UserResultAdapter(userList);
+                    UserResultAdapter adapter = new UserResultAdapter(userList,rootView.getContext());
                     recyclerView.setAdapter(adapter);
                     //This is the test user only;
-                    Log.d(TAG, "onSuccess: " + post.getCity());
+                    Log.d(TAG, "onSuccess: " + user.getCity());
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.e("The read failed: ", databaseError.getMessage());
 
-            };
-
-        };
-        mDatabaseUser.addValueEventListener(userEventListener);
+            }
+        });
 
     }
+
+
+
 }
