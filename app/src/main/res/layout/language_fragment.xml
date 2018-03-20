@@ -54,7 +54,7 @@
             >
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/fluent_input"
+                android:id="@+id/known_input"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"

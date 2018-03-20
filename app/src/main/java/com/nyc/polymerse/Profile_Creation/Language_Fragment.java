@@ -21,7 +21,9 @@ public class Language_Fragment extends Fragment {
     public static String TAG;
     Button begin_Button;
     TextInputEditText fluent;
+    TextInputEditText fluent_level;
     TextInputEditText learning;
+    TextInputEditText learning_Level;
     View rootView;
 
 
@@ -36,8 +38,12 @@ public class Language_Fragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.language_fragment, container, false);
         begin_Button = rootView.findViewById(R.id.begin_button);
-        finishCreate();
+        fluent = rootView.findViewById(R.id.known_input);
+        fluent_level = rootView.findViewById(R.id.fluent_level_input);
+        learning = rootView.findViewById(R.id.lang_learn_input);
+        learning_Level = rootView.findViewById(R.id.fluency_learn_input);
 
+        finishCreate();
         return rootView;
     }
 

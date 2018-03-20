@@ -15,7 +15,6 @@ import java.util.List;
 
 public class Prof_Create_Activity extends AppCompatActivity {
     //TODO:Give Language and Location Fragments spinners instead of EditTexts
-    //TODO:Add TextViews to Fragments
     //TODO:Add Transition Animation to fragment swipes
 
 

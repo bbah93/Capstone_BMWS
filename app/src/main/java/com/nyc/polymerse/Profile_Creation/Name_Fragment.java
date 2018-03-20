@@ -35,6 +35,8 @@ public class Name_Fragment extends Fragment {
         // Inflate the layout for this fragment
          rootView = inflater.inflate(R.layout.name_frag, container, false);
 
+         first_name = (TextInputEditText) rootView.findViewById(R.id.first_name);
+         last_name = (TextInputEditText) rootView.findViewById(R.id.last_name);
          return rootView;
 
     }

@@ -30,6 +30,9 @@ public class Location_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.location_frag, container, false);
+
+        city = (TextInputEditText) rootView.findViewById(R.id.city_input);
+        state = (TextInputEditText) rootView.findViewById(R.id.state_input);
         return rootView;
     }
 
