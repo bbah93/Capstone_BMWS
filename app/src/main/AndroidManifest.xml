@@ -23,7 +23,17 @@
         </activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />
+
         <activity android:name=".Profile_Creation.Prof_Create_Activity"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nyc.polymerse.HomeActivity" />
+        </activity>
+
     </application>
 
 </manifest>

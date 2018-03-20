@@ -182,6 +182,8 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this,SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -205,6 +207,9 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this,SettingsActivity.class);
+            startActivity(intent);
+
 
         } else if (id == R.id.nav_share) {
 
