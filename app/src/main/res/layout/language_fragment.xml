@@ -3,17 +3,147 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     xmlns:card_view="http://schemas.android.com/tools"
     tools:context="com.nyc.polymerse.Profile_Creation.Location_Fragment"
     android:layout_centerInParent="true"
-    android:layout_gravity="center"
+    android:gravity="center"
     android:background="@drawable/gradient_background">
 
-    <RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center">
+
+    <TextView
+            android:id="@+id/closing_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Here's our last step!"/>
+
+    <TextView
+        android:id="@+id/lang_TV"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:textAlignment="center"
+        android:text="Let people know what language you know and which language you want to learn."
+        />
+
+    <TextView
+        android:id="@+id/difficulty_TV"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:textAlignment="center"
+        android:text="And to make sure everyone's on the same page, add your fluency level (i.e. beginner, intermediate, and pro) too!"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/known_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardElevation="20dp"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardBorder="20dp"
+            card_view:cardCornerRadius= "20dp"
+            >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fluent_input"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="bottom"
+                android:textStyle="italic"
+                android:hint="Known" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/fluent_level_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardElevation="20dp"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardBorder="20dp"
+            card_view:cardCornerRadius= "20dp"
+            >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fluent_level_input"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="bottom"
+                android:textStyle="italic"
+                android:hint="Current fluency" />
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/learn_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            card_view:cardElevation="20dp"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardBorder="20dp"
+            card_view:cardCornerRadius= "20dp"
+            >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/lang_learn_input"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="bottom"
+                android:textStyle="italic"
+                android:hint="Learning" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/learning_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            card_view:cardElevation="20dp"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardBorder="20dp"
+            card_view:cardCornerRadius= "20dp"
+            >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fluency_learn_input"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="bottom"
+                android:textStyle="italic"
+                android:hint="Current Fluency" />
+
+        </android.support.v7.widget.CardView>
+</LinearLayout>
 
     <Button
         android:id="@+id/begin_button"
@@ -21,49 +151,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/begin"
-        android:layout_below="@id/name_card"
         android:layout_gravity="center"
-        android:layout_centerInParent="true"
         android:background="@drawable/button_round"
         />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/name_card"
-        android:layout_width="320dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        card_view:cardElevation="20dp"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardBorder="20dp"
-        card_view:cardCornerRadius= "20dp"
-        >
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#E1F5FE">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/fluent_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="bottom"
-                android:textStyle="italic"
-                android:hint="Languages You Know" />
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/learning_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:textStyle="italic"
-                android:hint="Lnaguage You'd Like to Learn"/>
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-
-</RelativeLayout>
 </LinearLayout>
