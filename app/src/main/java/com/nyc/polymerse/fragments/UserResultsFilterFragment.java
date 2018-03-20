@@ -67,6 +67,8 @@ public class UserResultsFilterFragment extends Fragment {
 
     List<CheckBox> checkBoxList = new ArrayList<>();
 
+    private boolean clearAndApply = false;
+
     public UserResultsFilterFragment() {
         // Required empty public constructor
     }
@@ -85,20 +87,20 @@ public class UserResultsFilterFragment extends Fragment {
     }
 
     public List<String> getSavedFilters() {
-        Map<String,?> keys = sharedPreferences.getAll();
+        Map<String, ?> keys = sharedPreferences.getAll();
         List<String> checked = new ArrayList<>();
         for (Map.Entry<String, ?> entry : keys.entrySet()) {
-            if((Boolean) entry.getValue()){
+            if ((Boolean) entry.getValue()) {
                 checked.add(entry.getKey());
             }
         }
         return checked;
     }
 
-    public void checkedSavedFilters(){
-        for(CheckBox box:checkBoxList){
+    public void checkedSavedFilters() {
+        for (CheckBox box : checkBoxList) {
             String s = box.getText().toString();
-            if(getSavedFilters().contains(s)){
+            if (getSavedFilters().contains(s)) {
                 box.setChecked(true);
             }
         }
@@ -119,6 +121,7 @@ public class UserResultsFilterFragment extends Fragment {
         for (CheckBox box : checkBoxList) {
             box.setChecked(false);
         }
+        clearAndApply = true;
     }
 
     @OnClick(R.id.close_filter)
@@ -144,6 +147,10 @@ public class UserResultsFilterFragment extends Fragment {
                 editor.commit();
             }
         }
+        if (clearAndApply) {
+            editor.clear().commit();
+        }
+
         closeFragment();
 
     }
