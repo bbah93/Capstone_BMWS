@@ -20,9 +20,7 @@ import com.nyc.polymerse.User;
 import com.nyc.polymerse.controller.UserResultAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +49,7 @@ public class UserResultsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG,"ON VIEW CREATED");
+        Log.d(TAG, "ON VIEW CREATED");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseUser = mDatabase.child("Users").child("Test");
         ValueEventListener userEventListener = new ValueEventListener() {
@@ -69,7 +67,7 @@ public class UserResultsFragment extends Fragment {
                     RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
                     LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(manager);
-                    UserResultAdapter adapter = new UserResultAdapter(userList);
+                    UserResultAdapter adapter = new UserResultAdapter(userList,rootView.getContext());
                     recyclerView.setAdapter(adapter);
                     //This is the test user only;
                     Log.d(TAG, "onSuccess: " + post.getCity());
@@ -79,7 +77,9 @@ public class UserResultsFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
-            };
+            }
+
+            ;
 
         };
         mDatabaseUser.addValueEventListener(userEventListener);
@@ -98,28 +98,13 @@ public class UserResultsFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e("The read failed: " ,databaseError.getMessage());
+                Log.e("The read failed: ", databaseError.getMessage());
 
             }
         });
-        /**
-         * Firebase ref = new Firebase(FIREBASE_URL);
-
-         ref.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot snapshot) {
-        Log.e("Count " ,""+snapshot.getChildrenCount());
-        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-        <YourClass> post = postSnapshot.getValue(<YourClass>.class);
-        Log.e("Get Data", post.<YourMethod>());
-        }
-        }
-        @Override
-        public void onCancelled(FirebaseError firebaseError) {
-        Log.e("The read failed: " ,firebaseError.getMessage());
-        }
-        });
-         */
 
     }
+
+
+
 }
