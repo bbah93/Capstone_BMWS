@@ -13,6 +13,8 @@ import com.nyc.polymerse.R;
  */
 public class CalendarFragment extends Fragment {
 
+    View rootView;
+
     public CalendarFragment() {
         // Required empty public constructor
     }
@@ -20,8 +22,9 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar, container, false);
+        return rootView;
     }
 
 }
