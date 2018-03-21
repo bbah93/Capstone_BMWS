@@ -33,9 +33,10 @@ import com.nyc.polymerse.fragments.UserResultsFragment;
 
 import java.io.IOException;
 
+import butterknife.ButterKnife;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
 
     private static final String TAG = "HomeActivity";
     private FirebaseAuth.AuthStateListener authListener;
@@ -59,11 +60,11 @@ public class HomeActivity extends AppCompatActivity
     private Boolean isProfileNotCreated = true;
     private UserDetailsFragment frag;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        ButterKnife.bind(this);
 
         auth = FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -109,7 +110,6 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-
         fragment = new UserResultsFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_container, fragment, "UserFrag");
@@ -130,7 +130,6 @@ public class HomeActivity extends AppCompatActivity
                         if (frag != null && frag.isHidden()) {
                             transaction.show(frag);
                         }
-
                         transaction.commit();
                         Log.d(TAG, "onOptionsItemSelected: people clicked");
                         return true;
@@ -142,19 +141,6 @@ public class HomeActivity extends AppCompatActivity
                             transaction.hide(frag);
                         }
                         Log.d(TAG, "onOptionsItemSelected: messages clicked");
-
-                        transaction.commit();
-                        return true;
-                    case R.id.nav_calendar:
-
-                        if (fragment.isVisible()) {
-                            transaction.hide(fragment);
-                        }
-
-                        if (frag != null && frag.isVisible()) {
-                            transaction.hide(frag);
-                        }
-                        Log.d(TAG, "onOptionsItemSelected: calendar clicked");
 
                         transaction.commit();
                         return true;
@@ -197,7 +183,6 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-
     //method to show file chooser
     private void showFileChooser() {
         Intent intent = new Intent();
@@ -221,7 +206,6 @@ public class HomeActivity extends AppCompatActivity
             }
         }
     }
-
 
     @Override
     public void onBackPressed() {
@@ -271,13 +255,11 @@ public class HomeActivity extends AppCompatActivity
 
             Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
 
-
         } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-
 
         } else if (id == R.id.nav_share) {
 
