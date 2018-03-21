@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/user_results_padding_margin"
+    android:padding="@dimen/user_results_padding_margin">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_avatar_user_notification"
+                android:layout_width="@dimen/avatar_dimen"
+                android:layout_height="@dimen/avatar_dimen"
+                android:src="@mipmap/woman"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/invite_accept_icon1"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/ic_check_circle_green_a700_18dp"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/user_notification_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/user_results_view_padding"
+            android:text="Naima accepted your invite"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/user_results_view_padding"
+            android:text="March 20, 2018"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
+            app:layout_constraintTop_toBottomOf="@id/user_results_user_name" />
+        <TextView
+            android:padding="@dimen/user_results_view_padding"
+            android:id="@+id/time"
+            android:text="8:30pm"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
+            app:layout_constraintTop_toBottomOf="@id/learning_field"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_avatar_user_notification2"
+                android:layout_width="@dimen/avatar_dimen"
+                android:layout_height="@dimen/avatar_dimen"
+                android:src="@mipmap/man"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/invite_accept_icon2"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/ic_cancel_red_500_18dp"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"
+                android:layout_alignParentRight="true"/>
+
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/user_notification_user_name2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/user_results_view_padding"
+            android:text="Wayne can't meet sorry"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results" />
+
+        <TextView
+            android:id="@+id/date2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/user_results_view_padding"
+            android:text="April 2, 2018"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
+            app:layout_constraintTop_toBottomOf="@id/user_results_user_name" />
+        <TextView
+            android:padding="@dimen/user_results_view_padding"
+            android:id="@+id/time2"
+            android:text="6:00pm"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
+            app:layout_constraintTop_toBottomOf="@id/learning_field"/>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</LinearLayout>
