@@ -36,7 +36,7 @@ public class Language_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.language_fragment, container, false);
+        rootView = inflater.inflate(R.layout.language_frag, container, false);
         begin_Button = rootView.findViewById(R.id.begin_button);
         fluent = rootView.findViewById(R.id.known_input);
         fluent_level = rootView.findViewById(R.id.fluent_level_input);
