@@ -82,7 +82,7 @@ public class SignupActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG,"createUserWithEmail:onComplete:" + task.isSuccessful());
                         progressBar.setVisibility(View.GONE);
-                        // If sign in fails, Log the message to the LogCat. If sign in succeeds
+                        // If sign in fails, Log the Message to the LogCat. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
