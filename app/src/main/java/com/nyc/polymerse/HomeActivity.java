@@ -1,10 +1,14 @@
 package com.nyc.polymerse;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,12 +29,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.fragments.NotificationFragment;
+import com.nyc.polymerse.Profile_Creation.Prof_Create_Activity;
+import com.nyc.polymerse.fragments.MessageFragment;
+import com.nyc.polymerse.fragments.MessagingListFrag;
+import com.nyc.polymerse.fragments.UserDetailsFragment;
 import com.nyc.polymerse.fragments.UserResultsFragment;
 
+import java.io.IOException;
+
+import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
 
     private static final String TAG = "HomeActivity";
     private FirebaseAuth.AuthStateListener authListener;
@@ -39,15 +50,25 @@ public class HomeActivity extends AppCompatActivity
 
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseUser;
+    private DatabaseReference mDatabaseUsers;
 
-    private UserResultsFragment fragment;
-    private NotificationFragment notifyFragment;
+    private Fragment fragment;
+    private ImageView imageView;
+    private static final int PICK_IMAGE_REQUEST = 234;
 
+    //a Uri object to store file path
+    private Uri filePath;
+
+    private String UserEmail;
+
+    private Boolean isProfileNotCreated = true;
+    private UserDetailsFragment frag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        ButterKnife.bind(this);
 
         auth = FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -62,38 +83,42 @@ public class HomeActivity extends AppCompatActivity
                 } else {
                     Log.d(TAG, "onAuthStateChanged: user isn't null");
                     Log.d(TAG, "onAuthStateChanged: " + user.getEmail());
+                    UserSingleton.getInstance().setUser(new User());
+                    UserSingleton.getInstance().getUser().setuID(user.getUid());
+                    Log.d(TAG, "onAuthStateChanged: " + user.getUid());
                     Toast.makeText(HomeActivity.this, user.getEmail() + " is logged in", Toast.LENGTH_SHORT).show();
                 }
             }
         };
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabaseUser = mDatabase.child("Users").child("Test");
-        ValueEventListener userEventListener = new ValueEventListener() {
+        mDatabaseUsers = mDatabase.child(Constants.USERS);
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                User post = dataSnapshot.getValue(User.class);
-                if (post != null) {
-                    Log.d(TAG, "onDataChange: " + post.getUsername());
-                    //This is an interface to put the data into a different activity.
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    User user = d.getValue(User.class);
+                    Log.d(TAG, "onDataChange: user " + user.getUsername());
+                    profileNotCreated(user);
                 }
+                if (isProfileNotCreated) {
+                    Log.d(TAG, "onDataChange: uID " + user.getUid());
+                    startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
+                    finish();
+                }
+                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                // ...
+                Log.e("The read failed: ", databaseError.getMessage());
 
             }
-        };
-        mDatabaseUser.addValueEventListener(userEventListener);
-
+        });
 
         fragment = new UserResultsFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, fragment, "frag");
+        transaction.replace(R.id.fragment_container, fragment, "UserFrag");
         transaction.commit();
 
 
@@ -110,34 +135,20 @@ public class HomeActivity extends AppCompatActivity
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 switch (id) {
                     case R.id.nav_people:
-                        if (fragment.isHidden()) {
-                            transaction.show(fragment);
-                        }
-
+                        fragment = new UserResultsFragment();
+                        transaction.replace(R.id.fragment_container, fragment, "UserFrag");
                         transaction.commit();
                         Log.d(TAG, "onOptionsItemSelected: people clicked");
                         return true;
                     case R.id.nav_messages:
-                        if (fragment.isVisible()) {
-                            transaction.hide(fragment);
-                        }
+                        fragment = new MessagingListFrag();
                         Log.d(TAG, "onOptionsItemSelected: messages clicked");
-
-                        transaction.commit();
-                        return true;
-                    case R.id.nav_calendar:
-
-                        if (fragment.isVisible()) {
-                            transaction.hide(fragment);
-                        }
-                        Log.d(TAG, "onOptionsItemSelected: calendar clicked");
-
+                        transaction.replace(R.id.fragment_container, fragment, "msgFrag");
                         transaction.commit();
                         return true;
                     case R.id.nav_notification:
-
-                        notifyFragment = new NotificationFragment();
-                        transaction.add(R.id.fragment_container, fragment, "frag");
+                        fragment = new NotificationFragment();
+                        transaction.replace(R.id.fragment_container, fragment, "frag");
                         Log.d(TAG, "onOptionsItemSelected: notification clicked");
 
                         transaction.commit();
@@ -158,6 +169,39 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    private void profileNotCreated(User user) {
+        String firebaseUid = this.user.getUid();
+        String databaseUid = user.getuID();
+        if (firebaseUid.equals(databaseUid)) {
+            isProfileNotCreated = false;
+        }
+    }
+
+    //method to show file chooser
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    //handling the image chooser activity result
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imageView.setImageBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -187,7 +231,7 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this,SettingsActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
@@ -208,13 +252,11 @@ public class HomeActivity extends AppCompatActivity
 
             Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
 
-
         } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this,SettingsActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-
 
         } else if (id == R.id.nav_share) {
 
@@ -254,6 +296,22 @@ public class HomeActivity extends AppCompatActivity
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
         }
+    }
+
+    public void switchContent(int i, MessageFragment frag) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, frag, "details_user_frag");
+        ft.addToBackStack("user_detail_frag");
+        ft.commit();
+    }
+
+    public void switchContent(int id, UserDetailsFragment frag) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        this.frag = frag;
+        ft.replace(R.id.fragment_container, frag, "details_user_frag");
+        ft.addToBackStack("user_detail_frag");
+        ft.commit();
+
     }
 }
             

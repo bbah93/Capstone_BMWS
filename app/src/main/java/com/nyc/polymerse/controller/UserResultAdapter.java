@@ -1,5 +1,7 @@
 package com.nyc.polymerse.controller;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,14 +9,18 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
+import com.nyc.polymerse.fragments.UserDetailsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
 
 /**
  * Created by Shant on 3/18/2018.
@@ -23,9 +29,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.UserResultViewHolder> {
 
     List<User> userList = new ArrayList<>();
+    Context context;
 
-    public UserResultAdapter(List<User> userList){
+    public UserResultAdapter(List<User> userList, Context context){
         this.userList = userList;
+        this.context = context;
     }
 
     @Override
@@ -35,9 +43,15 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
     }
 
     @Override
-    public void onBindViewHolder(UserResultViewHolder holder, int position) {
-        User user = userList.get(position);
+    public void onBindViewHolder(final UserResultViewHolder holder, int position) {
+        final User user = userList.get(position);
         holder.onBind(user);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentJump(user);
+            }
+        });
 
     }
 
@@ -101,4 +115,25 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
     }
 
 
+    UserDetailsFragment mFragment;
+
+    private void fragmentJump(User mItemSelected) {
+        mFragment = new UserDetailsFragment();
+        Bundle mBundle = new Bundle();
+        String userString = new Gson().toJson(mItemSelected);
+        mBundle.putString("item_selected_key", userString);
+        mFragment.setArguments(mBundle);
+        switchContent(R.id.fragment_container, mFragment);
+    }
+
+    public void switchContent(int id, UserDetailsFragment fragment) {
+        if (context == null)
+            return;
+        if (context instanceof HomeActivity) {
+            HomeActivity homeActivity = (HomeActivity) context;
+            UserDetailsFragment frag = fragment;
+            homeActivity.switchContent(id, frag);
+        }
+
+    }
 }
