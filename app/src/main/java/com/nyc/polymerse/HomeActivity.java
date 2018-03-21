@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nyc.polymerse.fragments.NotificationFragment;
 import com.nyc.polymerse.Profile_Creation.Prof_Create_Activity;
 import com.nyc.polymerse.fragments.MessageFragment;
 import com.nyc.polymerse.fragments.MessagingListFrag;
@@ -120,6 +121,11 @@ public class HomeActivity extends AppCompatActivity
         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
         transaction.commit();
 
+
+
+
+
+
         bottomNavigationView = findViewById(R.id.nav_tab);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -141,13 +147,8 @@ public class HomeActivity extends AppCompatActivity
                         transaction.commit();
                         return true;
                     case R.id.nav_notification:
-
-                        if (fragment.isVisible()) {
-                            transaction.hide(fragment);
-                        }
-                        if (frag != null && frag.isVisible()) {
-                            transaction.hide(frag);
-                        }
+                        fragment = new NotificationFragment();
+                        transaction.replace(R.id.fragment_container, fragment, "frag");
                         Log.d(TAG, "onOptionsItemSelected: notification clicked");
 
                         transaction.commit();
