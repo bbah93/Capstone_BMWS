@@ -1,8 +1,10 @@
 package com.nyc.polymerse;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -15,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,12 +27,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nyc.polymerse.Profile_Creation.Prof_Create_Activity;
+import com.nyc.polymerse.fragments.UserDetailsFragment;
 import com.nyc.polymerse.fragments.UserResultsFragment;
 
+import java.io.IOException;
+
+import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
 
     private static final String TAG = "HomeActivity";
     private FirebaseAuth.AuthStateListener authListener;
@@ -39,14 +46,25 @@ public class HomeActivity extends AppCompatActivity
 
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseUser;
+    private DatabaseReference mDatabaseUsers;
 
     private UserResultsFragment fragment;
+    private ImageView imageView;
+    private static final int PICK_IMAGE_REQUEST = 234;
 
+    //a Uri object to store file path
+    private Uri filePath;
+
+    private String UserEmail;
+
+    private Boolean isProfileNotCreated = true;
+    private UserDetailsFragment frag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        ButterKnife.bind(this);
 
         auth = FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -87,12 +105,35 @@ public class HomeActivity extends AppCompatActivity
 
             }
         };
-        mDatabaseUser.addValueEventListener(userEventListener);
 
+        mDatabaseUsers = mDatabase.child("Users");
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    User user = d.getValue(User.class);
+                    Log.d(TAG, "onDataChange: user " + user.getUsername());
+                    profileNotCreated(user);
+                }
+                if (isProfileNotCreated) {
+
+                    Log.d(TAG, "onDataChange: uID " + user.getUid());
+                    startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
+                    finish();
+                }
+                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("The read failed: ", databaseError.getMessage());
+
+            }
+        });
 
         fragment = new UserResultsFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, fragment, "frag");
+        transaction.add(R.id.fragment_container, fragment, "UserFrag");
         transaction.commit();
 
         bottomNavigationView = findViewById(R.id.nav_tab);
@@ -107,7 +148,9 @@ public class HomeActivity extends AppCompatActivity
                         if (fragment.isHidden()) {
                             transaction.show(fragment);
                         }
-
+                        if (frag != null && frag.isHidden()) {
+                            transaction.show(frag);
+                        }
                         transaction.commit();
                         Log.d(TAG, "onOptionsItemSelected: people clicked");
                         return true;
@@ -115,16 +158,10 @@ public class HomeActivity extends AppCompatActivity
                         if (fragment.isVisible()) {
                             transaction.hide(fragment);
                         }
-                        Log.d(TAG, "onOptionsItemSelected: messages clicked");
-
-                        transaction.commit();
-                        return true;
-                    case R.id.nav_calendar:
-
-                        if (fragment.isVisible()) {
-                            transaction.hide(fragment);
+                        if (frag != null && frag.isVisible()) {
+                            transaction.hide(frag);
                         }
-                        Log.d(TAG, "onOptionsItemSelected: calendar clicked");
+                        Log.d(TAG, "onOptionsItemSelected: messages clicked");
 
                         transaction.commit();
                         return true;
@@ -153,6 +190,39 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    private void profileNotCreated(User user) {
+        String firebaseUid = this.user.getUid();
+        String databaseUid = user.getuID();
+        if (firebaseUid.equals(databaseUid)) {
+            isProfileNotCreated = false;
+        }
+    }
+
+    //method to show file chooser
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    //handling the image chooser activity result
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imageView.setImageBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -182,7 +252,7 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this,SettingsActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
@@ -203,13 +273,11 @@ public class HomeActivity extends AppCompatActivity
 
             Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
 
-
         } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this,SettingsActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-
 
         } else if (id == R.id.nav_share) {
 
@@ -249,6 +317,15 @@ public class HomeActivity extends AppCompatActivity
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
         }
+    }
+
+    public void switchContent(int id, UserDetailsFragment frag) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        this.frag = frag;
+        ft.add(R.id.fragment_container, frag, "details_user_frag");
+        ft.addToBackStack("user_detail_frag");
+        ft.commit();
+
     }
 }
             
