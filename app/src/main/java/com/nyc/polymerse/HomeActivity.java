@@ -1,7 +1,6 @@
 package com.nyc.polymerse;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -24,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nyc.polymerse.fragments.NotificationFragment;
 import com.nyc.polymerse.fragments.UserResultsFragment;
 
 
@@ -41,6 +41,7 @@ public class HomeActivity extends AppCompatActivity
     private DatabaseReference mDatabaseUser;
 
     private UserResultsFragment fragment;
+    private NotificationFragment notifyFragment;
 
 
     @Override
@@ -95,6 +96,11 @@ public class HomeActivity extends AppCompatActivity
         transaction.add(R.id.fragment_container, fragment, "frag");
         transaction.commit();
 
+
+
+
+
+
         bottomNavigationView = findViewById(R.id.nav_tab);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -130,9 +136,8 @@ public class HomeActivity extends AppCompatActivity
                         return true;
                     case R.id.nav_notification:
 
-                        if (fragment.isVisible()) {
-                            transaction.hide(fragment);
-                        }
+                        notifyFragment = new NotificationFragment();
+                        transaction.add(R.id.fragment_container, fragment, "frag");
                         Log.d(TAG, "onOptionsItemSelected: notification clicked");
 
                         transaction.commit();

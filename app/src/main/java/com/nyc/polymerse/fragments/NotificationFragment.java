@@ -13,6 +13,7 @@ import com.nyc.polymerse.R;
  * A simple {@link Fragment} subclass.
  */
 public class NotificationFragment extends Fragment {
+    View rootView;
 
 
     public NotificationFragment() {
@@ -24,7 +25,9 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.user_notification_item, container, false);
+        //return inflater.inflate(R.layout.user_notification_item, container, false);
+        rootView = inflater.inflate(R.layout.user_notification_item, container, false);
+        return rootView;
     }
 
 }
