@@ -83,6 +83,7 @@ public class HomeActivity extends AppCompatActivity
             }
         };
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseUsers = mDatabase.child("Users");
         mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
@@ -149,6 +150,10 @@ public class HomeActivity extends AppCompatActivity
                         if (fragment.isVisible()) {
                             transaction.hide(fragment);
                         }
+
+                        if (frag != null && frag.isVisible()) {
+                            transaction.hide(frag);
+                        }
                         Log.d(TAG, "onOptionsItemSelected: calendar clicked");
 
                         transaction.commit();
@@ -157,6 +162,9 @@ public class HomeActivity extends AppCompatActivity
 
                         if (fragment.isVisible()) {
                             transaction.hide(fragment);
+                        }
+                        if (frag != null && frag.isVisible()) {
+                            transaction.hide(frag);
                         }
                         Log.d(TAG, "onOptionsItemSelected: notification clicked");
 
