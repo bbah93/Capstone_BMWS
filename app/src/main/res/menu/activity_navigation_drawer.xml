@@ -23,7 +23,7 @@
             android:title="Settings" />
         <item
             android:id="@+id/nav_sign_out"
-            android:icon="@drawable/button_round"
+            android:icon="@drawable/ic_power_settings_new_black_24dp"
             android:title="Sign Out"/>
     </group>
 
