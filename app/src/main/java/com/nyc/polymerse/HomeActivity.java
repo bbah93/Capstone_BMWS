@@ -83,28 +83,6 @@ public class HomeActivity extends AppCompatActivity
             }
         };
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabaseUser = mDatabase.child("Users").child("Test");
-        ValueEventListener userEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                User post = dataSnapshot.getValue(User.class);
-                if (post != null) {
-                    Log.d(TAG, "onDataChange: " + post.getUsername());
-                    //This is an interface to put the data into a different activity.
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                // ...
-
-            }
-        };
-
         mDatabaseUsers = mDatabase.child("Users");
         mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
