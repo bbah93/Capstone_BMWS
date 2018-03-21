@@ -90,11 +90,11 @@ public class SignupActivity extends AppCompatActivity {
 
                         } else {
                             startActivity(new Intent(SignupActivity.this, Prof_Create_Activity.class));
+                            Toast.makeText(getApplicationContext(), "You are successfully Registered !!", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
                 });
-        Toast.makeText(getApplicationContext(), "You are successfully Registered !!", Toast.LENGTH_SHORT).show();
     }
 
     private static boolean isEmailValid(String email) {

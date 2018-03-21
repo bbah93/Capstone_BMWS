@@ -6,5 +6,10 @@ package com.nyc.polymerse;
 
 public class Message {
     String text;
-    String username;
+    String name;
+
+    public Message(String text, String username) {
+        this.text = text;
+        this.name = username;
+    }
 }
