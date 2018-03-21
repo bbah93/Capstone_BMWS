@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.controller.UserResultAdapter;
@@ -81,7 +82,7 @@ public class UserResultsFragment extends Fragment {
         Log.d(TAG, "ON VIEW CREATED");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabaseUser = mDatabase.child("Users");
+        mDatabaseUser = mDatabase.child(Constants.USERS);
         mDatabaseUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

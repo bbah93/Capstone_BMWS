@@ -1,0 +1,28 @@
+package com.nyc.polymerse;
+
+import java.util.List;
+
+/**
+ * Created by Wayne Kellman on 3/20/18.
+ */
+
+public class UserSingleton {
+    private User user;
+    private static UserSingleton userSingleton;
+
+    public static UserSingleton getInstance() {
+        if (userSingleton == null) {
+            userSingleton = new UserSingleton();
+            return userSingleton;
+        }
+        return userSingleton;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+}
