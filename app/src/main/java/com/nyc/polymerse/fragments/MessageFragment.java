@@ -1,11 +1,12 @@
 package com.nyc.polymerse.fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -34,10 +38,17 @@ public class MessageFragment extends Fragment {
 
     private DatabaseReference databaseReference;
     private static final String TAG = "MessageFragment";
-    private String username;
-    private String uID;
+    private User currentUser;
+    private User otherUser;
+    private String currentUID;
+    private String otherUID;
+    private SharedPreferences sharedPreferences;
 
     private ProgressBar mProgressBar;
+    // Adapter to display messages
+    private FirebaseListAdapter<Message> adapter;
+
+
     public MessageFragment() {
         // Required empty public constructor
     }
@@ -54,31 +65,63 @@ public class MessageFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        sharedPreferences = view.getContext().getSharedPreferences(Constants.FIREBASE_UID, Context.MODE_PRIVATE);
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
         Bundle bundle = getArguments();
+        //deserialize the other user and store in a field.
         String userString = bundle.getString("item_selected_key");
-        User user = new Gson().fromJson(userString,User.class);
+        User user = new Gson().fromJson(userString, User.class);
+        otherUser = user;
         Log.d(TAG, "onViewCreated: " + user.getuID());
+
+
         //I needed the username of the current user here but I only ever got it from auth so I put it in a singleton.
-        uID = UserSingleton.getInstance().getUser().getuID();
+        currentUID = sharedPreferences.getString(Constants.FIREBASE_UID_KEY, "");
+        otherUID = user.getuID();
 
-        username = UserSingleton.getInstance().getUser().getUsername();
-
+        //deserialize current user from sharedpreference.
+        String userGson = sharedPreferences.getString(Constants.FIREBASE_USER_KEY, "");
+        currentUser = UserSingleton.getInstance().getUser();
         //Here I get a reference to the msgs stored for this user and the username of the user he/she/it msg'd.
-        databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.MESSAGE).child(uID).child(user.getuID()).child("user");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.MESSAGE).child(currentUID).child(user.getuID());
         mSendButton = (Button) view.findViewById(R.id.sendButton);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Message message = new
-                        Message(mMessageEditText.getText().toString(), username);
-                databaseReference.setValue(message);
+                        Message(mMessageEditText.getText().toString(), currentUser.getUsername());
+                databaseReference.push().setValue(message);
                 mMessageEditText.setText("");
             }
         });
 
+        //This is the adapter that's part of Firebase.
+
+        ListView listOfMessages = view.findViewById(R.id.list_of_messages);
+        adapter = new FirebaseListAdapter<Message>(this.getActivity(), Message.class,
+                R.layout.message,
+                FirebaseDatabase.getInstance().getReference().child(Constants.MESSAGE).child(currentUID).child(otherUID)) {
+            @Override
+            protected void populateView(View v, Message model, int position) {
+
+                // Get references to the views of message.xml
+                TextView messageText = (TextView) v.findViewById(R.id.message_text);
+                TextView messageUser = (TextView) v.findViewById(R.id.message_user);
+//                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+
+                // Set their text
+                messageText.setText(model.getMessageText());
+                messageUser.setText(model.getMessageUser());
+//
+//                // Format the date before showing it
+//                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+//                        model.getMessageTime()));
+            }
+        };
+
+        listOfMessages.setAdapter(adapter);
 
         mMessageEditText = (EditText) view.findViewById(R.id.messageEditText);
         mMessageEditText.addTextChangedListener(new TextWatcher() {
@@ -101,3 +144,5 @@ public class MessageFragment extends Fragment {
         });
     }
 }
+
+

@@ -13,8 +13,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.User;
+import com.nyc.polymerse.UserSingleton;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -33,6 +41,8 @@ public class Language_Fragment extends Fragment {
     SharedPreferences profile_creator;
     SharedPreferences.Editor editor;
     View rootView;
+
+    DatabaseReference databaseReference;
 
 
     public Language_Fragment() {
@@ -82,6 +92,19 @@ public class Language_Fragment extends Fragment {
                     editor.putString("learning_lang", learning.getText().toString());
                     editor.putString("learning_level", learning_Level.getText().toString());
                     editor.apply();
+
+                    Map<String,String> langLearn = new HashMap<>();
+                    Map<String,String> langTeach = new HashMap<>();
+                    langLearn.put(learning.getText().toString(), learning_Level.getText().toString());
+                    langTeach.put(fluent.getText().toString(), fluent_level.getText().toString());
+                    UserSingleton.getInstance().getUser().setLangLearn(langLearn);
+                    UserSingleton.getInstance().getUser().setLangTeach(langTeach);
+                    databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.USERS);
+
+                    //this map is to set the db at one time in users;
+                    Map<String, Object> createUser = new HashMap<>();
+                    createUser.put(UserSingleton.getInstance().getUser().getuID(),UserSingleton.getInstance().getUser());
+                    databaseReference.updateChildren(createUser);
 
                     Intent intent = new Intent(getActivity(), HomeActivity.class);
                     startActivity(intent);

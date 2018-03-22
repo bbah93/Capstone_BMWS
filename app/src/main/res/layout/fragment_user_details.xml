@@ -137,6 +137,7 @@
             android:text="@string/invite_button_text" />
 
         <Button
+            android:id="@+id/profile_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

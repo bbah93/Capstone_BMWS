@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.UserSingleton;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -67,6 +68,8 @@ public class Location_Fragment extends Fragment {
                     editor.putString("state", state.getText().toString());
                     editor.apply();
 
+                    UserSingleton.getInstance().getUser().setCity(city.getText().toString());
+                    UserSingleton.getInstance().getUser().setState(state.getText().toString());
                     Language_Fragment language_fragment = new Language_Fragment();
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
