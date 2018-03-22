@@ -1,6 +1,7 @@
 package com.nyc.polymerse;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.nyc.polymerse.fragments.NotificationFragment;
 import com.nyc.polymerse.Profile_Creation.Prof_Create_Activity;
 import com.nyc.polymerse.fragments.MessageFragment;
@@ -64,24 +66,30 @@ public class HomeActivity extends AppCompatActivity
     private Boolean isProfileNotCreated = true;
     private UserDetailsFragment frag;
 
+    private SharedPreferences sharedPreferences;
+    private boolean saveUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         ButterKnife.bind(this);
-
+        // creating a shared preference to save the uID of the user.
+        sharedPreferences = getSharedPreferences(Constants.FIREBASE_UID, MODE_PRIVATE);
         auth = FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 Log.d(TAG, "onAuthStateChanged:  ran");
                 user = firebaseAuth.getCurrentUser();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(Constants.FIREBASE_UID_KEY, user.getUid());
+                editor.commit();
                 if (user == null) {
                     // if user is null launch login activity
                     startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                     finish();
                 } else {
-                    UserSingleton.getInstance().setFirebaseUid(user.getUid());
                     Log.d(TAG, "onAuthStateChanged: user isn't null");
                     Log.d(TAG, "onAuthStateChanged: " + user.getEmail());
                     Log.d(TAG, "onAuthStateChanged: " + user.getUid());
@@ -100,6 +108,9 @@ public class HomeActivity extends AppCompatActivity
                     String userKey = d.getKey();
                     Log.d(TAG, "onDataChange: user " + userKey);
                     profileNotCreated(userKey);
+                    if (saveUser) {
+                        UserSingleton.getInstance().setUser(d.getValue(User.class));
+                    }
                 }
                 if (isProfileNotCreated) {
                     Log.d(TAG, "onDataChange: uID " + user.getUid());
@@ -172,9 +183,10 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void profileNotCreated(String userKey) {
-        String firebaseUid = UserSingleton.getInstance().getFirebaseUid();
+        String firebaseUid = sharedPreferences.getString(Constants.FIREBASE_UID_KEY, "");
         if (firebaseUid.equals(userKey)) {
             isProfileNotCreated = false;
+            saveUser = true;
         }
     }
 
