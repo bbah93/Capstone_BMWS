@@ -121,11 +121,6 @@ public class HomeActivity extends AppCompatActivity
         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
         transaction.commit();
 
-
-
-
-
-
         bottomNavigationView = findViewById(R.id.nav_tab);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -148,7 +143,7 @@ public class HomeActivity extends AppCompatActivity
                         return true;
                     case R.id.nav_notification:
                         fragment = new NotificationFragment();
-                        transaction.replace(R.id.fragment_container, fragment, "frag");
+                        transaction.replace(R.id.fragment_container, fragment, "notifrag");
                         Log.d(TAG, "onOptionsItemSelected: notification clicked");
 
                         transaction.commit();
