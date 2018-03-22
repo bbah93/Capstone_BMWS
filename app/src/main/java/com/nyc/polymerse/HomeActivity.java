@@ -81,10 +81,9 @@ public class HomeActivity extends AppCompatActivity
                     startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                     finish();
                 } else {
+                    UserSingleton.getInstance().setFirebaseUid(user.getUid());
                     Log.d(TAG, "onAuthStateChanged: user isn't null");
                     Log.d(TAG, "onAuthStateChanged: " + user.getEmail());
-                    UserSingleton.getInstance().setUser(new User());
-                    UserSingleton.getInstance().getUser().setuID(user.getUid());
                     Log.d(TAG, "onAuthStateChanged: " + user.getUid());
                     Toast.makeText(HomeActivity.this, user.getEmail() + " is logged in", Toast.LENGTH_SHORT).show();
                 }
@@ -96,13 +95,18 @@ public class HomeActivity extends AppCompatActivity
         mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                isProfileNotCreated = true;
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    User user = d.getValue(User.class);
-                    Log.d(TAG, "onDataChange: user " + user.getUsername());
-                    profileNotCreated(user);
+                    String userKey = d.getKey();
+                    Log.d(TAG, "onDataChange: user " + userKey);
+                    profileNotCreated(userKey);
                 }
                 if (isProfileNotCreated) {
                     Log.d(TAG, "onDataChange: uID " + user.getUid());
+                    UserSingleton.getInstance().setUser(new User());
+                    Log.d(TAG, "onDataChange: new user created in singleton" );
+                    UserSingleton.getInstance().getUser().setuID(user.getUid());
+                    UserSingleton.getInstance().getUser().setEmail(user.getEmail());
                     startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
                     finish();
                 }
@@ -167,10 +171,9 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    private void profileNotCreated(User user) {
-        String firebaseUid = this.user.getUid();
-        String databaseUid = user.getuID();
-        if (firebaseUid.equals(databaseUid)) {
+    private void profileNotCreated(String userKey) {
+        String firebaseUid = UserSingleton.getInstance().getFirebaseUid();
+        if (firebaseUid.equals(userKey)) {
             isProfileNotCreated = false;
         }
     }

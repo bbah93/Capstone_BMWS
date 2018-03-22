@@ -9,6 +9,7 @@ import java.util.List;
 public class UserSingleton {
     private User user;
     private static UserSingleton userSingleton;
+    private String firebaseUid;
 
     public static UserSingleton getInstance() {
         if (userSingleton == null) {
@@ -24,5 +25,13 @@ public class UserSingleton {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getFirebaseUid() {
+        return firebaseUid;
+    }
+
+    public void setFirebaseUid(String firebaseUid) {
+        this.firebaseUid = firebaseUid;
     }
 }

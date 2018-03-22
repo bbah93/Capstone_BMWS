@@ -101,9 +101,9 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
             Map<String,String> shareMap = user.getLangTeach();
             String languageSharing = "";
             String languageSharingFluency = "";
-            for(String s:learnMap.keySet()){
+            for(String s:shareMap.keySet()){
                 languageSharing = s;
-                languageSharingFluency = learnMap.get(s);
+                languageSharingFluency = shareMap.get(s);
             }
             sharingLang.setText(languageSharing);
             sharingFluency.setText(languageSharingFluency);

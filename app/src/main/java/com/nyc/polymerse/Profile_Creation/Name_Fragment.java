@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.UserSingleton;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -74,6 +75,7 @@ public class Name_Fragment extends Fragment {
                     editor.putString("first_name", first_name.getText().toString());
                     editor.putString("last_name", last_name.getText().toString());
                     editor.apply();
+                    UserSingleton.getInstance().getUser().setUsername(first_name.getText().toString() +"_"+ last_name.getText().toString());
 
                     Location_Fragment location_fragment = new Location_Fragment();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
