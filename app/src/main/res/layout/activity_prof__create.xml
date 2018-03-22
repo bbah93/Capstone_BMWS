@@ -5,24 +5,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/create_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/light_blue"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:tabIndicatorColor="@color/white"
-            app:tabSelectedTextColor="@color/white"
-            app:tabGravity="center"
-            app:tabMode="fixed"/>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/pager_view" />
 
 </FrameLayout>
