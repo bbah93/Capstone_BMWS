@@ -82,14 +82,14 @@ public class HomeActivity extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 Log.d(TAG, "onAuthStateChanged:  ran");
                 user = firebaseAuth.getCurrentUser();
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(Constants.FIREBASE_UID_KEY, user.getUid());
-                editor.commit();
                 if (user == null) {
                     // if user is null launch login activity
                     startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                     finish();
                 } else {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(Constants.FIREBASE_UID_KEY, user.getUid());
+                    editor.commit();
                     Log.d(TAG, "onAuthStateChanged: user isn't null");
                     Log.d(TAG, "onAuthStateChanged: " + user.getEmail());
                     Log.d(TAG, "onAuthStateChanged: " + user.getUid());
