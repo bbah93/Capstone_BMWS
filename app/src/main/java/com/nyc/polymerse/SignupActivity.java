@@ -89,7 +89,7 @@ public class SignupActivity extends AppCompatActivity {
                             Log.d(TAG,"Authentication failed." + task.getException());
 
                         } else {
-                            startActivity(new Intent(SignupActivity.this, Prof_Create_Activity.class));
+                            startActivity(new Intent(SignupActivity.this, HomeActivity.class));
                             Toast.makeText(getApplicationContext(), "You are successfully Registered !!", Toast.LENGTH_SHORT).show();
                             finish();
                         }

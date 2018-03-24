@@ -1,6 +1,8 @@
 package com.nyc.polymerse.fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,7 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
-import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.controller.MessageListAdapter;
 
 import java.util.ArrayList;
@@ -34,8 +35,9 @@ public class MessagingListFrag extends Fragment {
     private DatabaseReference databaseReference;
     public static final String TAG = "MessagingListFrag";
     private String uID;
-    private List<User> userList = new ArrayList<>();
-    private List<String> msgKeys = new ArrayList<>();
+    private List<User> userList;
+    private List<String> msgKeys;
+    private SharedPreferences sharedPreferences;
 
     public MessagingListFrag() {
         // Required empty public constructor
@@ -47,6 +49,7 @@ public class MessagingListFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_messaging_list, container, false);
+        sharedPreferences = rootView.getContext().getSharedPreferences(Constants.FIREBASE_UID, Context.MODE_PRIVATE);
         return rootView;
     }
 
@@ -54,8 +57,12 @@ public class MessagingListFrag extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //I needed the uID of the current user here but I only ever got it from auth so I put it in a singleton.
-        uID = UserSingleton.getInstance().getUser().getuID();
+        userList = new ArrayList<>();
+        msgKeys = new ArrayList<>();
+        //I needed the uID of the current user here but I only ever got it from auth so I put it in a sharedpreference.
+        uID = sharedPreferences.getString(Constants.FIREBASE_UID_KEY, "");
+        Log.d(TAG, "onViewCreated: uID " + uID);
+
         //Here I get a reference to the msgs stored for this user and the uID of the user he/she/it msg'd.
         databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.MESSAGE).child(uID);
         databaseReference.addValueEventListener(new ValueEventListener() {

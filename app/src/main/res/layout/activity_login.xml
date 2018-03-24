@@ -24,7 +24,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_login"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/primaryDarkColor"
         android:layout_marginTop="40dp"
         android:textColor="@android:color/white"/>
     <Button android:id="@+id/btn_link_signup"
@@ -33,7 +33,7 @@
         android:text="@string/btn_link_to_signup"
         android:background="@android:color/transparent"
         android:layout_marginTop="10dp"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:textColor="@color/primaryDarkColor"/>
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

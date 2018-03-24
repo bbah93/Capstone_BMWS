@@ -67,7 +67,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     MessageFragment mFragment;
 
     private void fragmentJump(User mItemSelected) {
-        UserSingleton.getInstance().getUser().setUsername(mItemSelected.getUsername());
+//        UserSingleton.getInstance().getUser().setUsername(mItemSelected.getUsername());
         mFragment = new MessageFragment();
         Bundle mBundle = new Bundle();
         String userString = new Gson().toJson(mItemSelected);

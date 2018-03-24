@@ -1,6 +1,7 @@
 package com.nyc.polymerse;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.nyc.polymerse.fragments.NotificationFragment;
 import com.nyc.polymerse.Profile_Creation.Prof_Create_Activity;
 import com.nyc.polymerse.fragments.MessageFragment;
@@ -64,12 +66,16 @@ public class HomeActivity extends AppCompatActivity
     private Boolean isProfileNotCreated = true;
     private UserDetailsFragment frag;
 
+    private SharedPreferences sharedPreferences;
+    private boolean saveUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         ButterKnife.bind(this);
-
+        // creating a shared preference to save the uID of the user.
+        sharedPreferences = getSharedPreferences(Constants.FIREBASE_UID, MODE_PRIVATE);
         auth = FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -81,10 +87,11 @@ public class HomeActivity extends AppCompatActivity
                     startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                     finish();
                 } else {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(Constants.FIREBASE_UID_KEY, user.getUid());
+                    editor.commit();
                     Log.d(TAG, "onAuthStateChanged: user isn't null");
                     Log.d(TAG, "onAuthStateChanged: " + user.getEmail());
-                    UserSingleton.getInstance().setUser(new User());
-                    UserSingleton.getInstance().getUser().setuID(user.getUid());
                     Log.d(TAG, "onAuthStateChanged: " + user.getUid());
                     Toast.makeText(HomeActivity.this, user.getEmail() + " is logged in", Toast.LENGTH_SHORT).show();
                 }
@@ -96,13 +103,21 @@ public class HomeActivity extends AppCompatActivity
         mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                isProfileNotCreated = true;
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    User user = d.getValue(User.class);
-                    Log.d(TAG, "onDataChange: user " + user.getUsername());
-                    profileNotCreated(user);
+                    String userKey = d.getKey();
+                    Log.d(TAG, "onDataChange: user " + userKey);
+                    profileNotCreated(userKey);
+                    if (saveUser) {
+                        UserSingleton.getInstance().setUser(d.getValue(User.class));
+                    }
                 }
                 if (isProfileNotCreated) {
                     Log.d(TAG, "onDataChange: uID " + user.getUid());
+                    UserSingleton.getInstance().setUser(new User());
+                    Log.d(TAG, "onDataChange: new user created in singleton" );
+                    UserSingleton.getInstance().getUser().setuID(user.getUid());
+                    UserSingleton.getInstance().getUser().setEmail(user.getEmail());
                     startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
                     finish();
                 }
@@ -120,11 +135,6 @@ public class HomeActivity extends AppCompatActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
         transaction.commit();
-
-
-
-
-
 
         bottomNavigationView = findViewById(R.id.nav_tab);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -148,7 +158,7 @@ public class HomeActivity extends AppCompatActivity
                         return true;
                     case R.id.nav_notification:
                         fragment = new NotificationFragment();
-                        transaction.replace(R.id.fragment_container, fragment, "frag");
+                        transaction.replace(R.id.fragment_container, fragment, "notifrag");
                         Log.d(TAG, "onOptionsItemSelected: notification clicked");
 
                         transaction.commit();
@@ -172,11 +182,11 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    private void profileNotCreated(User user) {
-        String firebaseUid = this.user.getUid();
-        String databaseUid = user.getuID();
-        if (firebaseUid.equals(databaseUid)) {
+    private void profileNotCreated(String userKey) {
+        String firebaseUid = sharedPreferences.getString(Constants.FIREBASE_UID_KEY, "");
+        if (firebaseUid.equals(userKey)) {
             isProfileNotCreated = false;
+            saveUser = true;
         }
     }
 
