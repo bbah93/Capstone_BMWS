@@ -79,8 +79,9 @@ public class Name_Fragment extends Fragment {
 
                     Location_Fragment location_fragment = new Location_Fragment();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.add(R.id.fragment_container,location_fragment, Location_Fragment.TAG);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                    //fragmentTransaction.add(R.id.fragment_container,location_fragment, Location_Fragment.TAG);
+                    .replace(R.id.fragment_container,location_fragment, Location_Fragment.TAG);
                     fragmentTransaction.addToBackStack("Name Fragment");
                     fragmentTransaction.commit();
 

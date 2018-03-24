@@ -26,7 +26,8 @@ public class Prof_Create_Activity extends AppCompatActivity {
             name_fragment.setArguments(bundle);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_container, name_fragment, Name_Fragment.TAG)
+//                    .add(R.id.fragment_container, name_fragment, Name_Fragment.TAG)
+                    .replace(R.id.fragment_container, name_fragment, Name_Fragment.TAG)
                     .commit();
 
 
