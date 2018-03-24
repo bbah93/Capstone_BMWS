@@ -1,54 +1,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.nyc.polymerse.fragments.UserResultsFilterFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
     <RelativeLayout
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <Button
-            android:text="@string/close_filters"
-            android:layout_alignParentLeft="true"
             android:id="@+id/close_filter"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/close_filters" />
+
         <Button
-            android:text="@string/clear_filters"
-            android:layout_alignParentRight="true"
             android:id="@+id/clear_filter"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/clear_filters" />
 
     </RelativeLayout>
 
     <TextView
         android:id="@+id/Roles"
-        android:text="@string/role_filter"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/role_filter" />
 
 
-        <CheckBox
+    <CheckBox
 
-            android:id="@+id/learning_filter"
-            android:text="@string/sharing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:id="@+id/learning_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sharing" />
 
-        <CheckBox
-            android:id="@+id/sharing_filter"
-            android:text="@string/learning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
-
-
+    <CheckBox
+        android:id="@+id/sharing_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/learning" />
 
 
     <TextView
@@ -58,28 +56,32 @@
 
     <CheckBox
         android:id="@+id/beginner_fluency_filter"
-        android:text="@string/beginner_filter"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/beginner_filter" />
+
     <CheckBox
         android:id="@+id/intermediate_fluency_filter"
-        android:text="@string/intermediate_filter"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/intermediate_filter" />
+
     <CheckBox
         android:id="@+id/advanced_fluency_filter"
-        android:text="@string/advanced_filter"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/advanced_filter" />
+
     <CheckBox
         android:id="@+id/fluent_fluency_filter"
-        android:text="@string/fluent_filter"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/fluent_filter" />
+
     <Button
         android:id="@+id/apply_filter"
-        android:text="@string/apply_filters"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/apply_filters" />
 
 </LinearLayout>
