@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
 
 import org.json.JSONObject;
@@ -32,8 +33,6 @@ import static android.content.Context.MODE_PRIVATE;
  * A simple {@link Fragment} subclass.
  */
 public class UserResultsFilterFragment extends Fragment {
-
-    final static String SHARED_PREFS_KEY = "filter_preferences";
 
     @BindView(R.id.advanced_fluency_filter)
     CheckBox advanced;
@@ -81,7 +80,7 @@ public class UserResultsFilterFragment extends Fragment {
         ButterKnife.bind(this, rootView);
         populateCheckboxList();
 
-        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
+        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(Constants.SHARED_PREFS_FILTER_KEY, MODE_PRIVATE);
         checkedSavedFilters();
         return rootView;
     }

@@ -92,15 +92,15 @@ public class UserResultsFragment extends Fragment {
                     userList.add(user);
                     Log.d(TAG, "onDataChange: user " + user.getUsername());
 
-
-                    RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
-                    LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                    recyclerView.setLayoutManager(manager);
-                    UserResultAdapter adapter = new UserResultAdapter(userList,rootView.getContext());
-                    recyclerView.setAdapter(adapter);
                     //This is the test user only;
                     Log.d(TAG, "onSuccess: " + user.getCity());
                 }
+
+                RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
+                LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                recyclerView.setLayoutManager(manager);
+                UserResultAdapter adapter = new UserResultAdapter(userList,rootView.getContext());
+                recyclerView.setAdapter(adapter);
             }
 
             @Override
