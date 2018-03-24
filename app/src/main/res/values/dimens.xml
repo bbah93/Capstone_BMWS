@@ -8,4 +8,6 @@
     <dimen name="avatar_dimen">115dp</dimen>
     <dimen name="user_results_padding_margin">5dp</dimen>
     <dimen name="user_results_view_padding">4dp</dimen>
+    <dimen name="user_results_item_width">230dp</dimen>
+    <dimen name="user_results_item_padding">6dp</dimen>
 </resources>

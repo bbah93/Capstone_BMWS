@@ -151,6 +151,6 @@
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_done"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/light_blue"/>
+        android:backgroundTint="@color/secondaryDarkColor"/>
 
 </LinearLayout>

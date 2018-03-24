@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -64,9 +65,9 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
 
         TextView userName;
         TextView learningLang;
-        TextView learningFluency;
+        ProgressBar learningFluency;
         TextView sharingLang;
-        TextView sharingFluency;
+        ProgressBar sharingFluency;
         TextView location;
         RatingBar ratingBar;
         CircleImageView avatar;
@@ -96,7 +97,7 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
                 languageLearningFluency = learnMap.get(s);
             }
             learningLang.setText(languageLearning);
-            learningFluency.setText(languageLearningFluency);
+            //learningFluency.setText(languageLearningFluency);
 
             Map<String,String> shareMap = user.getLangTeach();
             String languageSharing = "";
@@ -106,7 +107,7 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
                 languageSharingFluency = shareMap.get(s);
             }
             sharingLang.setText(languageSharing);
-            sharingFluency.setText(languageSharingFluency);
+            //sharingFluency.setText(languageSharingFluency);
 
             String locationValue = user.getCity();
             location.setText(locationValue);
