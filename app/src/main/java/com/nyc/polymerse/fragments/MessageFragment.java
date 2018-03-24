@@ -36,7 +36,8 @@ public class MessageFragment extends Fragment {
     private Button mSendButton;
     private EditText mMessageEditText;
 
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReferenceUser;
+    private DatabaseReference databaseReferenceOther;
     private static final String TAG = "MessageFragment";
     private User currentUser;
     private User otherUser;
@@ -70,29 +71,32 @@ public class MessageFragment extends Fragment {
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
         Bundle bundle = getArguments();
-        //deserialize the other user and store in a field.
+        //deserialize the other otherUser and store in a field.
         String userString = bundle.getString("item_selected_key");
-        User user = new Gson().fromJson(userString, User.class);
-        otherUser = user;
-        Log.d(TAG, "onViewCreated: " + user.getuID());
+        User otherUser = new Gson().fromJson(userString, User.class);
+        this.otherUser = otherUser;
+        Log.d(TAG, "onViewCreated: " + otherUser.getuID());
 
 
-        //I needed the username of the current user here but I only ever got it from auth so I put it in a singleton.
+        //I needed the username of the current otherUser here but I only ever got it from auth so I put it in a singleton.
         currentUID = sharedPreferences.getString(Constants.FIREBASE_UID_KEY, "");
-        otherUID = user.getuID();
+        otherUID = otherUser.getuID();
 
-        //deserialize current user from sharedpreference.
+        //deserialize current otherUser from sharedpreference.
         String userGson = sharedPreferences.getString(Constants.FIREBASE_USER_KEY, "");
         currentUser = UserSingleton.getInstance().getUser();
-        //Here I get a reference to the msgs stored for this user and the username of the user he/she/it msg'd.
-        databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.MESSAGE).child(currentUID).child(user.getuID());
+        //Here I get a reference to the msgs stored for this otherUser and the username of the otherUser he/she/it msg'd.
+        databaseReferenceUser = FirebaseDatabase.getInstance().getReference().child(Constants.MESSAGE).child(currentUID).child(otherUID);
+        //Another reference to duplicate message for the other user to see
+        databaseReferenceOther = FirebaseDatabase.getInstance().getReference().child(Constants.MESSAGE).child(otherUID).child(currentUID);
         mSendButton = (Button) view.findViewById(R.id.sendButton);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Message message = new
                         Message(mMessageEditText.getText().toString(), currentUser.getUsername());
-                databaseReference.push().setValue(message);
+                databaseReferenceUser.push().setValue(message);
+                databaseReferenceOther.push().setValue(message);
                 mMessageEditText.setText("");
             }
         });
