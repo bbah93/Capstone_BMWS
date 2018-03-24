@@ -1,57 +1,52 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:card_view="http://schemas.android.com/tools"
-    tools:context="com.nyc.polymerse.Profile_Creation.Location_Fragment"
     android:layout_centerInParent="true"
     android:gravity="center"
-    android:background="@drawable/gradient_background">
+    android:orientation="vertical"
+    tools:context="com.nyc.polymerse.Profile_Creation.Location_Fragment">
 
-            <!-- TODO: Shorten TextViews -->
-        <!-- TODO: Beautify/Update color scheme -->
+    <!-- TODO: Shorten TextViews -->
+    <!-- TODO: Beautify/Update color scheme -->
     <TextView
-            android:id="@+id/closing_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:text="Here's our last step!"/>
+        android:id="@+id/closing_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:text="Last step!"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/lang_TV"
-        android:layout_width="220dp"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:textAlignment="center"
-        android:text="Let people know what language you know and which language you want to learn."
-        />
+        android:text="Which language are you willing to share?\n How fluent are you?"
+        android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/difficulty_TV"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:textAlignment="center"
-        android:text="And to make sure everyone's on the same page, add your fluency level (i.e. beginner, intermediate, and pro) too!"/>
 
     <LinearLayout
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
 
         <android.support.v7.widget.CardView
             android:id="@+id/known_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:layout_marginBottom="10dp"
-            android:elevation="8dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:elevation="2dp"
             android:foreground="?android:selectableItemBackground"
-            card_view:cardCornerRadius="8dp"
-            >
+            card_view:cardCornerRadius="8dp">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/known_input"
@@ -60,8 +55,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="bottom"
-                android:textStyle="italic"
-                android:hint="Known" />
+                android:hint="Known"
+                android:textStyle="italic" />
 
         </android.support.v7.widget.CardView>
 
@@ -69,14 +64,13 @@
             android:id="@+id/fluent_level_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:layout_marginBottom="10dp"
-            card_view:cardElevation="20dp"
-            card_view:cardUseCompatPadding="true"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
             card_view:cardBorder="20dp"
-            card_view:cardCornerRadius= "20dp"
-            >
+            card_view:cardCornerRadius="8dp"
+            card_view:cardElevation="2dp"
+            card_view:cardUseCompatPadding="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/fluent_level_input"
@@ -85,11 +79,20 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="bottom"
-                android:textStyle="italic"
-                android:hint="Current fluency" />
+                android:hint="Current fluency"
+                android:textStyle="italic" />
 
         </android.support.v7.widget.CardView>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/difficulty_TV"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:text="Which language are you trying to learn?\n How fluent are you?"
+        android:textAlignment="center" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -100,13 +103,11 @@
             android:id="@+id/learn_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            card_view:cardElevation="20dp"
-            card_view:cardUseCompatPadding="true"
-            card_view:cardBorder="20dp"
-            card_view:cardCornerRadius= "20dp"
-            >
+            android:layout_marginStart="15dp"
+            card_view:cardCornerRadius="8dp"
+            card_view:cardElevation="2dp"
+            card_view:cardUseCompatPadding="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/lang_learn_input"
@@ -115,8 +116,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="bottom"
-                android:textStyle="italic"
-                android:hint="Learning" />
+                android:hint="Learning"
+                android:textStyle="italic" />
 
         </android.support.v7.widget.CardView>
 
@@ -124,13 +125,11 @@
             android:id="@+id/learning_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            card_view:cardElevation="20dp"
-            card_view:cardUseCompatPadding="true"
-            card_view:cardBorder="20dp"
-            card_view:cardCornerRadius= "20dp"
-            >
+            android:layout_marginStart="15dp"
+            card_view:cardCornerRadius="8dp"
+            card_view:cardElevation="2dp"
+            card_view:cardUseCompatPadding="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/fluency_learn_input"
@@ -139,18 +138,18 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="bottom"
-                android:textStyle="italic"
-                android:hint="Current Fluency" />
+                android:hint="Current Fluency"
+                android:textStyle="italic" />
 
         </android.support.v7.widget.CardView>
-</LinearLayout>
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/language_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_done"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/secondaryDarkColor"/>
+        android:backgroundTint="@color/primaryDarkColor"
+        android:src="@mipmap/ic_done" />
 
 </LinearLayout>
