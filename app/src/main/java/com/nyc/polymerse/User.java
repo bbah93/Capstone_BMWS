@@ -15,6 +15,7 @@ public class User {
     private Map<String, String> langLearn;
     private Map<String, String> langTeach;
     private String uID;
+    private Map<String, String> invites;
 
     public String getuID() {
         return uID;
