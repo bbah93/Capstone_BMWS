@@ -133,11 +133,17 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
+
+
         fragment = new ExploreFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
         transaction.commit();
-        //this.getSupportActionBar().setTitle("Immersion");
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Polymerse");
+
 
         bottomNavigationView = findViewById(R.id.nav_tab);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -151,7 +157,7 @@ public class HomeActivity extends AppCompatActivity
                         fragment = new UserResultsFragment();
                         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
                         transaction.commit();
-                        //getSupportActionBar().setTitle("People");
+                        toolbar.setTitle("Find Users");
                         Log.d(TAG, "onOptionsItemSelected: people clicked");
                         return true;
                     case R.id.nav_messages:
@@ -159,7 +165,7 @@ public class HomeActivity extends AppCompatActivity
                         Log.d(TAG, "onOptionsItemSelected: messages clicked");
                         transaction.replace(R.id.fragment_container, fragment, "msgFrag");
                         transaction.commit();
-                        //getSupportActionBar().setTitle("Messages");
+                        toolbar.setTitle("Messages");
                         return true;
                     case R.id.nav_notification:
                         fragment = new NotificationFragment();
@@ -167,21 +173,21 @@ public class HomeActivity extends AppCompatActivity
                         Log.d(TAG, "onOptionsItemSelected: notification clicked");
 
                         transaction.commit();
-                        //getSupportActionBar().setTitle("Notifications");
+                        toolbar.setTitle("Notifications");
                         return true;
                     case R.id.nav_explore:
                         fragment = new ExploreFragment();
                         transaction.replace(R.id.fragment_container,fragment,"explore_frag");
+                        toolbar.setTitle("Polymerse");
                         transaction.commit();
-                        //getSupportActionBar().setTitle("Immersion");
                         return true;
                 }
                 return false;
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
