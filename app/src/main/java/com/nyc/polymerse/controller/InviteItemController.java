@@ -1,6 +1,7 @@
 package com.nyc.polymerse.controller;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -10,22 +11,36 @@ import android.widget.TextView;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Shant on 3/24/2018.
  */
 
-public class InviteItemController extends RecyclerView.Adapter {
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+public class InviteItemController extends RecyclerView.Adapter<InviteItemController.InviteItemViewHolder> {
+
+    List<Invite_Schema> inviteList = new ArrayList<>();
+
+    public InviteItemController(List<Invite_Schema> inviteList){
+        this.inviteList = inviteList;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public InviteItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View holder = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_notification_item,parent,false);
+        return new InviteItemViewHolder(holder);
     }
+
+    @Override
+    public void onBindViewHolder(InviteItemViewHolder holder, int position) {
+        Invite_Schema invite_schema = inviteList.get(position);
+        holder.onBind(invite_schema);
+    }
+
+
 
     @Override
     public int getItemCount() {
@@ -87,7 +102,7 @@ public class InviteItemController extends RecyclerView.Adapter {
                         deny.setVisibility(View.GONE);
                         confirm.setVisibility(View.GONE);
                         delete.setVisibility(View.GONE);
-                        //otherUserImg.setImageResource(invite.getReceiver_ID());
+                        otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "rejected":
                         otherUserName.setText(userResponse(invite.getReceiver_ID(),"cannot meet"));
@@ -97,11 +112,11 @@ public class InviteItemController extends RecyclerView.Adapter {
                         deny.setVisibility(View.GONE);
                         confirm.setVisibility(View.GONE);
                         delete.setVisibility(View.VISIBLE);
-                        //otherUserImg.setImageResource(invite.getReceiver_ID());
+                        otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "cancelled":
                         cancel();
-                        //otherUserImg.setImageResource(invite.getReceiver_ID());
+                        otherUserImg.setImageResource(R.mipmap.man);
                         break;
                 }
             } else {
@@ -114,7 +129,7 @@ public class InviteItemController extends RecyclerView.Adapter {
                         deny.setVisibility(View.GONE);
                         confirm.setVisibility(View.GONE);
                         delete.setVisibility(View.GONE);
-                        //otherUserImg.setImageResource(invite.getReceiver_ID());
+                        otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "pending":
                         otherUserName.setText(userResponse("Respond to",invite.getSender_ID()));
@@ -123,14 +138,14 @@ public class InviteItemController extends RecyclerView.Adapter {
                         deny.setVisibility(View.VISIBLE);
                         confirm.setVisibility(View.VISIBLE);
                         delete.setVisibility(View.GONE);
-                        //otherUserImg.setImageResource(invite.getReceiver_ID());
+                        otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "rejected":
                         itemView.setVisibility(View.GONE);
                         break;
                     case "cancelled":
                         cancel();
-                        //otherUserImg.setImageResource(invite.getReceiver_ID());
+                        otherUserImg.setImageResource(R.mipmap.man);
                         break;
                 }
             }

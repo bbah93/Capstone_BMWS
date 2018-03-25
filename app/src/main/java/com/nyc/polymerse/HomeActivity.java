@@ -111,9 +111,11 @@ public class HomeActivity extends AppCompatActivity
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     String userKey = d.getKey();
                     Log.d(TAG, "onDataChange: user " + userKey);
+
                     profileNotCreated(userKey);
                     if (saveUser) {
                         UserSingleton.getInstance().setUser(d.getValue(User.class));
+                   
                     }
                 }
                 if (isProfileNotCreated) {
@@ -135,8 +137,6 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-
-
         fragment = new ExploreFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
@@ -145,7 +145,6 @@ public class HomeActivity extends AppCompatActivity
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Polymerse");
-
 
         bottomNavigationView = findViewById(R.id.nav_tab);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -179,7 +178,7 @@ public class HomeActivity extends AppCompatActivity
                         return true;
                     case R.id.nav_explore:
                         fragment = new ExploreFragment();
-                        transaction.replace(R.id.fragment_container,fragment,"explore_frag");
+                        transaction.replace(R.id.fragment_container, fragment, "explore_frag");
                         toolbar.setTitle("Polymerse");
                         transaction.commit();
                         return true;
@@ -187,9 +186,6 @@ public class HomeActivity extends AppCompatActivity
                 return false;
             }
         });
-
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -207,6 +203,8 @@ public class HomeActivity extends AppCompatActivity
         if (firebaseUid.equals(userKey)) {
             isProfileNotCreated = false;
             saveUser = true;
+        } else {
+            saveUser = false;
         }
     }
 
@@ -349,7 +347,5 @@ public class HomeActivity extends AppCompatActivity
         ft.replace(R.id.fragment_container, frag, "details_user_frag");
         ft.addToBackStack("user_detail_frag");
         ft.commit();
-
     }
 }
-            
