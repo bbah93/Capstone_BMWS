@@ -30,12 +30,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nyc.polymerse.Invites.Invite_Frag;
 import com.google.gson.Gson;
 import com.nyc.polymerse.fragments.ExploreFragment;
 import com.nyc.polymerse.fragments.NotificationFragment;
 import com.nyc.polymerse.Profile_Creation.Prof_Create_Activity;
 import com.nyc.polymerse.fragments.MessageFragment;
 import com.nyc.polymerse.fragments.MessagingListFrag;
+import com.nyc.polymerse.fragments.NotificationFragment;
 import com.nyc.polymerse.fragments.UserDetailsFragment;
 import com.nyc.polymerse.fragments.UserResultsFragment;
 
@@ -117,7 +119,7 @@ public class HomeActivity extends AppCompatActivity
                 if (isProfileNotCreated) {
                     Log.d(TAG, "onDataChange: uID " + user.getUid());
                     UserSingleton.getInstance().setUser(new User());
-                    Log.d(TAG, "onDataChange: new user created in singleton" );
+                    Log.d(TAG, "onDataChange: new user created in singleton");
                     UserSingleton.getInstance().getUser().setuID(user.getUid());
                     UserSingleton.getInstance().getUser().setEmail(user.getEmail());
                     startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
@@ -324,6 +326,14 @@ public class HomeActivity extends AppCompatActivity
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
         }
+    }
+
+    public void switchContent(int i, Invite_Frag frag) {
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, frag, "invite_frag");
+        ft.addToBackStack("invite_frag");
+        ft.commit();
     }
 
     public void switchContent(int i, MessageFragment frag) {
