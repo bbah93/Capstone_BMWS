@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.nyc.polymerse.HomeActivity;
+import com.nyc.polymerse.Invites.Invite_Frag;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 
@@ -29,12 +30,12 @@ public class UserDetailsFragment extends Fragment {
     private View rootView;
     private User user;
     MessageFragment mFragment;
+    Invite_Frag mInviteFragment;
     private Context context;
 
     private CircleImageView profilePic, profileBlock, profileReviewerPic;
     private TextView profileUserName, aboutMe, profileReviewDate, profileReview;
     private Button message, invite;
-
 
 
     public UserDetailsFragment() {
@@ -56,23 +57,30 @@ public class UserDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         message = view.findViewById(R.id.profile_message);
+        invite = view.findViewById(R.id.profile_invite);
 
         Bundle bundle = getArguments();
         String userString = bundle.getString("item_selected_key");
-        user = new Gson().fromJson(userString,User.class);
+        user = new Gson().fromJson(userString, User.class);
         Log.d(TAG, "onViewCreated: " + user.getuID());
 
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentJump(user);
+                fragmentJumpMessage(user);
+            }
+        });
+        invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentJumpInvite(user);
             }
         });
 
 
-
     }
-    private void fragmentJump(User mItemSelected) {
+
+    private void fragmentJumpMessage(User mItemSelected) {
 //        UserSingleton.getInstance().getUser().setUsername(mItemSelected.getUsername());
         mFragment = new MessageFragment();
         Bundle mBundle = new Bundle();
@@ -80,6 +88,28 @@ public class UserDetailsFragment extends Fragment {
         mBundle.putString("item_selected_key", userString);
         mFragment.setArguments(mBundle);
         switchContent(R.id.fragment_container, mFragment);
+    }
+
+    private void fragmentJumpInvite(User mItemSelected) {
+
+        mInviteFragment = new Invite_Frag();
+        Bundle mBundle = new Bundle();
+        String userString = new Gson().toJson(mItemSelected);
+        mBundle.putString("item_selected_key", userString);
+        mInviteFragment.setArguments(mBundle);
+        switchContent(R.id.fragment_container, mInviteFragment);
+    }
+
+
+    public void switchContent(int id, Invite_Frag fragment) {
+
+        if (context == null)
+            return;
+        if (context instanceof HomeActivity) {
+            HomeActivity homeActivity = (HomeActivity) context;
+            Invite_Frag frag = fragment;
+            homeActivity.switchContent(id, frag);
+        }
     }
 
     public void switchContent(int id, MessageFragment fragment) {

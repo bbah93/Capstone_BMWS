@@ -20,8 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.FilterUsersClass;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
+import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.controller.UserResultAdapter;
 
 import java.util.ArrayList;
@@ -42,13 +44,15 @@ public class UserResultsFragment extends Fragment {
 
     View rootView;
     private final String TAG = "UserResultsFragment";
-    private List<User> userList = new ArrayList<>();
+    private ArrayList<User> userList = new ArrayList<>();
     private Button filter;
 
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseUser;
 
     private UserResultsFilterFragment userResultsFilterFragment;
+
+    private UserResultAdapter adapter;
 
     public UserResultsFragment() {
         // Required empty public constructor
@@ -61,7 +65,7 @@ public class UserResultsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_user_results, container, false);
         ButterKnife.bind(this, rootView);
-        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
+        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(Constants.SHARED_PREFS_FILTER_KEY, MODE_PRIVATE);
 
         return rootView;
 
@@ -71,6 +75,7 @@ public class UserResultsFragment extends Fragment {
     public void showFilterFragment() {
         Toast.makeText(getActivity().getApplicationContext(), "CLICK", Toast.LENGTH_SHORT).show();
         userResultsFilterFragment = new UserResultsFilterFragment();
+        userResultsFilterFragment.setAdapter(adapter, userList);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.filter_container, userResultsFilterFragment).commit();
         FrameLayout layout = (FrameLayout) getActivity().findViewById(R.id.filter_container);
         layout.setVisibility(View.VISIBLE);
@@ -92,15 +97,15 @@ public class UserResultsFragment extends Fragment {
                     userList.add(user);
                     Log.d(TAG, "onDataChange: user " + user.getUsername());
 
-
-                    RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
-                    LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                    recyclerView.setLayoutManager(manager);
-                    UserResultAdapter adapter = new UserResultAdapter(userList,rootView.getContext());
-                    recyclerView.setAdapter(adapter);
                     //This is the test user only;
                     Log.d(TAG, "onSuccess: " + user.getCity());
                 }
+
+                RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
+                LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                recyclerView.setLayoutManager(manager);
+                adapter = new UserResultAdapter(userList,rootView.getContext());
+                recyclerView.setAdapter(adapter);
             }
 
             @Override
@@ -113,6 +118,10 @@ public class UserResultsFragment extends Fragment {
         });
 
     }
+
+
+
+
 
 
 }
