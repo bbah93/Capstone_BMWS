@@ -100,36 +100,58 @@ public class InviteItemController extends RecyclerView.Adapter {
                         //otherUserImg.setImageResource(invite.getReceiver_ID());
                         break;
                     case "cancelled":
-                        otherUserName.setText(userResponse(invite.getReceiver_ID(),"cancelled"));
-                        accepted.setImageResource(R.drawable.ic_cancel_red_500_18dp);
-                        accepted.setVisibility(View.VISIBLE);
-                        cancel.setVisibility(View.GONE);
-                        deny.setVisibility(View.GONE);
-                        confirm.setVisibility(View.GONE);
-                        delete.setVisibility(View.VISIBLE);
+                        cancel();
                         //otherUserImg.setImageResource(invite.getReceiver_ID());
                         break;
                 }
             } else {
                 switch(invite.getAcceptStatus()){
                     case "accepted":
+                        otherUserName.setText(userResponse("You are meeting",invite.getSender_ID()));
+                        accepted.setImageResource(R.drawable.ic_check_circle_green_a700_18dp);
+                        accepted.setVisibility(View.VISIBLE);
+                        cancel.setVisibility(View.VISIBLE);
+                        deny.setVisibility(View.GONE);
+                        confirm.setVisibility(View.GONE);
+                        delete.setVisibility(View.GONE);
+                        //otherUserImg.setImageResource(invite.getReceiver_ID());
                         break;
                     case "pending":
+                        otherUserName.setText(userResponse("Respond to",invite.getSender_ID()));
+                        accepted.setVisibility(View.GONE);
+                        cancel.setVisibility(View.VISIBLE);
+                        deny.setVisibility(View.VISIBLE);
+                        confirm.setVisibility(View.VISIBLE);
+                        delete.setVisibility(View.GONE);
+                        //otherUserImg.setImageResource(invite.getReceiver_ID());
                         break;
                     case "rejected":
+                        itemView.setVisibility(View.GONE);
                         break;
                     case "cancelled":
+                        cancel();
+                        //otherUserImg.setImageResource(invite.getReceiver_ID());
                         break;
                 }
             }
 
         }
 
-        public String userResponse(String name,String response){
+        public String userResponse(String first,String second){
             StringBuilder userResponse = new StringBuilder();
-            userResponse.append(name);
-            userResponse.append(" "+response);
+            userResponse.append(first);
+            userResponse.append(" "+second);
             return userResponse.toString();
+        }
+
+        public void cancel(){
+            otherUserName.setText(userResponse("Invite","cancelled"));
+            accepted.setImageResource(R.drawable.ic_cancel_red_500_18dp);
+            accepted.setVisibility(View.VISIBLE);
+            cancel.setVisibility(View.GONE);
+            deny.setVisibility(View.GONE);
+            confirm.setVisibility(View.GONE);
+            delete.setVisibility(View.VISIBLE);
         }
 
 
