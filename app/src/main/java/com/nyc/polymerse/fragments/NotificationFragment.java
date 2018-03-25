@@ -1,6 +1,8 @@
 package com.nyc.polymerse.fragments;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ public class NotificationFragment extends Fragment implements View.OnClickListen
     Button cancel;
     Button accept;
     Button deny;
+    Button directions;
     String popUpDesignator = "";
 
 
@@ -40,6 +43,8 @@ public class NotificationFragment extends Fragment implements View.OnClickListen
         cancel = rootView.findViewById(R.id.cancel);
         accept = rootView.findViewById(R.id.confirm);
         deny = rootView.findViewById(R.id.deny);
+        directions = rootView.findViewById(R.id.map_icon);
+        directions.setOnClickListener(this);
         cancel.setOnClickListener(this);
         accept.setOnClickListener(this);
         deny.setOnClickListener(this);
@@ -61,6 +66,12 @@ public class NotificationFragment extends Fragment implements View.OnClickListen
             case R.id.confirm:
                 popUpDesignator = "Accept";
                 showPopUp();
+                break;
+            case R.id.map_icon:
+                Uri gmmIntentUri = Uri.parse("google.streetview:cbll=46.414382,10.013988");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
                 break;
         }
 
