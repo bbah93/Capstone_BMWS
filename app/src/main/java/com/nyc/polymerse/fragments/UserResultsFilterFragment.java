@@ -177,12 +177,22 @@ public class UserResultsFilterFragment extends Fragment {
         Log.d(TAG, "filterThroughSharedPrefs: sharing " + sharing);
         Log.d(TAG, "filterThroughSharedPrefs: learning " + learning);
         ArrayList<User> filteredUsers = userList;
+        for (int i = 0; i < userList.size(); i++) {
+            Log.d(TAG, "filterThroughSharedPrefs: pre " + userList.get(i).getUsername() + " " + i);
+        }
         if (sharing){
             filteredUsers = FilterUsersClass.filterUserBySharing(filteredUsers,user);
+
+            for (int i = 0; i < filteredUsers.size(); i++) {
+                Log.d(TAG, "filterThroughSharedPrefs: post sharing " + filteredUsers.get(i).getUsername() + " " + i);
+            }
         }
         if (learning) {
             filteredUsers = FilterUsersClass.filterUserByLearning(filteredUsers,user);
 
+            for (int i = 0; i < filteredUsers.size(); i++) {
+                Log.d(TAG, "filterThroughSharedPrefs: post learning " + filteredUsers.get(i).getUsername() + " " + i);
+            }
         }
 
         return filteredUsers;

@@ -2,7 +2,6 @@ package com.nyc.polymerse.controller;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.nyc.polymerse.HomeActivity;
-import com.nyc.polymerse.MyDiffCallback;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.fragments.UserDetailsFragment;
@@ -61,8 +59,8 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
 
 
     public void updateList(ArrayList<User> newList) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(this.userList, newList));
-        diffResult.dispatchUpdatesTo(this);
+        this.userList = newList;
+        notifyDataSetChanged();
         Log.d(TAG, "updateList: ran");
     }
 

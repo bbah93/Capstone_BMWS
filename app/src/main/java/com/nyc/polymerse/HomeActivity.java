@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.nyc.polymerse.fragments.ExploreFragment;
 import com.nyc.polymerse.fragments.NotificationFragment;
 import com.nyc.polymerse.Profile_Creation.Prof_Create_Activity;
 import com.nyc.polymerse.fragments.MessageFragment;
@@ -131,10 +133,11 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        fragment = new UserResultsFragment();
+        fragment = new ExploreFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
         transaction.commit();
+        //this.getSupportActionBar().setTitle("Immersion");
 
         bottomNavigationView = findViewById(R.id.nav_tab);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -148,6 +151,7 @@ public class HomeActivity extends AppCompatActivity
                         fragment = new UserResultsFragment();
                         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
                         transaction.commit();
+                        //getSupportActionBar().setTitle("People");
                         Log.d(TAG, "onOptionsItemSelected: people clicked");
                         return true;
                     case R.id.nav_messages:
@@ -155,6 +159,7 @@ public class HomeActivity extends AppCompatActivity
                         Log.d(TAG, "onOptionsItemSelected: messages clicked");
                         transaction.replace(R.id.fragment_container, fragment, "msgFrag");
                         transaction.commit();
+                        //getSupportActionBar().setTitle("Messages");
                         return true;
                     case R.id.nav_notification:
                         fragment = new NotificationFragment();
@@ -162,6 +167,13 @@ public class HomeActivity extends AppCompatActivity
                         Log.d(TAG, "onOptionsItemSelected: notification clicked");
 
                         transaction.commit();
+                        //getSupportActionBar().setTitle("Notifications");
+                        return true;
+                    case R.id.nav_explore:
+                        fragment = new ExploreFragment();
+                        transaction.replace(R.id.fragment_container,fragment,"explore_frag");
+                        transaction.commit();
+                        //getSupportActionBar().setTitle("Immersion");
                         return true;
                 }
                 return false;

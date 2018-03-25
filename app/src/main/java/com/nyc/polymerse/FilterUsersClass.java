@@ -22,7 +22,7 @@ public class FilterUsersClass {
             for (String languageOtherUsersAreLearning : userList.get(i).getLangLearn().keySet()) {
                 if (currentUser.getLangTeach().containsKey(languageOtherUsersAreLearning)){
                     filteredUser.add(userList.get(i));
-                    Log.d(TAG, "filterUserBySharing:  userlist sharing lang " + userList.get(i));
+                    Log.d(TAG, "filterUserBySharing:  userList sharing lang " + languageOtherUsersAreLearning);
                 }
             }
         }
@@ -37,7 +37,7 @@ public class FilterUsersClass {
             for (String languageOtherUsersAreTeaching : userList.get(i).getLangTeach().keySet()) {
                 if (currentUser.getLangLearn().containsKey(languageOtherUsersAreTeaching)){
                     filteredUser.add(userList.get(i));
-                    Log.d(TAG, "filterUserByLearning:  userlist learning lang " + userList.get(i));
+                    Log.d(TAG, "filterUserByLearning:  userList learning lang " + userList.get(i));
 
                 }
             }
