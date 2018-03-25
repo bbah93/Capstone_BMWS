@@ -76,5 +76,12 @@ public class User {
     public void setLangTeach(Map<String, String> langTeach) {
         this.langTeach = langTeach;
     }
+
+    public Map<String, String> getInvites() {
+        return invites;
+    }
+    public void setInvites(Map<String, String> invites) {
+        this.invites = invites;
+    }
 }
 
