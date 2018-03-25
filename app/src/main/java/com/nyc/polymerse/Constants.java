@@ -11,4 +11,8 @@ public class Constants {
     public static final String FIREBASE_UID = "Firebase_Uid";
     public static final String FIREBASE_UID_KEY = "Firebase_Uid_key";
     public static final String FIREBASE_USER_KEY = "Firebase_Username_key";
+    public static final String PROF_CREATE_KEY = "profile_creator";
+    public static final String SHARED_PREFS_FILTER_KEY = "filter_preferences";
+
+
 }
