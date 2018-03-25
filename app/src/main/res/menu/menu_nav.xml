@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_explore"
+        android:title="Explore"
+        android:icon="@drawable/ic_explore_black_24dp"
+        />
     <item
         android:id="@+id/nav_people"
         android:title="People"
@@ -17,5 +23,7 @@
         android:title="Notification"
         android:icon="@drawable/ic_action_notification"
         />
+
+
 
 </menu>
