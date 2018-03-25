@@ -11,6 +11,7 @@ import java.util.List;
  */
 
 public class FilterUsersClass {
+    //TODO: add the other shared prefs options to list when the profile spinners are updated
 
     private static final String TAG = "FilterUsersClass";
 
