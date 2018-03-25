@@ -61,6 +61,11 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
         return userList.size();
     }
 
+    public void setList(List<User> userListFilter) {
+        userList = userListFilter;
+        notifyDataSetChanged();
+    }
+
     public class UserResultViewHolder extends RecyclerView.ViewHolder{
 
         TextView userName;

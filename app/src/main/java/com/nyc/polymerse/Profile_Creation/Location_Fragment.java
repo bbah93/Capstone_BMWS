@@ -73,7 +73,9 @@ public class Location_Fragment extends Fragment {
                     Language_Fragment language_fragment = new Language_Fragment();
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
-                            .add(R.id.fragment_container,language_fragment, Language_Fragment.TAG)
+//                            .add(R.id.fragment_container,language_fragment, Language_Fragment.TAG)
+                            .replace(R.id.fragment_container, language_fragment, Language_Fragment.TAG)
+                            .addToBackStack("Location Fragment")
                             .commit();
 
                 }

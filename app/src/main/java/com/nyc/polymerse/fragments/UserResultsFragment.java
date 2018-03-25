@@ -20,8 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.FilterUsersClass;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
+import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.controller.UserResultAdapter;
 
 import java.util.ArrayList;
@@ -50,6 +52,8 @@ public class UserResultsFragment extends Fragment {
 
     private UserResultsFilterFragment userResultsFilterFragment;
 
+    private UserResultAdapter adapter;
+
     public UserResultsFragment() {
         // Required empty public constructor
     }
@@ -61,7 +65,7 @@ public class UserResultsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_user_results, container, false);
         ButterKnife.bind(this, rootView);
-        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
+        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(Constants.SHARED_PREFS_FILTER_KEY, MODE_PRIVATE);
 
         return rootView;
 
@@ -96,10 +100,11 @@ public class UserResultsFragment extends Fragment {
                     Log.d(TAG, "onSuccess: " + user.getCity());
                 }
 
+                List<User> userListFilter = filterThroughSharedPrefs(userList, UserSingleton.getInstance().getUser());
                 RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
                 LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 recyclerView.setLayoutManager(manager);
-                UserResultAdapter adapter = new UserResultAdapter(userList,rootView.getContext());
+                adapter = new UserResultAdapter(userListFilter,rootView.getContext());
                 recyclerView.setAdapter(adapter);
             }
 
@@ -112,6 +117,27 @@ public class UserResultsFragment extends Fragment {
 
         });
 
+    }
+
+    private List<User> filterThroughSharedPrefs(List<User> userList, User user) {
+        boolean sharing = sharedPreferences.getBoolean("sharing",false);
+        boolean learning = sharedPreferences.getBoolean("learning", false);
+        List<User> filteredUsers = userList;
+        if (sharing){
+            filteredUsers = FilterUsersClass.filterUserBySharing(filteredUsers,user);
+        }
+        if (learning) {
+            filteredUsers = FilterUsersClass.filterUserByLearning(filteredUsers,user);
+
+        }
+
+        return filteredUsers;
+    }
+
+    public void filterList(){
+        List<User> userListFilter = filterThroughSharedPrefs(userList, UserSingleton.getInstance().getUser());
+
+        adapter.setList(userListFilter);
     }
 
 
