@@ -1,12 +1,17 @@
 package com.nyc.polymerse.Invites;
 
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
 
 import com.nyc.polymerse.R;
 
@@ -15,12 +20,14 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Invite_Frag extends Fragment{
+public class Invite_Frag extends Fragment implements View.OnClickListener {
 
-    TextView date, time, location;
-    Calendar mCurrentDate;
+    EditText time, date;
+    Button dateButton, timeButton;
 
-    int day, month, year;
+    DatePickerDialog datePickerDialog;
+    TimePickerDialog timePickerDialog;
+
 
     public Invite_Frag() {
         // Required empty public constructor
@@ -33,23 +40,67 @@ public class Invite_Frag extends Fragment{
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_invite_, container, false);
-          date= (TextView)v.findViewById(R.id.date);
-          time = (TextView)v.findViewById(R.id.time);
-          location = (TextView)v.findViewById(R.id.location);
 
-          mCurrentDate = Calendar.getInstance();
-          day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
-          month = mCurrentDate.get(Calendar.MONTH);
-          year = mCurrentDate.get(Calendar.YEAR);
-          month = month+1;
+        time = v.findViewById(R.id.time);
+        date = v.findViewById(R.id.date);
 
-          date.setText(day+"/"+month+"/"+year);
+        dateButton = v.findViewById(R.id.date_picker);
+        timeButton = v.findViewById(R.id.time_picker);
+
+        dateButton.setOnClickListener(this);
+        timeButton.setOnClickListener(this);
+
         return v;
-
 
 
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.date_picker:
 
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        date.setText(dayOfMonth + " : " + (month + 1) + " : " + year);
+
+
+                    }
+                }, year, month, day);
+                datePickerDialog.show();
+
+
+                break;
+
+
+            case R.id.time_picker:
+
+                Calendar calendar1 = Calendar.getInstance();
+                int hour = calendar1.get(Calendar.HOUR);
+                final int mintue = calendar1.get(Calendar.MINUTE);
+
+                timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                        time.setText(hourOfDay + " : " + minute);
+
+
+                    }
+                }, hour, mintue, false);
+                timePickerDialog.show();
+
+
+                break;
+
+
+        }
+    }
 }
