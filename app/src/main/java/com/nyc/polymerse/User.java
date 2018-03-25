@@ -80,7 +80,10 @@ public class User {
     public Map<String, String> getInvites() {
         return invites;
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     public void setInvites(Map<String, String> invites) {
         this.invites = invites;
     }
