@@ -41,4 +41,32 @@ public class Invite_Schema {
     public void setAcceptStatus(String acceptStatus) {
         this.acceptStatus = acceptStatus;
     }
+
+    public String getInvite_ID() {
+        return invite_ID;
+    }
+
+    public String getSender_ID() {
+        return sender_ID;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getReceiver_ID() {
+        return receiver_ID;
+    }
+
+    public String getAcceptStatus() {
+        return acceptStatus;
+    }
 }

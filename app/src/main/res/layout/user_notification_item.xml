@@ -16,13 +16,13 @@
     android:padding="@dimen/user_results_padding_margin">
 
     <Button
-        android:visibility="visible"
+        android:visibility="invisible"
         android:id="@+id/confirm"
         android:background="@drawable/button_hollow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/imageView2"
+        android:layout_alignStart="@+id/accepted"
         android:layout_marginStart="11dp"
         android:text="Confirm" />
     <Button
@@ -37,7 +37,18 @@
         android:textColor="@color/secondaryLightColor" />
 
     <Button
-        android:visibility="visible"
+        android:id="@+id/delete"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/time"
+        android:layout_alignStart="@+id/confirm"
+        android:background="@android:color/holo_red_dark"
+        android:text="Delete"
+        android:textColor="@color/secondaryLightColor" />
+
+    <Button
+        android:visibility="invisible"
         android:id="@+id/deny"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,14 +92,14 @@
 
     <ImageView
         android:text="Accepted"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:textAlignment="center"
         android:id="@+id/accepted"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_check_circle_green_a700_18dp" />
+        android:src="@drawable/ic_cancel_red_500_18dp" />
 
     <TextView
         android:id="@+id/date"
