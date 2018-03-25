@@ -3,6 +3,9 @@ package com.nyc.polymerse.controller;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nyc.polymerse.Invites.Invite_Schema;
 
@@ -27,6 +30,15 @@ public class InviteItemController extends RecyclerView.Adapter {
     }
 
     public class InviteItemViewHolder extends RecyclerView.ViewHolder{
+
+        Button confirm;
+        Button deny;
+        Button cancel;
+        TextView otherUserName;
+        TextView location;
+        ImageView accepted;
+        TextView date;
+        TextView time;
 
         public InviteItemViewHolder(View itemView) {
             super(itemView);
