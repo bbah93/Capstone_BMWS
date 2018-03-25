@@ -2,7 +2,9 @@ package com.nyc.polymerse.controller;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,12 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.nyc.polymerse.HomeActivity;
+import com.nyc.polymerse.MyDiffCallback;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.fragments.UserDetailsFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -29,10 +31,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.UserResultViewHolder> {
 
-    List<User> userList = new ArrayList<>();
+    ArrayList<User> userList = new ArrayList<>();
     Context context;
+    private final String TAG = "UserResultsAdapter";
 
-    public UserResultAdapter(List<User> userList, Context context){
+    public UserResultAdapter(ArrayList<User> userList, Context context){
         this.userList = userList;
         this.context = context;
     }
@@ -56,14 +59,16 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
 
     }
 
+
+    public void updateList(ArrayList<User> newList) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(this.userList, newList));
+        diffResult.dispatchUpdatesTo(this);
+        Log.d(TAG, "updateList: ran");
+    }
+
     @Override
     public int getItemCount() {
         return userList.size();
-    }
-
-    public void setList(List<User> userListFilter) {
-        userList = userListFilter;
-        notifyDataSetChanged();
     }
 
     public class UserResultViewHolder extends RecyclerView.ViewHolder{

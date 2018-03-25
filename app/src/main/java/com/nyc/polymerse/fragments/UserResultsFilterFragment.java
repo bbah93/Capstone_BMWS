@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,11 @@ import android.widget.FrameLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.FilterUsersClass;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.User;
+import com.nyc.polymerse.UserSingleton;
+import com.nyc.polymerse.controller.UserResultAdapter;
 
 import org.json.JSONObject;
 
@@ -65,6 +70,11 @@ public class UserResultsFilterFragment extends Fragment {
     SharedPreferences sharedPreferences;
 
     List<CheckBox> checkBoxList = new ArrayList<>();
+
+    ArrayList<User> userList;
+    UserResultAdapter adapter;
+
+    private static final String TAG = "UserResultsFilterFrag";
 
     private boolean clearAndApply = false;
 
@@ -132,6 +142,7 @@ public class UserResultsFilterFragment extends Fragment {
     public boolean closeFragment() {
         FrameLayout layout = (FrameLayout) getActivity().findViewById(R.id.filter_container);
         layout.setVisibility(View.GONE);
+        filterList();
         return true;
     }
 
@@ -141,6 +152,7 @@ public class UserResultsFilterFragment extends Fragment {
         for (CheckBox checkBox : checkBoxList) {
             if (checkBox.isChecked()) {
                 String preferenceKey = checkBox.getText().toString();
+                Log.d(TAG, "applyFilters: prefKey " + preferenceKey);
                 boolean preferenceValue = true;
                 editor.putBoolean(preferenceKey, preferenceValue);
                 editor.commit();
@@ -153,5 +165,32 @@ public class UserResultsFilterFragment extends Fragment {
         closeFragment();
 
     }
+    public void filterList(){
+        ArrayList<User> userListFilter = filterThroughSharedPrefs(userList, UserSingleton.getInstance().getUser());
+        adapter.updateList(userListFilter);
+    }
 
+    private ArrayList<User> filterThroughSharedPrefs(ArrayList<User> userList, User user) {
+        boolean sharing = sharedPreferences.getBoolean("Sharing",false);
+        boolean learning = sharedPreferences.getBoolean("Learning", false);
+
+        Log.d(TAG, "filterThroughSharedPrefs: sharing " + sharing);
+        Log.d(TAG, "filterThroughSharedPrefs: learning " + learning);
+        ArrayList<User> filteredUsers = userList;
+        if (sharing){
+            filteredUsers = FilterUsersClass.filterUserBySharing(filteredUsers,user);
+        }
+        if (learning) {
+            filteredUsers = FilterUsersClass.filterUserByLearning(filteredUsers,user);
+
+        }
+
+        return filteredUsers;
+    }
+
+    public void setAdapter(UserResultAdapter adapter, ArrayList<User> userList) {
+        this.adapter = adapter;
+        this.userList = userList;
+        Log.d(TAG, "setAdapter: ran");
+    }
 }

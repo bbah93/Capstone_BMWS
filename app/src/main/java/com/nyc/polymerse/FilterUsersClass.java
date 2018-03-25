@@ -1,9 +1,10 @@
 package com.nyc.polymerse;
 
-import java.util.HashMap;
+import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Wayne Kellman on 3/24/18.
@@ -11,26 +12,33 @@ import java.util.Map;
 
 public class FilterUsersClass {
 
-    public static List<User> filterUserBySharing(List<User> userList, User currentUser) {
-        List<User> fileredUser = new LinkedList<>();
+    private static final String TAG = "FilterUsersClass";
+
+    public static ArrayList<User> filterUserBySharing(List<User> userList, User currentUser) {
+        Log.d(TAG, "filterUserBySharing: ran");
+        ArrayList<User> filteredUser = new ArrayList<>();
 
         for (int i = 0; i < userList.size(); i++) {
             for (String languageOtherUsersAreLearning : userList.get(i).getLangLearn().keySet()) {
                 if (currentUser.getLangTeach().containsKey(languageOtherUsersAreLearning)){
-                    fileredUser.add(userList.get(i));
+                    filteredUser.add(userList.get(i));
+                    Log.d(TAG, "filterUserBySharing:  userlist sharing lang " + userList.get(i));
                 }
             }
         }
-        return fileredUser;
+        return filteredUser;
     }
 
-    public static List<User> filterUserByLearning(List<User> userList, User currentUser) {
-        List<User> filteredUser = new LinkedList<>();
+    public static ArrayList<User> filterUserByLearning(List<User> userList, User currentUser) {
+        Log.d(TAG, "filterUserByLearning: ran");
+        ArrayList<User> filteredUser = new ArrayList<>();
 
         for (int i = 0; i < userList.size(); i++) {
             for (String languageOtherUsersAreTeaching : userList.get(i).getLangTeach().keySet()) {
                 if (currentUser.getLangLearn().containsKey(languageOtherUsersAreTeaching)){
                     filteredUser.add(userList.get(i));
+                    Log.d(TAG, "filterUserByLearning:  userlist learning lang " + userList.get(i));
+
                 }
             }
         }

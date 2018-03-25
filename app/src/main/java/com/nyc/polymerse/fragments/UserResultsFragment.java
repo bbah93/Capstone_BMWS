@@ -44,7 +44,7 @@ public class UserResultsFragment extends Fragment {
 
     View rootView;
     private final String TAG = "UserResultsFragment";
-    private List<User> userList = new ArrayList<>();
+    private ArrayList<User> userList = new ArrayList<>();
     private Button filter;
 
     private DatabaseReference mDatabase;
@@ -75,6 +75,7 @@ public class UserResultsFragment extends Fragment {
     public void showFilterFragment() {
         Toast.makeText(getActivity().getApplicationContext(), "CLICK", Toast.LENGTH_SHORT).show();
         userResultsFilterFragment = new UserResultsFilterFragment();
+        userResultsFilterFragment.setAdapter(adapter, userList);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.filter_container, userResultsFilterFragment).commit();
         FrameLayout layout = (FrameLayout) getActivity().findViewById(R.id.filter_container);
         layout.setVisibility(View.VISIBLE);
@@ -100,11 +101,10 @@ public class UserResultsFragment extends Fragment {
                     Log.d(TAG, "onSuccess: " + user.getCity());
                 }
 
-                List<User> userListFilter = filterThroughSharedPrefs(userList, UserSingleton.getInstance().getUser());
                 RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
                 LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 recyclerView.setLayoutManager(manager);
-                adapter = new UserResultAdapter(userListFilter,rootView.getContext());
+                adapter = new UserResultAdapter(userList,rootView.getContext());
                 recyclerView.setAdapter(adapter);
             }
 
@@ -119,26 +119,9 @@ public class UserResultsFragment extends Fragment {
 
     }
 
-    private List<User> filterThroughSharedPrefs(List<User> userList, User user) {
-        boolean sharing = sharedPreferences.getBoolean("sharing",false);
-        boolean learning = sharedPreferences.getBoolean("learning", false);
-        List<User> filteredUsers = userList;
-        if (sharing){
-            filteredUsers = FilterUsersClass.filterUserBySharing(filteredUsers,user);
-        }
-        if (learning) {
-            filteredUsers = FilterUsersClass.filterUserByLearning(filteredUsers,user);
 
-        }
 
-        return filteredUsers;
-    }
 
-    public void filterList(){
-        List<User> userListFilter = filterThroughSharedPrefs(userList, UserSingleton.getInstance().getUser());
-
-        adapter.setList(userListFilter);
-    }
 
 
 }
