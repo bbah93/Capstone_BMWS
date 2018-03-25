@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Frag;
 import com.nyc.polymerse.R;
@@ -60,7 +61,7 @@ public class UserDetailsFragment extends Fragment {
         invite = view.findViewById(R.id.profile_invite);
 
         Bundle bundle = getArguments();
-        String userString = bundle.getString("item_selected_key");
+        String userString = bundle.getString(Constants.ITEM_SELECTED_KEY);
         user = new Gson().fromJson(userString, User.class);
         Log.d(TAG, "onViewCreated: " + user.getuID());
 
@@ -85,7 +86,7 @@ public class UserDetailsFragment extends Fragment {
         mFragment = new MessageFragment();
         Bundle mBundle = new Bundle();
         String userString = new Gson().toJson(mItemSelected);
-        mBundle.putString("item_selected_key", userString);
+        mBundle.putString(Constants.ITEM_SELECTED_KEY, userString);
         mFragment.setArguments(mBundle);
         switchContent(R.id.fragment_container, mFragment);
     }
@@ -95,7 +96,7 @@ public class UserDetailsFragment extends Fragment {
         mInviteFragment = new Invite_Frag();
         Bundle mBundle = new Bundle();
         String userString = new Gson().toJson(mItemSelected);
-        mBundle.putString("item_selected_key", userString);
+        mBundle.putString(Constants.ITEM_SELECTED_KEY, userString);
         mInviteFragment.setArguments(mBundle);
         switchContent(R.id.fragment_container, mInviteFragment);
     }

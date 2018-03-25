@@ -8,7 +8,6 @@ public class Invite_Schema {
 
     String invite_ID;
     String sender_ID;
-    String reciever_ID;
+    String receiver_ID;
     String acceptStatus;
-
 }

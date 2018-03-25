@@ -13,7 +13,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.User;
 
 import java.util.Calendar;
 
@@ -28,6 +33,10 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
 
+    User otherUser;
+
+    DatabaseReference databaseReference;
+
 
     public Invite_Frag() {
         // Required empty public constructor
@@ -40,6 +49,11 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_invite_, container, false);
+
+        Bundle bundle = getArguments();
+        String jsonUser = bundle.getString(Constants.ITEM_SELECTED_KEY);
+        otherUser = new Gson().fromJson(jsonUser,User.class);
+
 
         time = v.findViewById(R.id.time);
         date = v.findViewById(R.id.date);
@@ -70,6 +84,9 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         date.setText(dayOfMonth + " : " + (month + 1) + " : " + year);
+
+//                        databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.INVITES);
+//                        databaseReference.push().setValue(new Invite_Schema());
 
 
                     }
