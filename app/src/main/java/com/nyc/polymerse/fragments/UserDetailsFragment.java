@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -18,6 +19,8 @@ import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Frag;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
+
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,8 +38,9 @@ public class UserDetailsFragment extends Fragment {
     private Context context;
 
     private CircleImageView profilePic, profileBlock, profileReviewerPic;
-    private TextView profileUserName, aboutMe, profileReviewDate, profileReview;
+    private TextView profileUserName, aboutMe, profileReviewDate, profileReview, sharingLang, learningLang;
     private Button message, invite;
+    private ProgressBar sharingFluency, learningFluency;
 
 
     public UserDetailsFragment() {
@@ -78,6 +82,33 @@ public class UserDetailsFragment extends Fragment {
             }
         });
 
+        profileUserName = view.findViewById(R.id.user_detail_name);
+        aboutMe = view.findViewById(R.id.about_value);
+        learningLang = view.findViewById(R.id.detail_learning_value);
+        sharingLang = view.findViewById(R.id.detail_sharing_value);
+        learningFluency = view.findViewById(R.id.detail_learning_fluency);
+        sharingFluency = view.findViewById(R.id.detail_sharing_fluency);
+        setUserFields();
+
+
+    }
+
+    private void setUserFields() {
+        profileUserName.setText(user.getUsername());
+        Map<String, String > langLearn = user.getLangLearn();
+        Map<String, String > langShare = user.getLangTeach();
+        for (String s : langLearn.keySet()) {
+            learningLang.setText(s);
+        }
+        for (String s : langShare.keySet()) {
+            sharingLang.setText(s);
+        }
+        for (String s : langLearn.values()) {
+
+        }
+        for (String s : langShare.values()) {
+            sharingLang.setText(s);
+        }
 
     }
 

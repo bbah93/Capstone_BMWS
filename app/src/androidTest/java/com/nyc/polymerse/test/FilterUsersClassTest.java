@@ -65,5 +65,17 @@ public class FilterUsersClassTest {
         assertNotEquals(userList.size(),filterList.size());
     }
 
+    @Test
+    public void incrementInviteTest() {
+        String key = "bfkbskf";
+        Map<String,String> testMap = new HashMap<>();
+
+        testMap.put("Invite1", "njksdbsak");
+        testMap.put("Invite2", "nekjsbfek");
+        FilterUsersClass.incrementInvite(key,testMap);
+
+        assertNotEquals(2,testMap.size());
+    }
+
 
 }

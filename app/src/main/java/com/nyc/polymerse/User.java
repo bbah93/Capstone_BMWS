@@ -17,6 +17,14 @@ public class User {
     private String uID;
     private Map<String, String> invites;
 
+    public Map<String, String> getInvites() {
+        return invites;
+    }
+
+    public void setInvites(Map<String, String> invites) {
+        this.invites = invites;
+    }
+
     public String getuID() {
         return uID;
     }
