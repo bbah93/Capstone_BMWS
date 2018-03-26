@@ -95,8 +95,8 @@ public class UserDetailsFragment extends Fragment {
 
     private void setUserFields() {
         profileUserName.setText(user.getUsername());
-        Map<String, String > langLearn = user.getLangLearn();
-        Map<String, String > langShare = user.getLangTeach();
+        Map<String, String> langLearn = user.getLangLearn();
+        Map<String, String> langShare = user.getLangTeach();
         for (String s : langLearn.keySet()) {
             learningLang.setText(s);
         }
@@ -104,10 +104,28 @@ public class UserDetailsFragment extends Fragment {
             sharingLang.setText(s);
         }
         for (String s : langLearn.values()) {
-
+            if (s.equals("Beginner")) {
+                learningFluency.setProgress(25);
+            } else if (s.equals("Intermediate")) {
+                learningFluency.setProgress(50);
+            } else if (s.equals("Advanced")) {
+                learningFluency.setProgress(75);
+            } else {
+                learningFluency.setProgress(100);
+            }
         }
         for (String s : langShare.values()) {
             sharingLang.setText(s);
+
+            if (s.equals("Beginner")) {
+                sharingFluency.setProgress(25);
+            } else if (s.equals("Intermediate")) {
+                sharingFluency.setProgress(50);
+            } else if (s.equals("Advanced")) {
+                sharingFluency.setProgress(75);
+            } else {
+                sharingFluency.setProgress(100);
+            }
         }
 
     }
