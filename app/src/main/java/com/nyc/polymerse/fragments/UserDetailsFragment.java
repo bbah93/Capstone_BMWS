@@ -10,13 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Frag;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
+
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -34,8 +38,9 @@ public class UserDetailsFragment extends Fragment {
     private Context context;
 
     private CircleImageView profilePic, profileBlock, profileReviewerPic;
-    private TextView profileUserName, aboutMe, profileReviewDate, profileReview;
+    private TextView profileUserName, aboutMe, profileReviewDate, profileReview, sharingLang, learningLang;
     private Button message, invite;
+    private ProgressBar sharingFluency, learningFluency;
 
 
     public UserDetailsFragment() {
@@ -60,7 +65,7 @@ public class UserDetailsFragment extends Fragment {
         invite = view.findViewById(R.id.profile_invite);
 
         Bundle bundle = getArguments();
-        String userString = bundle.getString("item_selected_key");
+        String userString = bundle.getString(Constants.ITEM_SELECTED_KEY);
         user = new Gson().fromJson(userString, User.class);
         Log.d(TAG, "onViewCreated: " + user.getuID());
 
@@ -77,6 +82,50 @@ public class UserDetailsFragment extends Fragment {
             }
         });
 
+        profileUserName = view.findViewById(R.id.user_detail_name);
+        aboutMe = view.findViewById(R.id.about_value);
+        learningLang = view.findViewById(R.id.detail_learning_value);
+        sharingLang = view.findViewById(R.id.detail_sharing_value);
+        learningFluency = view.findViewById(R.id.detail_learning_fluency);
+        sharingFluency = view.findViewById(R.id.detail_sharing_fluency);
+        setUserFields();
+
+
+    }
+
+    private void setUserFields() {
+        profileUserName.setText(user.getUsername());
+        Map<String, String> langLearn = user.getLangLearn();
+        Map<String, String> langShare = user.getLangTeach();
+        for (String s : langLearn.keySet()) {
+            learningLang.setText(s);
+        }
+        for (String s : langShare.keySet()) {
+            sharingLang.setText(s);
+        }
+        for (String s : langLearn.values()) {
+            if (s.equals("Beginner")) {
+                learningFluency.setProgress(25);
+            } else if (s.equals("Intermediate")) {
+                learningFluency.setProgress(50);
+            } else if (s.equals("Advanced")) {
+                learningFluency.setProgress(75);
+            } else {
+                learningFluency.setProgress(100);
+            }
+        }
+        for (String s : langShare.values()) {
+
+            if (s.equals("Beginner")) {
+                sharingFluency.setProgress(25);
+            } else if (s.equals("Intermediate")) {
+                sharingFluency.setProgress(50);
+            } else if (s.equals("Advanced")) {
+                sharingFluency.setProgress(75);
+            } else {
+                sharingFluency.setProgress(100);
+            }
+        }
 
     }
 
@@ -85,7 +134,7 @@ public class UserDetailsFragment extends Fragment {
         mFragment = new MessageFragment();
         Bundle mBundle = new Bundle();
         String userString = new Gson().toJson(mItemSelected);
-        mBundle.putString("item_selected_key", userString);
+        mBundle.putString(Constants.ITEM_SELECTED_KEY, userString);
         mFragment.setArguments(mBundle);
         switchContent(R.id.fragment_container, mFragment);
     }
@@ -95,7 +144,7 @@ public class UserDetailsFragment extends Fragment {
         mInviteFragment = new Invite_Frag();
         Bundle mBundle = new Bundle();
         String userString = new Gson().toJson(mItemSelected);
-        mBundle.putString("item_selected_key", userString);
+        mBundle.putString(Constants.ITEM_SELECTED_KEY, userString);
         mInviteFragment.setArguments(mBundle);
         switchContent(R.id.fragment_container, mInviteFragment);
     }
