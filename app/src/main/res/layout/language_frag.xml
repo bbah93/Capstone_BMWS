@@ -73,12 +73,12 @@
 
             <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/known_RadioGroup"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <RadioButton android:id="@+id/radio__know_beginner"
-                    android:layout_width="wrap_content"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/beginner_filter"
                     android:textSize="12sp" />
@@ -148,7 +148,7 @@
 
             <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/learn_RadioGroup"
-                android:layout_width="fill_parent"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
