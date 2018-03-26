@@ -115,7 +115,6 @@ public class UserDetailsFragment extends Fragment {
             }
         }
         for (String s : langShare.values()) {
-            sharingLang.setText(s);
 
             if (s.equals("Beginner")) {
                 sharingFluency.setProgress(25);
