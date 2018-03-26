@@ -207,6 +207,8 @@ public class HomeActivity extends AppCompatActivity
         if (firebaseUid.equals(userKey)) {
             isProfileNotCreated = false;
             saveUser = true;
+        } else {
+            saveUser = false;
         }
     }
 

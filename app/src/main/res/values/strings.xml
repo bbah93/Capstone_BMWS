@@ -121,5 +121,6 @@
     <string name="invite_button_text">Invite</string>
     <string name="message_details">Message</string>
     <string name="last_msg_input_here">Last Msg Input Here</string>
+    <string name="title_polymerse">Polymerse</string>
 
 </resources>
