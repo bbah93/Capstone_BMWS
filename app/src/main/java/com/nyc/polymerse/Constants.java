@@ -15,6 +15,7 @@ public class Constants {
     public static final String PROF_CREATE_KEY = "profile_creator";
     public static final String SHARED_PREFS_FILTER_KEY = "filter_preferences";
     public static final String ITEM_SELECTED_KEY = "item_selected_key";
+    public static final String BLOCKED_USER_KEY = "Blocked";
 
 
 }

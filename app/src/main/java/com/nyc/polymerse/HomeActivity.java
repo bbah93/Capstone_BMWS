@@ -326,28 +326,11 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    public void switchContent(int i, Invite_Frag frag) {
-
+    public void switchContent(int i, Fragment frag) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, frag, "invite_frag");
-        ft.addToBackStack("invite_frag");
+        ft.replace(R.id.fragment_container, frag);
+        ft.addToBackStack("");
         ft.commit();
-    }
-
-    public void switchContent(int i, MessageFragment frag) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, frag, "details_user_frag");
-        ft.addToBackStack("user_detail_frag");
-        ft.commit();
-    }
-
-    public void switchContent(int id, UserDetailsFragment frag) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        this.frag = frag;
-        ft.replace(R.id.fragment_container, frag, "details_user_frag");
-        ft.addToBackStack("user_detail_frag");
-        ft.commit();
-
     }
 }
             
