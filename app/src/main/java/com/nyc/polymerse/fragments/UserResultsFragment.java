@@ -138,15 +138,17 @@ public class UserResultsFragment extends Fragment {
         mDatabase.child(Constants.BLOCKED_USER_KEY).child(currentUser.getuID()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, String> blockedByList = dataSnapshot.getValue(HashMap.class);
-                for (String s : blockedByList.values()) {
-                    for (User u : userList) {
-                        if (s.equals(u.getuID())){
-                            userList.remove(u);
+                Map<String, String> blockedByList = (Map<String, String>) dataSnapshot.getValue();
+                Log.d(TAG, "onDataChange: dataSnapShot " + dataSnapshot.getChildrenCount());
+                if (blockedByList != null) {
+                    for (String s : blockedByList.values()) {
+                        for (User u : userList.toArray(new User[userList.size()])) {
+                            if (s.equals(u.getuID())) {
+                                userList.remove(u);
+                            }
                         }
                     }
                 }
-
 
                 RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
                 LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
