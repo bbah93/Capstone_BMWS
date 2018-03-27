@@ -27,7 +27,9 @@ import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.controller.UserResultAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -53,6 +55,8 @@ public class UserResultsFragment extends Fragment {
     private UserResultsFilterFragment userResultsFilterFragment;
 
     private UserResultAdapter adapter;
+
+    private User currentUser;
 
     public UserResultsFragment() {
         // Required empty public constructor
@@ -86,6 +90,8 @@ public class UserResultsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "ON VIEW CREATED");
 
+        currentUser = UserSingleton.getInstance().getUser();
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseUser = mDatabase.child(Constants.USERS);
         mDatabaseUser.addValueEventListener(new ValueEventListener() {
@@ -94,18 +100,26 @@ public class UserResultsFragment extends Fragment {
                 Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User user = d.getValue(User.class);
-                    userList.add(user);
+                    Map<String, String> blockedUser = new HashMap<>();
+                    if (UserSingleton.getInstance().getUser().getBlocked() != null) {
+                        blockedUser = UserSingleton.getInstance().getUser().getBlocked();
+                    }
+                    boolean userBlocked = false;
+                    for (String s : blockedUser.values()) {
+                        if (user.getuID().equals(s)) {
+                            userBlocked = true;
+                        }
+                    }
+                    if (!userBlocked) {
+                        userList.add(user);
+                        userBlocked = false;
+                    }
                     Log.d(TAG, "onDataChange: user " + user.getUsername());
 
                     //This is the test user only;
                     Log.d(TAG, "onSuccess: " + user.getCity());
                 }
-
-                RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
-                LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                recyclerView.setLayoutManager(manager);
-                adapter = new UserResultAdapter(userList,rootView.getContext());
-                recyclerView.setAdapter(adapter);
+                checkBlocked();
             }
 
             @Override
@@ -119,9 +133,34 @@ public class UserResultsFragment extends Fragment {
 
     }
 
+    private void checkBlocked() {
+
+        mDatabase.child(Constants.BLOCKED_USER_KEY).child(currentUser.getuID()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String, String> blockedByList = dataSnapshot.getValue(HashMap.class);
+                for (String s : blockedByList.values()) {
+                    for (User u : userList) {
+                        if (s.equals(u.getuID())){
+                            userList.remove(u);
+                        }
+                    }
+                }
 
 
+                RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
+                LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                recyclerView.setLayoutManager(manager);
+                adapter = new UserResultAdapter(userList, rootView.getContext());
+                recyclerView.setAdapter(adapter);
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
 }

@@ -13,13 +13,17 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Frag;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
+import com.nyc.polymerse.UserSingleton;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -33,14 +37,18 @@ public class UserDetailsFragment extends Fragment {
     private static final String TAG = "UserDetailsFragment";
     private View rootView;
     private User user;
-    MessageFragment mFragment;
+    MessageFragment mMessageFragment;
     Invite_Frag mInviteFragment;
+    UserResultsFragment mUserResultsFragment;
     private Context context;
 
     private CircleImageView profilePic, profileBlock, profileReviewerPic;
     private TextView profileUserName, aboutMe, profileReviewDate, profileReview, sharingLang, learningLang;
     private Button message, invite;
     private ProgressBar sharingFluency, learningFluency;
+    private User currentUser;
+
+    private DatabaseReference databaseReference;
 
 
     public UserDetailsFragment() {
@@ -63,22 +71,49 @@ public class UserDetailsFragment extends Fragment {
 
         message = view.findViewById(R.id.profile_message);
         invite = view.findViewById(R.id.profile_invite);
+        profileBlock = view.findViewById(R.id.profile_block);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         Bundle bundle = getArguments();
         String userString = bundle.getString(Constants.ITEM_SELECTED_KEY);
         user = new Gson().fromJson(userString, User.class);
         Log.d(TAG, "onViewCreated: " + user.getuID());
+        currentUser = UserSingleton.getInstance().getUser();
 
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentJumpMessage(user);
+                fragmentJump(user, new MessageFragment());
             }
         });
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentJumpInvite(user);
+                fragmentJump(user, new Invite_Frag());
+            }
+        });
+        profileBlock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseReference databaseReferenceBlocked = databaseReference.child(Constants.BLOCKED_USER_KEY);
+                Map<String,Object> userGettingBlock = new HashMap<>();
+                String currentTime = String.valueOf(System.currentTimeMillis());
+                userGettingBlock.put(currentTime, currentUser.getuID());
+                databaseReferenceBlocked.child(user.getuID()).updateChildren(userGettingBlock);
+
+                Map<String,String> userBlockReference = new HashMap<>();
+                if (currentUser.getBlocked() != null){
+                    userBlockReference = currentUser.getBlocked();
+                }
+                userBlockReference.put(currentTime,user.getuID());
+                currentUser.setBlocked(userBlockReference);
+                UserSingleton.getInstance().setUser(currentUser);
+                databaseReference.child(Constants.USERS).child(currentUser.getuID()).setValue(currentUser);
+                switchContent(R.id.fragment_container, new UserResultsFragment());
+
+
+
             }
         });
 
@@ -129,45 +164,24 @@ public class UserDetailsFragment extends Fragment {
 
     }
 
-    private void fragmentJumpMessage(User mItemSelected) {
-//        UserSingleton.getInstance().getUser().setUsername(mItemSelected.getUsername());
-        mFragment = new MessageFragment();
+    private void fragmentJump(Fragment fragment) {
+        switchContent(R.id.fragment_container, fragment);
+    }
+    private void fragmentJump(User mItemSelected, Fragment fragment) {
+
         Bundle mBundle = new Bundle();
         String userString = new Gson().toJson(mItemSelected);
         mBundle.putString(Constants.ITEM_SELECTED_KEY, userString);
-        mFragment.setArguments(mBundle);
-        switchContent(R.id.fragment_container, mFragment);
+        fragment.setArguments(mBundle);
+        switchContent(R.id.fragment_container, fragment);
     }
 
-    private void fragmentJumpInvite(User mItemSelected) {
-
-        mInviteFragment = new Invite_Frag();
-        Bundle mBundle = new Bundle();
-        String userString = new Gson().toJson(mItemSelected);
-        mBundle.putString(Constants.ITEM_SELECTED_KEY, userString);
-        mInviteFragment.setArguments(mBundle);
-        switchContent(R.id.fragment_container, mInviteFragment);
-    }
-
-
-    public void switchContent(int id, Invite_Frag fragment) {
-
+    public void switchContent(int id, Fragment fragment) {
         if (context == null)
             return;
         if (context instanceof HomeActivity) {
             HomeActivity homeActivity = (HomeActivity) context;
-            Invite_Frag frag = fragment;
-            homeActivity.switchContent(id, frag);
-        }
-    }
-
-    public void switchContent(int id, MessageFragment fragment) {
-        if (context == null)
-            return;
-        if (context instanceof HomeActivity) {
-            HomeActivity homeActivity = (HomeActivity) context;
-            MessageFragment frag = fragment;
-            homeActivity.switchContent(id, frag);
+            homeActivity.switchContent(id, fragment);
         }
 
     }
