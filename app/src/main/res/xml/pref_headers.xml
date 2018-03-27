@@ -17,4 +17,21 @@
         android:icon="@drawable/ic_sync_black_24dp"
         android:title="@string/pref_header_data_sync" />
 
+
+    <header
+        android:fragment="com.nyc.polymerse.SettingsActivity$DataSyncPreferenceFragment"
+        android:icon="@drawable/distance"
+        android:title="Distance" />
+
+
+    <header
+        android:fragment="com.nyc.polymerse.SettingsActivity$DataSyncPreferenceFragment"
+        android:icon="@drawable/user2"
+        android:title="User Email" />
+
+
+    <header
+        android:fragment="com.nyc.polymerse.SettingsActivity$DataSyncPreferenceFragment"
+        android:title="About" />
+
 </preference-headers>
