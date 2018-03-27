@@ -49,6 +49,6 @@ public class FilterUsersClass {
 
     public static void incrementInvite(String key, Map<String, String> otherUserMap) {
 
-        otherUserMap.put( "Invite" + otherUserMap.size() + 1  , key);
+        otherUserMap.put( "Invite" + (otherUserMap.size() + 1)  , key);
     }
 }
