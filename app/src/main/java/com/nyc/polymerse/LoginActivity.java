@@ -62,10 +62,13 @@ public class LoginActivity extends AppCompatActivity {
         String password = loginInputPassword.getText().toString().trim();
 
         if (email.isEmpty() || !isEmailValid(email)) {
+            Toast.makeText(LoginActivity.this, "email is invalid", Toast.LENGTH_LONG).show();
             return;
         }
             if(password.isEmpty() || !isPasswordValid(password)) {
-            return;
+                Toast.makeText(LoginActivity.this, "password is invalid. Must be as least six characters long.", Toast.LENGTH_LONG).show();
+
+                return;
         }
 
         progressBar.setVisibility(View.VISIBLE);
