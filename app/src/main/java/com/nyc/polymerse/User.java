@@ -16,6 +16,7 @@ public class User {
     private Map<String, String> langTeach;
     private String uID;
     private Map<String, String> invites;
+    private Map<String,String> blocked;
 
     public String getuID() {
         return uID;
@@ -75,6 +76,21 @@ public class User {
 
     public void setLangTeach(Map<String, String> langTeach) {
         this.langTeach = langTeach;
+    }
+
+    public Map<String, String> getInvites() {
+        return invites;
+    }
+    public void setInvites(Map<String, String> invites) {
+        this.invites = invites;
+    }
+
+    public Map<String, String> getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(Map<String, String> blocked) {
+        this.blocked = blocked;
     }
 }
 

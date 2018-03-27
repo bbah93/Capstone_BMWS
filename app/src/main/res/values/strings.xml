@@ -7,7 +7,7 @@
     <string name="title_activity_navigation">NavigationActivity</string>
     <string name="btn_sign_up">Sign Up</string>
     <string name="btn_link_to_login">Login</string>
-    <string name="hint_password">Password</string>
+    <string name="hint_password">Password: Need to be at least 6 characters</string>
     <string name="btn_login">Login</string>
     <string name="btn_link_to_signup">Signup</string>
     <string name="auth_failed">Login failed</string>
@@ -121,5 +121,6 @@
     <string name="invite_button_text">Invite</string>
     <string name="message_details">Message</string>
     <string name="last_msg_input_here">Last Msg Input Here</string>
+    <string name="title_polymerse">Polymerse</string>
 
 </resources>

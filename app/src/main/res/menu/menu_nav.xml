@@ -4,23 +4,27 @@
     <item
         android:id="@+id/nav_explore"
         android:title="Explore"
+        android:visible="false"
         android:icon="@drawable/ic_explore_black_24dp"
         />
     <item
         android:id="@+id/nav_people"
         android:title="People"
+        android:visible="false"
         android:icon="@drawable/ic_supervisor_account_red_a100_24dp"
         />
 
     <item
         android:id="@+id/nav_messages"
         android:title="Messages"
+        android:visible="false"
         android:icon="@drawable/ic_action_message"
         />
 
     <item
         android:id="@+id/nav_notification"
         android:title="Notification"
+        android:visible="false"
         android:icon="@drawable/ic_action_notification"
         />
 

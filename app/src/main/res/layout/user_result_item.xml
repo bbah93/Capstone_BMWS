@@ -6,6 +6,7 @@
     android:id="@+id/relative_layout_users_results"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#f9f9f9"
     android:layout_margin="@dimen/user_results_padding_margin"
     android:padding="@dimen/user_results_padding_margin">
 
