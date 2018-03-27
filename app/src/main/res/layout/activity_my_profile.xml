@@ -54,8 +54,15 @@
             android:layout_height="wrap_content"
             android:text="Name"
             android:layout_toEndOf="@id/prof_name_tv"
+            android:layout_alignBottom="@id/prof_name_tv"/>
+        <EditText
+            android:id="@+id/userName_ET"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:hint="Name"
+            android:layout_toEndOf="@id/prof_name_tv"
             android:layout_alignBottom="@id/prof_name_tv"
-            />
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/location_tv"
@@ -65,6 +72,7 @@
             android:layout_below="@+id/prof_name_tv"
             android:layout_marginTop="27dp"
             android:text="Location:"
+            android:layout_marginEnd="2dp"
             android:textStyle="bold" />
 
         <TextView
@@ -72,8 +80,19 @@
             android:layout_toEndOf="@id/location_tv"
             android:layout_alignBottom="@id/location_tv"
             android:text="User Location"
+            android:layout_marginStart="2dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/user_location_ET"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_alignBottom="@+id/user_location"
+            android:layout_alignStart="@+id/user_location"
+            android:visibility="invisible"
+            android:hint="Your Location" />
+
 
     </RelativeLayout>
 
