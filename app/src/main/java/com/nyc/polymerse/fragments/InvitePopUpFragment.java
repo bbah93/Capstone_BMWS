@@ -31,6 +31,9 @@ public class InvitePopUpFragment extends DialogFragment {
         String question = "";
 
         switch (typeOfPopUp) {
+            case "Delete":
+                question = "Are you sur you want to delete this invite?";
+                break;
             case "Cancel":
                 question = "Are you sure you want to cancel this event?";
                 break;

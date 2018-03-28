@@ -60,7 +60,7 @@
 
     <TextView
         android:textStyle="bold"
-        android:textColor="@color/primaryDarkColor"
+        android:textColor="@color/primaryColor"
         android:id="@+id/user_notification_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

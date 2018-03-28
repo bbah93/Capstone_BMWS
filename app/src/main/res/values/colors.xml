@@ -5,11 +5,11 @@
 <resources>
 
 
-    <color name="primaryColor">#b2dfdb</color>
+    <color name="primaryMediumColor">#b2dfdb</color>
 
     <color name="primaryLightColor">#e5ffff</color>
 
-    <color name="primaryDarkColor">#82ada9</color>
+    <color name="primaryColor">#00838f</color>
 
     <color name="secondaryColor">#dcedc8</color>
 

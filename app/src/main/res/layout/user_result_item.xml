@@ -52,7 +52,7 @@
         <ProgressBar
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:progress="25"
-            android:progressTint="@color/primaryDarkColor"
+            android:progressTint="@color/primaryColor"
             android:progressBackgroundTint="@color/secondaryColor"
             android:id="@+id/learning_fluency"
             android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
         <ProgressBar
             android:id="@+id/sharing_fluency"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:progressTint="@color/primaryDarkColor"
+            android:progressTint="@color/primaryColor"
             android:progress="100"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/user_results_view_padding"
                 android:progress="100"
-                android:progressTint="@color/primaryDarkColor"
+                android:progressTint="@color/primaryLightColor"
                 android:text="Fluent"
                 app:layout_constraintLeft_toRightOf="@id/detail_sharing_value"
                 app:layout_constraintTop_toBottomOf="@id/user_detail_rating_bar" />
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/user_results_view_padding"
                 android:progress="25"
-                android:progressTint="@color/primaryDarkColor"
+                android:progressTint="@color/primaryLightColor"
                 android:text="Fluent"
                 app:layout_constraintLeft_toRightOf="@id/detail_learning_value"
                 app:layout_constraintTop_toBottomOf="@id/user_detail_rating_bar" />
@@ -141,7 +141,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:text="@string/about_details"
-        android:textColor="@color/primaryDarkColor"
+        android:textColor="@color/primaryColor"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -163,7 +163,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:text="Reviews:"
-        android:textColor="@color/primaryDarkColor"
+        android:textColor="@color/primaryColor"
         android:textSize="20sp"
         android:textStyle="bold" />
 
