@@ -9,8 +9,8 @@ import com.nyc.polymerse.R;
 
 
 public class Prof_Create_Activity extends AppCompatActivity {
-    //TODO:Give Language and Location Fragments spinners instead of EditTexts
-    //TODO:Add Transition Animation to fragment swipes
+
+    //TODO:Add Transition Animation
 
     SharedPreferences profile_creator;
 
