@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nyc.polymerse.HomeActivity;
@@ -48,13 +47,13 @@ public class MyProfile_Saved_Fragment extends Fragment {
          rootView = inflater.inflate(R.layout.fragment_my_profile__saved, container, false);
         homeButton = rootView.findViewById(R.id.back_home_button);
         addProfileImage = rootView.findViewById(R.id.ad_profile_image);
-        editProfileButton = rootView.findViewById(R.id.edit_profile_fab);
+        editProfileButton = rootView.findViewById(R.id.save_profile_fab);
         profileImage = rootView.findViewById(R.id.user_profile_avatar);
         name_Input = rootView.findViewById(R.id.userName);
         location_Input = rootView.findViewById(R.id.user_location);
-        aboutMeInput = rootView.findViewById(R.id.aboutMe_input);
-        learning_Input = rootView.findViewById(R.id.prof_langLearn_TV);
-        sharing_Input = rootView.findViewById(R.id.sharing_lang_tv);
+        aboutMeInput = rootView.findViewById(R.id.aboutMe_EditTexts);
+        learning_Input = rootView.findViewById(R.id.prof_langLearn_spinner);
+        sharing_Input = rootView.findViewById(R.id.sharing_lang_spinner);
 
         homeButtonClick();
 
