@@ -103,6 +103,16 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
             for(String s:learnMap.keySet()){
                 languageLearning = s;
                 languageLearningFluency = learnMap.get(s);
+
+                if (learnMap.get(s).equals("Beginner")) {
+                    learningFluency.setProgress(25);
+                } else if (learnMap.get(s).equals("Intermediate")) {
+                    learningFluency.setProgress(50);
+                } else if (learnMap.get(s).equals("Advanced")) {
+                    learningFluency.setProgress(75);
+                } else {
+                    learningFluency.setProgress(100);
+                }
             }
             learningLang.setText(languageLearning);
             //learningFluency.setText(languageLearningFluency);
@@ -113,12 +123,23 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
             for(String s:shareMap.keySet()){
                 languageSharing = s;
                 languageSharingFluency = shareMap.get(s);
+
+                if (shareMap.get(s).equals("Beginner")) {
+                    sharingFluency.setProgress(25);
+                } else if (shareMap.get(s).equals("Intermediate")) {
+                    sharingFluency.setProgress(50);
+                } else if (shareMap.get(s).equals("Advanced")) {
+                    sharingFluency.setProgress(75);
+                } else {
+                    sharingFluency.setProgress(100);
+                }
             }
             sharingLang.setText(languageSharing);
             //sharingFluency.setText(languageSharingFluency);
 
             String locationValue = user.getCity();
             location.setText(locationValue);
+
 
         }
     }

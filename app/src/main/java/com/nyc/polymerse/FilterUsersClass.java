@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Wayne Kellman on 3/24/18.
@@ -44,5 +45,10 @@ public class FilterUsersClass {
             }
         }
         return filteredUser;
+    }
+
+    public static void incrementInvite(String key, Map<String, String> otherUserMap) {
+
+        otherUserMap.put( "Invite" + (otherUserMap.size() + 1)  , key);
     }
 }

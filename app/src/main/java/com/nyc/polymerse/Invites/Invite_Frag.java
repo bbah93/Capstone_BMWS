@@ -3,6 +3,7 @@ package com.nyc.polymerse.Invites;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,9 +14,20 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.FilterUsersClass;
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.User;
+import com.nyc.polymerse.UserSingleton;
+import com.nyc.polymerse.fragments.UserDetailsFragment;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,10 +35,18 @@ import java.util.Calendar;
 public class Invite_Frag extends Fragment implements View.OnClickListener {
 
     EditText time, date;
-    Button dateButton, timeButton;
+    Button dateButton, timeButton, send;
 
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
+
+    User otherUser;
+    User currentUser;
+
+    DatabaseReference databaseReference;
+
+    Invite_Schema invite;
+    private Context context;
 
 
     public Invite_Frag() {
@@ -41,14 +61,29 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
         View v = inflater.inflate(R.layout.fragment_invite_, container, false);
 
+        Bundle bundle = getArguments();
+        String jsonUser = bundle.getString(Constants.ITEM_SELECTED_KEY);
+        otherUser = new Gson().fromJson(jsonUser, User.class);
+
+        invite = new Invite_Schema();
+        invite.setLocation("anywhere");
+        currentUser = UserSingleton.getInstance().getUser();
+        invite.setSender_ID(currentUser.getuID());
+        invite.setReceiver_ID(otherUser.getuID());
+
+
         time = v.findViewById(R.id.time);
         date = v.findViewById(R.id.date);
+        send = v.findViewById(R.id.send_button_invite);
 
         dateButton = v.findViewById(R.id.date_picker);
         timeButton = v.findViewById(R.id.time_picker);
 
         dateButton.setOnClickListener(this);
         timeButton.setOnClickListener(this);
+        send.setOnClickListener(this);
+
+        context = getActivity();
 
         return v;
 
@@ -71,6 +106,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         date.setText(dayOfMonth + " : " + (month + 1) + " : " + year);
 
+                        invite.setDate(dayOfMonth + " : " + (month + 1) + " : " + year);
 
                     }
                 }, year, month, day);
@@ -92,6 +128,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
                         time.setText(hourOfDay + " : " + minute);
 
+                        invite.setTime(hourOfDay + " : " + minute);
 
                     }
                 }, hour, mintue, false);
@@ -100,7 +137,65 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
                 break;
 
+            case R.id.send_button_invite:
+
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference newRef = databaseReference.child(Constants.INVITES).push();
+
+                updateInvites(newRef.getKey());
+                newRef.setValue(invite);
+
+                fragmentJump(otherUser);
+                break;
+
 
         }
     }
+
+    private void updateInvites(String key) {
+        Map<String, String> otherUserMap = otherUser.getInvites();
+        Map<String, String> currentUserMap = currentUser.getInvites();
+
+        if (otherUserMap == null) {
+            otherUserMap = new HashMap<>();
+        }
+        if (currentUserMap == null) {
+            currentUserMap = new HashMap<>();
+        }
+        FilterUsersClass.incrementInvite(key, otherUserMap);
+        otherUser.setInvites(otherUserMap);
+
+        FilterUsersClass.incrementInvite(key, currentUserMap);
+        currentUser.setInvites(currentUserMap);
+
+        DatabaseReference databaseReferenceUsers = databaseReference.child(Constants.USERS);
+
+        databaseReferenceUsers.child(currentUser.getuID()).setValue(currentUser);
+        databaseReferenceUsers.child(otherUser.getuID()).setValue(otherUser);
+
+
+    }
+
+    UserDetailsFragment mFragment;
+
+    private void fragmentJump(User mItemSelected) {
+        mFragment = new UserDetailsFragment();
+        Bundle mBundle = new Bundle();
+        String userString = new Gson().toJson(mItemSelected);
+        mBundle.putString("item_selected_key", userString);
+        mFragment.setArguments(mBundle);
+        switchContent(R.id.fragment_container, mFragment);
+    }
+
+    public void switchContent(int id, UserDetailsFragment fragment) {
+        if (context == null)
+            return;
+        if (context instanceof HomeActivity) {
+            HomeActivity homeActivity = (HomeActivity) context;
+            UserDetailsFragment frag = fragment;
+            homeActivity.switchContent(id, frag);
+        }
+
+    }
+
 }

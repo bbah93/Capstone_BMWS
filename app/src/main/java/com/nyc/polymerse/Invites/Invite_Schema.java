@@ -15,12 +15,21 @@ public class Invite_Schema {
     String reciever_ID;
     String acceptStatus;
 
+<<<<<<< HEAD
 //   public void setInvite_ID(String invite_ID) {
 //        this.invite_ID = invite_ID;
 //    }
 
     public Invite_Schema(){
 
+=======
+    public Invite_Schema() {
+        this.acceptStatus = "pending";
+    }
+
+    public void setInvite_ID(String invite_ID) {
+        this.invite_ID = invite_ID;
+>>>>>>> master
     }
 
     public void setSender_ID(String sender_ID) {

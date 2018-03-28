@@ -286,10 +286,6 @@ public class HomeActivity extends AppCompatActivity
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         } else if (id == R.id.nav_sign_out) {
             signOutButton();
             Toast.makeText(this, "Sign out", Toast.LENGTH_SHORT).show();
@@ -326,13 +322,13 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    public void switchContent(int i, Invite_Frag frag) {
-
+    public void switchContent(int i, Fragment frag) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, frag, "invite_frag");
-        ft.addToBackStack("invite_frag");
+        ft.replace(R.id.fragment_container, frag);
+        ft.addToBackStack("");
         ft.commit();
     }
+<<<<<<< HEAD
 
     public void switchContent(int i, MessageFragment frag) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -348,4 +344,6 @@ public class HomeActivity extends AppCompatActivity
         ft.addToBackStack("user_detail_frag");
         ft.commit();
     }
+=======
+>>>>>>> master
 }

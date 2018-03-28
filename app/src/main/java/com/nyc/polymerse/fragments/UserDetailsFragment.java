@@ -10,13 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
+import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Frag;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
+import com.nyc.polymerse.UserSingleton;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -29,13 +37,18 @@ public class UserDetailsFragment extends Fragment {
     private static final String TAG = "UserDetailsFragment";
     private View rootView;
     private User user;
-    MessageFragment mFragment;
+    MessageFragment mMessageFragment;
     Invite_Frag mInviteFragment;
+    UserResultsFragment mUserResultsFragment;
     private Context context;
 
     private CircleImageView profilePic, profileBlock, profileReviewerPic;
-    private TextView profileUserName, aboutMe, profileReviewDate, profileReview;
+    private TextView profileUserName, aboutMe, profileReviewDate, profileReview, sharingLang, learningLang;
     private Button message, invite;
+    private ProgressBar sharingFluency, learningFluency;
+    private User currentUser;
+
+    private DatabaseReference databaseReference;
 
 
     public UserDetailsFragment() {
@@ -58,67 +71,117 @@ public class UserDetailsFragment extends Fragment {
 
         message = view.findViewById(R.id.profile_message);
         invite = view.findViewById(R.id.profile_invite);
+        profileBlock = view.findViewById(R.id.profile_block);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         Bundle bundle = getArguments();
-        String userString = bundle.getString("item_selected_key");
+        String userString = bundle.getString(Constants.ITEM_SELECTED_KEY);
         user = new Gson().fromJson(userString, User.class);
         Log.d(TAG, "onViewCreated: " + user.getuID());
+        currentUser = UserSingleton.getInstance().getUser();
 
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentJumpMessage(user);
+                fragmentJump(user, new MessageFragment());
             }
         });
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentJumpInvite(user);
+                fragmentJump(user, new Invite_Frag());
+            }
+        });
+        profileBlock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseReference databaseReferenceBlocked = databaseReference.child(Constants.BLOCKED_USER_KEY);
+                Map<String,Object> userGettingBlock = new HashMap<>();
+                String currentTime = String.valueOf(System.currentTimeMillis());
+                userGettingBlock.put(currentTime, currentUser.getuID());
+                databaseReferenceBlocked.child(user.getuID()).updateChildren(userGettingBlock);
+
+                Map<String,String> userBlockReference = new HashMap<>();
+                if (currentUser.getBlocked() != null){
+                    userBlockReference = currentUser.getBlocked();
+                }
+                userBlockReference.put(currentTime,user.getuID());
+                currentUser.setBlocked(userBlockReference);
+                UserSingleton.getInstance().setUser(currentUser);
+                databaseReference.child(Constants.USERS).child(currentUser.getuID()).setValue(currentUser);
+                switchContent(R.id.fragment_container, new UserResultsFragment());
+
+
+
             }
         });
 
+        profileUserName = view.findViewById(R.id.user_detail_name);
+        aboutMe = view.findViewById(R.id.about_value);
+        learningLang = view.findViewById(R.id.detail_learning_value);
+        sharingLang = view.findViewById(R.id.detail_sharing_value);
+        learningFluency = view.findViewById(R.id.detail_learning_fluency);
+        sharingFluency = view.findViewById(R.id.detail_sharing_fluency);
+        setUserFields();
+
 
     }
 
-    private void fragmentJumpMessage(User mItemSelected) {
-//        UserSingleton.getInstance().getUser().setUsername(mItemSelected.getUsername());
-        mFragment = new MessageFragment();
-        Bundle mBundle = new Bundle();
-        String userString = new Gson().toJson(mItemSelected);
-        mBundle.putString("item_selected_key", userString);
-        mFragment.setArguments(mBundle);
-        switchContent(R.id.fragment_container, mFragment);
-    }
-
-    private void fragmentJumpInvite(User mItemSelected) {
-
-        mInviteFragment = new Invite_Frag();
-        Bundle mBundle = new Bundle();
-        String userString = new Gson().toJson(mItemSelected);
-        mBundle.putString("item_selected_key", userString);
-        mInviteFragment.setArguments(mBundle);
-        switchContent(R.id.fragment_container, mInviteFragment);
-    }
-
-
-    public void switchContent(int id, Invite_Frag fragment) {
-
-        if (context == null)
-            return;
-        if (context instanceof HomeActivity) {
-            HomeActivity homeActivity = (HomeActivity) context;
-            Invite_Frag frag = fragment;
-            homeActivity.switchContent(id, frag);
+    private void setUserFields() {
+        profileUserName.setText(user.getUsername());
+        Map<String, String> langLearn = user.getLangLearn();
+        Map<String, String> langShare = user.getLangTeach();
+        for (String s : langLearn.keySet()) {
+            learningLang.setText(s);
         }
+        for (String s : langShare.keySet()) {
+            sharingLang.setText(s);
+        }
+        for (String s : langLearn.values()) {
+            if (s.equals("Beginner")) {
+                learningFluency.setProgress(25);
+            } else if (s.equals("Intermediate")) {
+                learningFluency.setProgress(50);
+            } else if (s.equals("Advanced")) {
+                learningFluency.setProgress(75);
+            } else {
+                learningFluency.setProgress(100);
+            }
+        }
+        for (String s : langShare.values()) {
+
+            if (s.equals("Beginner")) {
+                sharingFluency.setProgress(25);
+            } else if (s.equals("Intermediate")) {
+                sharingFluency.setProgress(50);
+            } else if (s.equals("Advanced")) {
+                sharingFluency.setProgress(75);
+            } else {
+                sharingFluency.setProgress(100);
+            }
+        }
+
     }
 
-    public void switchContent(int id, MessageFragment fragment) {
+    private void fragmentJump(Fragment fragment) {
+        switchContent(R.id.fragment_container, fragment);
+    }
+    private void fragmentJump(User mItemSelected, Fragment fragment) {
+
+        Bundle mBundle = new Bundle();
+        String userString = new Gson().toJson(mItemSelected);
+        mBundle.putString(Constants.ITEM_SELECTED_KEY, userString);
+        fragment.setArguments(mBundle);
+        switchContent(R.id.fragment_container, fragment);
+    }
+
+    public void switchContent(int id, Fragment fragment) {
         if (context == null)
             return;
         if (context instanceof HomeActivity) {
             HomeActivity homeActivity = (HomeActivity) context;
-            MessageFragment frag = fragment;
-            homeActivity.switchContent(id, frag);
+            homeActivity.switchContent(id, fragment);
         }
 
     }
