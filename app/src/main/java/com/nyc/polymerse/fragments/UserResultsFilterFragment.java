@@ -161,10 +161,10 @@ public class UserResultsFilterFragment extends Fragment {
         if (clearAndApply) {
             editor.clear().commit();
         }
-
+        clearAndApply = false;
         closeFragment();
-
     }
+
     public void filterList(){
         ArrayList<User> userListFilter = filterThroughSharedPrefs(userList, UserSingleton.getInstance().getUser());
         adapter.updateList(userListFilter);

@@ -69,7 +69,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         invite.setLocation("anywhere");
         currentUser = UserSingleton.getInstance().getUser();
         invite.setSender_ID(currentUser.getuID());
-        invite.setReceiver_ID(otherUser.getuID());
+        invite.setReciever_ID(otherUser.getuID());
 
 
         time = v.findViewById(R.id.time);
@@ -143,6 +143,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                 DatabaseReference newRef = databaseReference.child(Constants.INVITES).push();
 
                 updateInvites(newRef.getKey());
+                invite.setInvite_ID(newRef.getKey());
                 newRef.setValue(invite);
 
                 fragmentJump(otherUser);

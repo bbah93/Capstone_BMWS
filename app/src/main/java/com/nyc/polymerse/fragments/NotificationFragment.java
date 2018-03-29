@@ -37,7 +37,6 @@ import static android.content.ContentValues.TAG;
 public class NotificationFragment extends Fragment {
 
     View rootView;
-    String popUpDesignator = "";
     List<Invite_Schema> invitesList = new ArrayList<>();
     List<String> invitesIDs = new ArrayList<>();
     RecyclerView recyclerView;
@@ -102,7 +101,7 @@ public class NotificationFragment extends Fragment {
         }
         recyclerView = rootView.findViewById(R.id.user_notification_rec_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        final InviteItemController adapter = new InviteItemController(invitesList,getActivity().getSupportFragmentManager());
+        final InviteItemController adapter = new InviteItemController(invitesList, getActivity().getSupportFragmentManager());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -114,9 +113,6 @@ public class NotificationFragment extends Fragment {
                     Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
                     invitesList.add(invite);
                     adapter.notifyDataSetChanged();
-
-                    Log.d("DO IN BACK", "" + invitesList.size());
-                    Log.d(TAG, "onDataChange: " + invitesList.get(0).getSender_ID());
 
                 }
 

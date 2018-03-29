@@ -328,8 +328,6 @@ public class HomeActivity extends AppCompatActivity
         ft.addToBackStack("");
         ft.commit();
     }
-<<<<<<< HEAD
-
     public void switchContent(int i, MessageFragment frag) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, frag, "details_user_frag");
@@ -344,6 +342,5 @@ public class HomeActivity extends AppCompatActivity
         ft.addToBackStack("user_detail_frag");
         ft.commit();
     }
-=======
->>>>>>> master
+
 }

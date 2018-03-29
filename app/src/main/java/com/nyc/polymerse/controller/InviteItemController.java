@@ -72,6 +72,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
         private CircleImageView otherUserImg;
         private Button delete;
         private String popUpDesignator = "";
+        private Invite_Schema invite_schema;
 
         public InviteItemViewHolder(View itemView) {
             super(itemView);
@@ -89,8 +90,10 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
         }
 
         public void onBind(Invite_Schema invite) {
+            invite_schema = invite;
 
             Log.d("INVITE ID", invite.getSender_ID() + "");
+
 
             date.setText(invite.getDate());
             time.setText(invite.getTime());
@@ -191,6 +194,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
         public void showPopUp() {
             Bundle bundle = new Bundle();
             bundle.putString("pop_up_type", popUpDesignator);
+            bundle.putString("invite_id",invite_schema.getInvite_ID());
 
             DialogFragment showPopUp = new InvitePopUpFragment();
             FragmentManager transaction = fragmentManager;
