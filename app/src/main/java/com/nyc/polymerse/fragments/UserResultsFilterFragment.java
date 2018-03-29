@@ -163,7 +163,6 @@ public class UserResultsFilterFragment extends Fragment {
         }
 
         closeFragment();
-        clearAndApply = false;
 
     }
     public void filterList(){
