@@ -96,20 +96,31 @@ public class UserDetailsFragment extends Fragment {
         profileBlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Accessing database to find a reference to the blocked child.
                 DatabaseReference databaseReferenceBlocked = databaseReference.child(Constants.BLOCKED_USER_KEY);
                 Map<String,Object> userGettingBlock = new HashMap<>();
                 String currentTime = String.valueOf(System.currentTimeMillis());
+                //Creating a map of the blocked user and the time they where blocked
                 userGettingBlock.put(currentTime, currentUser.getuID());
+                //Updating child so the new map gets added to FireBase.
                 databaseReferenceBlocked.child(user.getuID()).updateChildren(userGettingBlock);
 
+                //Getting the blocked map from the user
                 Map<String,String> userBlockReference = new HashMap<>();
                 if (currentUser.getBlocked() != null){
                     userBlockReference = currentUser.getBlocked();
                 }
+                //Adding the same blocked info as previously shown
                 userBlockReference.put(currentTime,user.getuID());
+
+                //Updated the current app users object
                 currentUser.setBlocked(userBlockReference);
                 UserSingleton.getInstance().setUser(currentUser);
+
+                //Setting the updated user to the FireBase database
                 databaseReference.child(Constants.USERS).child(currentUser.getuID()).setValue(currentUser);
+
+                //Leaving profile to the home page
                 switchContent(R.id.fragment_container, new UserResultsFragment());
 
 
