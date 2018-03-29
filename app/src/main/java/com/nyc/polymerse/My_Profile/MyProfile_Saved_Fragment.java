@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
         sharing_Input = rootView.findViewById(R.id.sharing_lang_spinner);
 
         homeButtonClick();
+        editProfileClick();
 
 
 
@@ -68,6 +70,21 @@ public class MyProfile_Saved_Fragment extends Fragment {
             public void onClick(View v) {
                 Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(homeIntent);
+            }
+        });
+    }
+
+    public void editProfileClick(){
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Edit_MyProfile_Fragment editFragment = new Edit_MyProfile_Fragment();
+                MyProfile_Saved_Fragment profile_saved_fragment = new MyProfile_Saved_Fragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .hide(profile_saved_fragment)
+                        .show(editFragment)
+                        .commit();
             }
         });
     }
