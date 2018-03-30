@@ -104,7 +104,8 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                 datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        date.setText(dayOfMonth + " : " + (month + 1) + " : " + year);
+                        String dateString = dayOfMonth + " : " + (month + 1) + " : " + year;
+                        date.setText(dateString);
 
                         invite.setDate(dayOfMonth + " : " + (month + 1) + " : " + year);
 

@@ -7,13 +7,13 @@ package com.nyc.polymerse.Invites;
 public class Invite_Schema {
 
 
-    String invite_ID;
-    String sender_ID;
-    String location;
-    String time;
-    String date;
-    String receiver_ID;
-    String acceptStatus;
+    private String invite_ID;
+    private String sender_ID;
+    private String location;
+    private String time;
+    private String date;
+    private String receiver_ID;
+    private String acceptStatus;
 
     public Invite_Schema() {
         this.acceptStatus = "pending";

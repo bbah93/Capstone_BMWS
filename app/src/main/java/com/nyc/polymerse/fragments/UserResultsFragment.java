@@ -41,18 +41,13 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class UserResultsFragment extends Fragment {
 
-    final static String SHARED_PREFS_KEY = "filter_preferences";
-    SharedPreferences sharedPreferences;
 
-    View rootView;
+    private View rootView;
     private final String TAG = "UserResultsFragment";
     private ArrayList<User> userList = new ArrayList<>();
     private Button filter;
 
     private DatabaseReference mDatabase;
-    private DatabaseReference mDatabaseUser;
-
-    private UserResultsFilterFragment userResultsFilterFragment;
 
     private UserResultAdapter adapter;
 
@@ -69,7 +64,6 @@ public class UserResultsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_user_results, container, false);
         ButterKnife.bind(this, rootView);
-        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(Constants.SHARED_PREFS_FILTER_KEY, MODE_PRIVATE);
 
         return rootView;
 
@@ -78,7 +72,7 @@ public class UserResultsFragment extends Fragment {
     @OnClick(R.id.filter_button)
     public void showFilterFragment() {
         Toast.makeText(getActivity().getApplicationContext(), "CLICK", Toast.LENGTH_SHORT).show();
-        userResultsFilterFragment = new UserResultsFilterFragment();
+        UserResultsFilterFragment userResultsFilterFragment = new UserResultsFilterFragment();
         userResultsFilterFragment.setAdapter(adapter, userList);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.filter_container, userResultsFilterFragment).commit();
         FrameLayout layout = (FrameLayout) getActivity().findViewById(R.id.filter_container);
@@ -93,7 +87,7 @@ public class UserResultsFragment extends Fragment {
         currentUser = UserSingleton.getInstance().getUser();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabaseUser = mDatabase.child(Constants.USERS);
+        DatabaseReference mDatabaseUser = mDatabase.child(Constants.USERS);
         mDatabaseUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -106,8 +100,10 @@ public class UserResultsFragment extends Fragment {
                     }
                     boolean userBlocked = false;
                     for (String s : blockedUser.values()) {
-                        if (user.getuID().equals(s)) {
-                            userBlocked = true;
+                        if (user != null) {
+                            if (user.getuID().equals(s)) {
+                                userBlocked = true;
+                            }
                         }
                     }
                     if (!userBlocked) {
@@ -138,17 +134,23 @@ public class UserResultsFragment extends Fragment {
         mDatabase.child(Constants.BLOCKED_USER_KEY).child(currentUser.getuID()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, String> blockedByList = (Map<String, String>) dataSnapshot.getValue();
-                Log.d(TAG, "onDataChange: dataSnapShot " + dataSnapshot.getChildrenCount());
-                if (blockedByList != null) {
-                    for (String s : blockedByList.values()) {
-                        for (User u : userList.toArray(new User[userList.size()])) {
-                            if (s.equals(u.getuID())) {
-                                userList.remove(u);
+                Log.d(TAG, "onDataChange: dataSnapShot blocked " + dataSnapshot.getChildrenCount());
+                Log.d(TAG, "onDataChange: userlistsize beginning blocked " + userList.size());
+
+                for (DataSnapshot d: dataSnapshot.getChildren()) {
+                        String s = d.getValue(String.class);
+                        if (s != null) {
+                            Log.d(TAG, "onDataChange: blockedId " + s);
+                            for (User u : userList.toArray(new User[userList.size()])) {
+                                //checking if the user blocked anyone and a case to remove the user himself from the list.
+                                if (s.equals(u.getuID()) || UserSingleton.getInstance().getUser().getuID().equals(u.getuID())) {
+                                    userList.remove(u);
+                                }
                             }
                         }
-                    }
                 }
+                Log.d(TAG, "onDataChange: userListSize end blocked " + userList.size());
+
 
                 RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
                 LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
