@@ -1,8 +1,13 @@
 package com.nyc.polymerse.My_Profile;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +19,8 @@ import android.widget.TextView;
 
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
+
+import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -34,6 +41,12 @@ public class MyProfile_Saved_Fragment extends Fragment {
     TextView learning_Input;
     TextView sharing_Input;
 
+    protected static final int CAMERA_REQUEST = 0;
+    protected static final int GALLERY_PICTURE = 1;
+    private Intent pictureActionIntent = null;
+    Bitmap bitmap;
+
+    String selectedImagePath;
 
 
     public MyProfile_Saved_Fragment() {
@@ -58,7 +71,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
         homeButtonClick();
         editProfileClick();
-
+        setAddProfileImage();
 
 
         return rootView;
@@ -89,5 +102,40 @@ public class MyProfile_Saved_Fragment extends Fragment {
         });
     }
 
+    public void setAddProfileImage(){
+        addProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startDialogue();
+            }
+        });
+    }
 
+    private void startDialogue(){
+        AlertDialog.Builder cameraAlertDialogue = new AlertDialog.Builder(getActivity());
+        cameraAlertDialogue.setTitle("Upload Profile Pictures Option");
+        cameraAlertDialogue.setMessage("How do you want to set your picture?");
+
+        cameraAlertDialogue.setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent pictureActionIntent = null;
+                pictureActionIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pictureActionIntent, GALLERY_PICTURE);
+            }
+        });
+
+        cameraAlertDialogue.setNegativeButton("Camera", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = new File(android.os.Environment.getExternalStorageDirectory(),"temp.jpg");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+
+                startActivityForResult(intent, CAMERA_REQUEST);
+
+            }
+        });
+        cameraAlertDialogue.show();
+    }
 }
