@@ -69,6 +69,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
     public class InviteItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Button confirm;
+        private Button locationIcon;
         private Button deny;
         private Button cancel;
         private TextView otherUserName;
@@ -91,6 +92,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             cancel = itemView.findViewById(R.id.cancel);
             otherUserName = itemView.findViewById(R.id.user_notification_user_name);
             location = itemView.findViewById(R.id.invite_item_location);
+            locationIcon = itemView.findViewById(R.id.map_icon);
             accepted = itemView.findViewById(R.id.accepted);
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
@@ -102,8 +104,6 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
         public void onBind(Invite_Schema invite) {
             invite_schema = invite;
 
-            Log.d("INVITE ID", invite.getSender_ID() + "");
-
             date.setText(invite.getDate());
             time.setText(invite.getTime());
             location.setText(invite.getLocation());
@@ -111,6 +111,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             deny.setOnClickListener(this);
             delete.setOnClickListener(this);
             confirm.setOnClickListener(this);
+            locationIcon.setOnClickListener(this);
 
             if ("tJqOPTGtMOPO4e3laJo7KrT3j272".equals(invite.getSender_ID())) {
                 Toast.makeText(itemView.getContext(), invite.getAcceptStatus(), Toast.LENGTH_SHORT).show();
@@ -118,7 +119,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                 switch (invite.getAcceptStatus()) {
                     case "accepted":
                         //NEED TO GET OTHER USER'S NAME AND IMAGE
-                        otherUserName.setText(userResponse(invite.getReciever_ID(), "accepted!"));
+                        otherUserName.setText(userResponse(invite.getReceiver_ID(), "accepted!"));
                         accepted.setImageResource(R.drawable.ic_check_circle_green_a700_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.VISIBLE);
@@ -128,7 +129,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                         //otherUserImg.setImageResource(invite.getReciever_ID());
                         break;
                     case "pending":
-                        otherUserName.setText(userResponse(invite.getReciever_ID(), "has not responded"));
+                        otherUserName.setText(userResponse(invite.getReceiver_ID(), "has not responded"));
                         accepted.setImageResource(R.mipmap.hourglass);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.VISIBLE);
@@ -138,7 +139,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "rejected":
-                        otherUserName.setText(userResponse(invite.getReciever_ID(), "cannot meet"));
+                        otherUserName.setText(userResponse(invite.getReceiver_ID(), "cannot meet"));
                         accepted.setImageResource(R.drawable.ic_cancel_red_500_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.GONE);
@@ -196,7 +197,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
         public void cancel() {
 
             otherUserName.setText(userResponse("Invite", "cancelled"));
-            otherUserName.setTextColor(Color.rgb(230,34,49));
+            otherUserName.setTextColor(Color.rgb(230, 34, 49));
             accepted.setImageResource(R.drawable.ic_cancel_red_500_18dp);
             accepted.setVisibility(View.VISIBLE);
             cancel.setVisibility(View.GONE);
@@ -205,9 +206,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             delete.setVisibility(View.VISIBLE);
         }
 
-
         public void buildDialog() {
-            Toast.makeText(itemView.getContext(), "CLICKKK", Toast.LENGTH_SHORT).show();
             switch (popUpDesignator) {
                 case "Delete":
                     status = "deleted";

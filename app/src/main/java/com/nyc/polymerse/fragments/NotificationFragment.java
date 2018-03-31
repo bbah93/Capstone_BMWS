@@ -55,46 +55,12 @@ public class NotificationFragment extends Fragment {
         return rootView;
     }
 
-    public class PopulateInvites extends AsyncTask<Void, Void, List<Invite_Schema>> {
-
-        @Override
-        protected List<Invite_Schema> doInBackground(Void... voids) {
-
-            for (int i = 0; i < invitesIDs.size(); i++) {
-                db.child(invitesIDs.get(i)).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
-
-                        if (invitesIDs.contains(dataSnapshot.getKey())) {
-                            invitesList.add(invite);
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
-            return invitesList;
-        }
-
-        @Override
-        protected void onPostExecute(List<Invite_Schema> list) {
-            Log.d("ON POST EXC:", "" + list.size());
-        }
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         db = FirebaseDatabase.getInstance().getReference().child("Invites");
         User user = UserSingleton.getInstance().getUser();
-        Log.d("userId", user.getuID());
         Map<String, String> inviteMap = user.getInvites();
         for (String s : inviteMap.values()) {
             invitesIDs.add(s);
