@@ -23,6 +23,7 @@ import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
+import com.nyc.polymerse.fragments.SuggestedLocationsFragment;
 import com.nyc.polymerse.fragments.UserDetailsFragment;
 
 import java.util.Calendar;
@@ -35,7 +36,7 @@ import java.util.Map;
 public class Invite_Frag extends Fragment implements View.OnClickListener {
 
     EditText time, date;
-    Button dateButton, timeButton, send;
+    Button dateButton, timeButton, send, location;
 
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
@@ -76,12 +77,21 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         date = v.findViewById(R.id.date);
         send = v.findViewById(R.id.send_button_invite);
 
+        //here I'm getting the time and date I sent to locations
+        String timeString = bundle.getString("time_was_selected","");
+        String dateString = bundle.getString("date_was_selected","");
+
+        time.setText(timeString);
+        date.setText(dateString);
+
         dateButton = v.findViewById(R.id.date_picker);
         timeButton = v.findViewById(R.id.time_picker);
+        location = v.findViewById(R.id.location_button);
 
         dateButton.setOnClickListener(this);
         timeButton.setOnClickListener(this);
         send.setOnClickListener(this);
+        location.setOnClickListener(this);
 
         context = getActivity();
 
@@ -126,8 +136,8 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-                        time.setText(hourOfDay + " : " + minute);
+                        String timeString = hourOfDay + " : " + minute;
+                        time.setText(timeString);
 
                         invite.setTime(hourOfDay + " : " + minute);
 
@@ -146,10 +156,14 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                 updateInvites(newRef.getKey());
                 newRef.setValue(invite);
 
-                fragmentJump(otherUser);
+                fragmentJump(otherUser,new UserDetailsFragment());
                 break;
 
 
+            case R.id.location_button:
+                SuggestedLocationsFragment suggestedLocationsFragment = new SuggestedLocationsFragment();
+
+                fragmentJump(otherUser, new SuggestedLocationsFragment());
         }
     }
 
@@ -177,24 +191,32 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
     }
 
-    UserDetailsFragment mFragment;
-
-    private void fragmentJump(User mItemSelected) {
-        mFragment = new UserDetailsFragment();
+    private void fragmentJump(User mItemSelected, Fragment mFragment) {
         Bundle mBundle = new Bundle();
         String userString = new Gson().toJson(mItemSelected);
         mBundle.putString("item_selected_key", userString);
+
+        // I want to take the time and date and send it to the fragment,
+        // then send it back so it doesn't disappear and I don't want to send it to shared pref s
+        // so other invites to get it.
+        if (mFragment instanceof SuggestedLocationsFragment) {
+            if (!time.getText().toString().isEmpty()) {
+                mBundle.putString("time_was_selected", time.getText().toString());
+            }
+            if (!date.getText().toString().isEmpty()) {
+                mBundle.putString("date_was_selected", date.getText().toString());
+            }
+        }
         mFragment.setArguments(mBundle);
         switchContent(R.id.fragment_container, mFragment);
     }
 
-    public void switchContent(int id, UserDetailsFragment fragment) {
+    public void switchContent(int id, Fragment fragment) {
         if (context == null)
             return;
         if (context instanceof HomeActivity) {
             HomeActivity homeActivity = (HomeActivity) context;
-            UserDetailsFragment frag = fragment;
-            homeActivity.switchContent(id, frag);
+            homeActivity.switchContent(id, fragment);
         }
 
     }
