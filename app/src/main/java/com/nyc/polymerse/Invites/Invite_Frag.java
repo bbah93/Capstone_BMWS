@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -69,7 +70,9 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         otherUser = new Gson().fromJson(jsonUser, User.class);
 
         invite = new Invite_Schema();
-        invite.setLocation("anywhere");
+        invite.setLocation("");
+        invite.setTime("");
+        invite.setDate("");
         currentUser = UserSingleton.getInstance().getUser();
         invite.setSender_ID(currentUser.getuID());
         invite.setReceiver_ID(otherUser.getuID());
@@ -81,8 +84,8 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         locationText = v.findViewById(R.id.location);
 
         //here I'm getting the time and date I sent to locations
-        String timeString = bundle.getString("time_was_selected","");
-        String dateString = bundle.getString("date_was_selected","");
+        String timeString = bundle.getString("time_was_selected", "");
+        String dateString = bundle.getString("date_was_selected", "");
         String locationString = bundle.getString("vicinity_selected", "");
         if (!locationString.isEmpty()) {
             invite.setLocation(locationString);
@@ -139,7 +142,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
                 Calendar calendar1 = Calendar.getInstance();
                 int hour = calendar1.get(Calendar.HOUR);
-                final int mintue = calendar1.get(Calendar.MINUTE);
+                final int minute = calendar1.get(Calendar.MINUTE);
 
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -150,21 +153,24 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                         invite.setTime(hourOfDay + " : " + minute);
 
                     }
-                }, hour, mintue, false);
+                }, hour, minute, false);
                 timePickerDialog.show();
 
 
                 break;
 
             case R.id.send_button_invite:
+                if (!invite.getDate().equals("") && !invite.getTime().equals("") && !invite.getLocation().equals("")) {
+                    databaseReference = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference newRef = databaseReference.child(Constants.INVITES).push();
 
-                databaseReference = FirebaseDatabase.getInstance().getReference();
-                DatabaseReference newRef = databaseReference.child(Constants.INVITES).push();
+                    updateInvites(newRef.getKey());
+                    newRef.setValue(invite);
 
-                updateInvites(newRef.getKey());
-                newRef.setValue(invite);
-
-                fragmentJump(otherUser,new UserDetailsFragment());
+                    fragmentJump(otherUser, new UserDetailsFragment());
+                } else {
+                    Toast.makeText(getActivity(), "Please Fill all areas", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
 
