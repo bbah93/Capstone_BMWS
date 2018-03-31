@@ -115,7 +115,7 @@ public class HomeActivity extends AppCompatActivity
                     profileNotCreated(userKey);
                     if (saveUser) {
                         UserSingleton.getInstance().setUser(d.getValue(User.class));
-                   
+
                     }
                 }
                 if (isProfileNotCreated) {
@@ -306,6 +306,40 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabaseUsers = mDatabase.child(Constants.USERS);
+
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                isProfileNotCreated = true;
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    String userKey = d.getKey();
+                    Log.d(TAG, "onDataChange: user " + userKey);
+                    profileNotCreated(userKey);
+                    if (saveUser) {
+                        UserSingleton.getInstance().setUser(d.getValue(User.class));
+                    }
+                }
+                if (isProfileNotCreated) {
+                    Log.d(TAG, "onDataChange: uID " + user.getUid());
+                    UserSingleton.getInstance().setUser(new User());
+                    Log.d(TAG, "onDataChange: new user created in singleton");
+                    UserSingleton.getInstance().getUser().setuID(user.getUid());
+                    UserSingleton.getInstance().getUser().setEmail(user.getEmail());
+                    startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
+                    finish();
+                }
+                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("The read failed: ", databaseError.getMessage());
+
+            }
+        });
     }
 
     @Override
@@ -328,6 +362,7 @@ public class HomeActivity extends AppCompatActivity
         ft.addToBackStack("");
         ft.commit();
     }
+
     public void switchContent(int i, MessageFragment frag) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, frag, "details_user_frag");
