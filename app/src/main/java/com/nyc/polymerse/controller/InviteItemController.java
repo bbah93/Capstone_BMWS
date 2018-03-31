@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.UserSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,13 +113,15 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             delete.setOnClickListener(this);
             confirm.setOnClickListener(this);
 
-            if ("tJqOPTGtMOPO4e3laJo7KrT3j272".equals(invite.getSender_ID())) {
+            String userId = UserSingleton.getInstance().getUser().getuID();
+
+            if (userId.equals(invite.getSender_ID())) {
                 Toast.makeText(itemView.getContext(), invite.getAcceptStatus(), Toast.LENGTH_SHORT).show();
 
                 switch (invite.getAcceptStatus()) {
                     case "accepted":
                         //NEED TO GET OTHER USER'S NAME AND IMAGE
-                        otherUserName.setText(userResponse(invite.getReciever_ID(), "accepted!"));
+                        otherUserName.setText(userResponse(invite.getReceiver_ID(), "accepted!"));
                         accepted.setImageResource(R.drawable.ic_check_circle_green_a700_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.VISIBLE);
@@ -128,7 +131,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                         //otherUserImg.setImageResource(invite.getReciever_ID());
                         break;
                     case "pending":
-                        otherUserName.setText(userResponse(invite.getReciever_ID(), "has not responded"));
+                        otherUserName.setText(userResponse(invite.getReceiver_ID(), "has not responded"));
                         accepted.setImageResource(R.mipmap.hourglass);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.VISIBLE);
@@ -138,7 +141,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "rejected":
-                        otherUserName.setText(userResponse(invite.getReciever_ID(), "cannot meet"));
+                        otherUserName.setText(userResponse(invite.getReceiver_ID(), "cannot meet"));
                         accepted.setImageResource(R.drawable.ic_cancel_red_500_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.GONE);
