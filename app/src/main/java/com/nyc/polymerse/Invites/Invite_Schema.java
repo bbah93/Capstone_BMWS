@@ -44,8 +44,8 @@ public class Invite_Schema {
         this.date = date;
     }
 
-    public void setReceiver_ID(String reciever_ID) {
-        this.receiver_ID = reciever_ID;
+    public void setReceiver_ID(String receiver_ID) {
+        this.receiver_ID = receiver_ID;
     }
 
     public void setAcceptStatus(String acceptStatus) {
