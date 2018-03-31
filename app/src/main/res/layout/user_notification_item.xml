@@ -1,142 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:elevation="3dp">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/user_results_padding_margin"
-    android:orientation="vertical"
-    android:padding="@dimen/user_results_padding_margin">
-
-    <Button
-        android:visibility="invisible"
-        android:id="@+id/confirm"
-        android:background="@drawable/button_hollow"
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/accepted"
-        android:layout_marginStart="11dp"
-        android:text="Confirm" />
-    <Button
-        android:id="@+id/cancel"
-        android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/time"
-        android:layout_alignStart="@+id/confirm"
-        android:background="@android:color/holo_red_dark"
-        android:text="Cancel"
-        android:textColor="@color/secondaryLightColor" />
+        android:layout_margin="@dimen/user_results_padding_margin"
+        android:orientation="vertical"
+        android:padding="@dimen/user_results_padding_margin">
 
-    <Button
-        android:id="@+id/delete"
-        android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/time"
-        android:layout_alignStart="@+id/confirm"
-        android:background="@android:color/holo_red_dark"
-        android:text="Delete"
-        android:textColor="@color/secondaryLightColor" />
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_hollow"
+            android:text="Confirm"
+            android:visibility="visible"
+            app:layout_constraintRight_toLeftOf="@id/deny"
+            app:layout_constraintTop_toBottomOf="@id/invite_item_location" />
 
-    <Button
-        android:visibility="invisible"
-        android:id="@+id/deny"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/time"
-        android:layout_alignStart="@+id/confirm"
-        android:background="@android:color/holo_red_dark"
-        android:text="Deny"
-        android:textColor="@color/secondaryLightColor" />
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/red_button"
+            android:text="Cancel"
+            android:textColor="@color/secondaryLightColor"
+            android:visibility="visible"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/invite_item_location" />
 
-    <TextView
-        android:textStyle="bold"
-        android:textColor="@color/primaryColor"
-        android:id="@+id/user_notification_user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/user_avatar_user_notification"
-        android:padding="@dimen/user_results_view_padding"
-        android:text="Naima accepted!"
-        android:textSize="25sp"
-        app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results" />
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/red_button"
+            android:text="Delete"
+            android:textColor="@color/secondaryLightColor"
+            android:visibility="visible"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/invite_item_location" />
+
+        <TextView
+            android:id="@+id/user_notification_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="SHANTAL TAVERAS"
+            android:textColor="@color/primaryColor"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/user_avatar_user_notification" />
 
 
-    <TextView
-        android:id="@+id/invite_item_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/confirm"
-        android:text="123 St Ave"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/invite_item_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123 St Ave"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@id/user_avatar_user_notification"
+            app:layout_constraintTop_toBottomOf="@id/date" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_avatar_user_notification"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:src="@mipmap/woman" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_avatar_user_notification"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/woman"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:text="Accepted"
-        android:visibility="visible"
-        android:textAlignment="center"
-        android:id="@+id/accepted"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_cancel_red_500_18dp" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/accepted"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:alpha=".6"
+            android:src="@drawable/ic_cancel_red_500_18dp"
+            android:text="Accepted"
+            android:textAlignment="center"
+            android:visibility="visible" />
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/invite_item_location"
-        android:padding="@dimen/user_results_view_padding"
-        android:text="March 20, 2018"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
-        app:layout_constraintTop_toBottomOf="@id/user_results_user_name" />
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="March 18, 2103"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="22sp"
+            app:layout_constraintLeft_toRightOf="@id/user_avatar_user_notification"
+            app:layout_constraintTop_toBottomOf="@id/user_notification_user_name" />
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/date"
-        android:layout_alignBottom="@+id/date"
-        android:layout_toEndOf="@+id/date"
-        android:padding="@dimen/user_results_view_padding"
-        android:text="8:30pm"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toRightOf="@id/user_avatar_user_results"
-        app:layout_constraintTop_toBottomOf="@id/learning_field" />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="8:30pm"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="22sp"
+            app:layout_constraintLeft_toRightOf="@id/date"
+            app:layout_constraintTop_toBottomOf="@id/user_notification_user_name" />
 
-    <Button
-        android:id="@+id/map_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_above="@+id/date"
-        android:layout_toStartOf="@+id/time"
-        android:background="@mipmap/place" />
+        <Button
+            android:id="@+id/map_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/location"
+            app:layout_constraintLeft_toRightOf="@id/invite_item_location"
+            app:layout_constraintTop_toBottomOf="@id/date" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/deny"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/red_button"
+            android:text="Deny"
+            android:textColor="@color/secondaryLightColor"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
 
 </android.support.v7.widget.CardView>
 

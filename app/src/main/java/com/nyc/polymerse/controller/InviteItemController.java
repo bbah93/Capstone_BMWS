@@ -1,10 +1,11 @@
 package com.nyc.polymerse.controller;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.fragments.InvitePopUpFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +80,9 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
         private Button delete;
         private String popUpDesignator = "";
         private Invite_Schema invite_schema;
+        private String question;
+        private String status;
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.INVITES);
 
         public InviteItemViewHolder(View itemView) {
             super(itemView);
@@ -94,7 +104,6 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
 
             Log.d("INVITE ID", invite.getSender_ID() + "");
 
-
             date.setText(invite.getDate());
             time.setText(invite.getTime());
             location.setText(invite.getLocation());
@@ -104,6 +113,8 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             confirm.setOnClickListener(this);
 
             if ("tJqOPTGtMOPO4e3laJo7KrT3j272".equals(invite.getSender_ID())) {
+                Toast.makeText(itemView.getContext(), invite.getAcceptStatus(), Toast.LENGTH_SHORT).show();
+
                 switch (invite.getAcceptStatus()) {
                     case "accepted":
                         //NEED TO GET OTHER USER'S NAME AND IMAGE
@@ -137,6 +148,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "cancelled":
+
                         cancel();
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
@@ -182,7 +194,9 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
         }
 
         public void cancel() {
+
             otherUserName.setText(userResponse("Invite", "cancelled"));
+            otherUserName.setTextColor(Color.rgb(230,34,49));
             accepted.setImageResource(R.drawable.ic_cancel_red_500_18dp);
             accepted.setVisibility(View.VISIBLE);
             cancel.setVisibility(View.GONE);
@@ -191,18 +205,47 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             delete.setVisibility(View.VISIBLE);
         }
 
-        public void showPopUp() {
-            Bundle bundle = new Bundle();
-            bundle.putString("pop_up_type", popUpDesignator);
-            bundle.putString("invite_id",invite_schema.getInvite_ID());
 
-            DialogFragment showPopUp = new InvitePopUpFragment();
-            FragmentManager transaction = fragmentManager;
+        public void buildDialog() {
+            Toast.makeText(itemView.getContext(), "CLICKKK", Toast.LENGTH_SHORT).show();
+            switch (popUpDesignator) {
+                case "Delete":
+                    status = "deleted";
+                    question = "Are you sure you want to delete this invite?";
+                    break;
+                case "Cancel":
+                    status = "cancelled";
+                    question = "Are you sure you want to cancel this event?";
+                    break;
+                case "Deny":
+                    status = "denied";
+                    question = "Are you sure you want to reject this invite?";
+                    break;
+                case "Accept":
+                    status = "accepted";
+                    question = "Are you sure you want to accept this invite?";
+                    break;
 
-            showPopUp.setArguments(bundle);
-            transaction.beginTransaction().commit();
+            }
 
-            showPopUp.show(fragmentManager, "popUp");
+            AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    invite_schema.setAcceptStatus(status);
+                    updateInviteStatus();
+
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                }
+            });
+            builder.setMessage(question);
+
+            builder.create();
+            builder.show();
         }
 
         @Override
@@ -211,19 +254,20 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             switch (id) {
                 case R.id.delete:
                     popUpDesignator = "Delete";
-                    showPopUp();
+                    buildDialog();
                     break;
                 case R.id.cancel:
+
                     popUpDesignator = "Cancel";
-                    showPopUp();
+                    buildDialog();
                     break;
                 case R.id.deny:
                     popUpDesignator = "Deny";
-                    showPopUp();
+                    buildDialog();
                     break;
                 case R.id.confirm:
                     popUpDesignator = "Accept";
-                    showPopUp();
+                    buildDialog();
                     break;
                 case R.id.map_icon:
                     Uri gmmIntentUri = Uri.parse("google.streetview:cbll=46.414382,10.013988");
@@ -233,6 +277,23 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                     break;
 
             }
+        }
+
+        private void updateInviteStatus() {
+
+            databaseReference.child(invite_schema.getInvite_ID())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                            databaseReference.child(invite_schema.getInvite_ID()).setValue(invite_schema);
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+                                                        }
+                                                    }
+                    );
         }
     }
 }

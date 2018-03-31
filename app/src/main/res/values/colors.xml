@@ -21,5 +21,7 @@
 
     <color name="secondaryTextColor">#000000</color>
 
+    <color name="red">#F02231</color>
+
 </resources>
 
