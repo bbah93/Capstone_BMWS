@@ -85,9 +85,18 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
         //here I'm getting the time and date I sent to locations
         String timeString = bundle.getString("time_was_selected", "");
+
+        if (!timeString.equals("")) {
+            invite.setTime(timeString);
+            time.setText(timeString);
+        }
         String dateString = bundle.getString("date_was_selected", "");
+        if (!dateString.equals("")) {
+            invite.setDate(dateString);
+            date.setText(dateString);
+        }
         String locationString = bundle.getString("vicinity_selected", "");
-        if (!locationString.isEmpty()) {
+        if (!locationString.equals("")) {
             invite.setLocation(locationString);
             locationText.setText(locationString);
         }
