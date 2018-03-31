@@ -73,6 +73,8 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         currentUser = UserSingleton.getInstance().getUser();
         invite.setSender_ID(currentUser.getuID());
         invite.setReceiver_ID(otherUser.getuID());
+        invite.setSenderName(currentUser.getUsername());
+        invite.setRecieverName(otherUser.getUsername());
 
         time = v.findViewById(R.id.time);
         date = v.findViewById(R.id.date);

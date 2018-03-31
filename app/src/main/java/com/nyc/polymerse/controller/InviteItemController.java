@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.UserSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +114,9 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             confirm.setOnClickListener(this);
             locationIcon.setOnClickListener(this);
 
-            if ("tJqOPTGtMOPO4e3laJo7KrT3j272".equals(invite.getSender_ID())) {
+            String userId = UserSingleton.getInstance().getUser().getuID();
+
+            if (userId.equals(invite.getSender_ID())) {
                 Toast.makeText(itemView.getContext(), invite.getAcceptStatus(), Toast.LENGTH_SHORT).show();
 
                 switch (invite.getAcceptStatus()) {

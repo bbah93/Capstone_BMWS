@@ -15,12 +15,29 @@ public class Invite_Schema {
     private String date;
     private String receiver_ID;
     private String acceptStatus;
-
+    private String senderName;
+    private String recieverName;
 
 
 
     public Invite_Schema() {
         this.acceptStatus = "pending";
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getRecieverName() {
+        return recieverName;
+    }
+
+    public void setRecieverName(String recieverName) {
+        this.recieverName = recieverName;
     }
 
     public void setInvite_ID(String invite_ID) {
@@ -44,8 +61,8 @@ public class Invite_Schema {
         this.date = date;
     }
 
-    public void setReceiver_ID(String reciever_ID) {
-        this.receiver_ID = reciever_ID;
+    public void setReceiver_ID(String receiver_ID) {
+        this.receiver_ID = receiver_ID;
     }
 
     public void setAcceptStatus(String acceptStatus) {
