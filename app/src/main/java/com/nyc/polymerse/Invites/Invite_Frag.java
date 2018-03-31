@@ -1,6 +1,5 @@
 package com.nyc.polymerse.Invites;
 
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -52,11 +51,9 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
     Invite_Schema invite;
     private Context context;
 
-
     public Invite_Frag() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,7 +73,6 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         currentUser = UserSingleton.getInstance().getUser();
         invite.setSender_ID(currentUser.getuID());
         invite.setReceiver_ID(otherUser.getuID());
-
 
         time = v.findViewById(R.id.time);
         date = v.findViewById(R.id.date);
@@ -117,9 +113,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
         return v;
 
-
     }
-
 
     @Override
     public void onClick(View view) {
@@ -143,9 +137,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                 }, year, month, day);
                 datePickerDialog.show();
 
-
                 break;
-
 
             case R.id.time_picker:
 
@@ -165,7 +157,6 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                 }, hour, minute, false);
                 timePickerDialog.show();
 
-
                 break;
 
             case R.id.send_button_invite:
@@ -174,6 +165,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                     DatabaseReference newRef = databaseReference.child(Constants.INVITES).push();
 
                     updateInvites(newRef.getKey());
+                    invite.setInvite_ID(newRef.getKey());
                     newRef.setValue(invite);
 
                     fragmentJump(otherUser, new UserDetailsFragment());
@@ -181,7 +173,6 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(), "Please Fill all areas", Toast.LENGTH_SHORT).show();
                 }
                 break;
-
 
             case R.id.location_button:
                 SuggestedLocationsFragment suggestedLocationsFragment = new SuggestedLocationsFragment();
@@ -210,7 +201,6 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
         databaseReferenceUsers.child(currentUser.getuID()).setValue(currentUser);
         databaseReferenceUsers.child(otherUser.getuID()).setValue(otherUser);
-
 
     }
 

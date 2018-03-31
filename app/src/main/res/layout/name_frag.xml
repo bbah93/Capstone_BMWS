@@ -16,7 +16,7 @@
         android:text="Welcome to the\nPolymerse community!"
         android:fontFamily="sans-serif-condensed"
         android:textSize="30dp"
-        android:textColor="@color/primaryDarkColor"
+        android:textColor="@color/primaryColor"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,6 +86,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_forward"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/primaryMediumColor"/>
+
 
 </LinearLayout>
