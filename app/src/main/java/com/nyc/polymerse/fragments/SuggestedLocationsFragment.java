@@ -1,29 +1,37 @@
 package com.nyc.polymerse.fragments;
 
 
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.controller.SuggestedLocationsAdapter;
 import com.nyc.polymerse.models.SuggestedLocationModel;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.models.SuggestedLocationsResultsModel;
 import com.nyc.polymerse.network.PlacesApi;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +53,11 @@ public class SuggestedLocationsFragment extends Fragment {
     private List<SuggestedLocationModel> suggestedLocationModelList;
     private FusedLocationProviderClient mFusedLocationClient;
     private RecyclerView recyclerView;
+    private SuggestedLocationsAdapter adapter;
+    private Button search;
+    private TextView searchText;
+    private Retrofit retrofit;
+    private Location location;
 
 
     public SuggestedLocationsFragment() {
@@ -65,6 +78,24 @@ public class SuggestedLocationsFragment extends Fragment {
 
         currentUser = UserSingleton.getInstance().getUser();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://places.api.here.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Bundle bundle = getArguments();
+        String otherUser = bundle.getString("item_selected_key");
+        String timeString = bundle.getString("time_was_selected", "");
+        String dateString = bundle.getString("date_was_selected", "");
+
+        recyclerView = view.findViewById(R.id.suggestions_recycler);
+        adapter = new SuggestedLocationsAdapter(otherUser,dateString,timeString, getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
+
+        suggestedLocationModelList = new ArrayList<>();
 
         Map<String, String> langLearnMap = currentUser.getLangLearn();
         Map<String, String> langShareMap = currentUser.getLangTeach();
@@ -96,33 +127,114 @@ public class SuggestedLocationsFragment extends Fragment {
                     });
         }
 
+        search = view.findViewById(R.id.suggestions_search_button);
+        searchText = view.findViewById(R.id.suggestions_search_text);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!searchText.getText().toString().trim().isEmpty()) {
+                    getSearchedLocations(searchText.getText().toString());
+                }
+
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
+        });
 
 
     }
 
-    private void getSuggestedLocations(Location location) {
-        Log.d(TAG, "getSuggestedLocations: ran");
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://places.api.here.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    private void getSearchedLocations(String searchTextString) {
+
 
         PlacesApi placesService = retrofit.create(PlacesApi.class);
-        Call<SuggestedLocationsResultsModel> suggestedLocations = placesService.getSuggestedLocations(
-                userLearnLang,
-                location.getLatitude() + "," +location.getLongitude() + ";" + "r=7768",
+        Call<SuggestedLocationsResultsModel> suggestedLocations1 = placesService.getSuggestedLocations(
+                searchTextString,
+                location.getLatitude() + "," + location.getLongitude() + ";" + "r=7768",
                 "en-US,en;q=0.9",
                 Constants.APP_ID,
                 Constants.APP_CODE);
-        suggestedLocations.enqueue(new Callback<SuggestedLocationsResultsModel>() {
+
+        suggestedLocations1.enqueue(new Callback<SuggestedLocationsResultsModel>() {
             @Override
             public void onResponse(Call<SuggestedLocationsResultsModel> call, Response<SuggestedLocationsResultsModel> response) {
                 SuggestedLocationsResultsModel resultsModel = response.body();
-                suggestedLocationModelList = resultsModel.getResults();
-                if (suggestedLocationModelList!=null) {
-                    Log.d(TAG, "onResponse: suggestedLocationModelList size " + suggestedLocationModelList.size());
-                    for (SuggestedLocationModel s : suggestedLocationModelList) {
-                        Log.d(TAG, "onResponse: " + s.getTitle());
+                if (resultsModel != null) {
+                    resultsModel.getResults().remove(0);
+                    suggestedLocationModelList = resultsModel.getResults();
+                    if (suggestedLocationModelList != null) {
+                        Log.d(TAG, "onResponse: user learn suggestedLocationModelList size " + suggestedLocationModelList.size());
+                        for (SuggestedLocationModel s : suggestedLocationModelList) {
+                            Log.d(TAG, "onResponse: " + s.getTitle());
+                        }
+                        adapter.updateList(suggestedLocationModelList);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SuggestedLocationsResultsModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void getSuggestedLocations(Location location) {
+        this.location = location;
+        Log.d(TAG, "getSuggestedLocations: ran");
+
+        PlacesApi placesService = retrofit.create(PlacesApi.class);
+        Call<SuggestedLocationsResultsModel> suggestedLocations1 = placesService.getSuggestedLocations(
+                userLearnLang,
+                location.getLatitude() + "," + location.getLongitude() + ";" + "r=7768",
+                "en-US,en;q=0.9",
+                Constants.APP_ID,
+                Constants.APP_CODE);
+        suggestedLocations1.enqueue(new Callback<SuggestedLocationsResultsModel>() {
+            @Override
+            public void onResponse(Call<SuggestedLocationsResultsModel> call, Response<SuggestedLocationsResultsModel> response) {
+                SuggestedLocationsResultsModel resultsModel = response.body();
+                if (resultsModel != null) {
+                    resultsModel.getResults().remove(0);
+                    suggestedLocationModelList.addAll(resultsModel.getResults());
+                    if (suggestedLocationModelList != null) {
+                        Log.d(TAG, "onResponse: user learn suggestedLocationModelList size " + suggestedLocationModelList.size());
+                        for (SuggestedLocationModel s : suggestedLocationModelList) {
+                            Log.d(TAG, "onResponse: " + s.getTitle());
+                        }
+                        adapter.updateList(suggestedLocationModelList);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuggestedLocationsResultsModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+        Call<SuggestedLocationsResultsModel> suggestedLocations2 = placesService.getSuggestedLocations(
+                userShareLang,
+                location.getLatitude() + "," + location.getLongitude() + ";" + "r=7768",
+                "en-US,en;q=0.9",
+                Constants.APP_ID,
+                Constants.APP_CODE);
+        suggestedLocations2.enqueue(new Callback<SuggestedLocationsResultsModel>() {
+            @Override
+            public void onResponse(Call<SuggestedLocationsResultsModel> call, Response<SuggestedLocationsResultsModel> response) {
+                SuggestedLocationsResultsModel resultsModel = response.body();
+                if (resultsModel != null) {
+                    resultsModel.getResults().remove(0);
+                    suggestedLocationModelList.addAll(resultsModel.getResults());
+                    if (suggestedLocationModelList != null) {
+                        Log.d(TAG, "onResponse: user share suggestedLocationModelList size " + suggestedLocationModelList.size());
+                        for (SuggestedLocationModel s : suggestedLocationModelList) {
+                            Log.d(TAG, "onResponse: " + s.getTitle());
+                        }
+                        adapter.updateList(suggestedLocationModelList);
                     }
                 }
             }

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +38,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
     EditText time, date;
     Button dateButton, timeButton, send, location;
+    TextView locationText;
 
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
@@ -76,10 +78,16 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         time = v.findViewById(R.id.time);
         date = v.findViewById(R.id.date);
         send = v.findViewById(R.id.send_button_invite);
+        locationText = v.findViewById(R.id.location);
 
         //here I'm getting the time and date I sent to locations
         String timeString = bundle.getString("time_was_selected","");
         String dateString = bundle.getString("date_was_selected","");
+        String locationString = bundle.getString("vicinity_selected", "");
+        if (!locationString.isEmpty()) {
+            invite.setLocation(locationString);
+            locationText.setText(locationString);
+        }
 
         time.setText(timeString);
         date.setText(dateString);
