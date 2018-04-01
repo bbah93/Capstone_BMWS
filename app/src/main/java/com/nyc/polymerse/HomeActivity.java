@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Invites.Invite_Frag;
 import com.google.gson.Gson;
+import com.nyc.polymerse.My_Profile.MyProfileActivity;
 import com.nyc.polymerse.fragments.ExploreFragment;
 import com.nyc.polymerse.fragments.NotificationFragment;
 import com.nyc.polymerse.Profile_Creation.Prof_Create_Activity;
@@ -275,7 +276,10 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
-            // Handle the camera action
+            Intent intent = new Intent(this, MyProfileActivity.class);
+            startActivity(intent);
+
+
         } else if (id == R.id.nav_home) {
 
             Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
@@ -323,11 +327,13 @@ public class HomeActivity extends AppCompatActivity
                     }
                 }
                 if (isProfileNotCreated) {
-                    Log.d(TAG, "onDataChange: uID " + user.getUid());
-                    UserSingleton.getInstance().setUser(new User());
-                    Log.d(TAG, "onDataChange: new user created in singleton");
-                    UserSingleton.getInstance().getUser().setuID(user.getUid());
-                    UserSingleton.getInstance().getUser().setEmail(user.getEmail());
+                    if (user != null) {
+                        Log.d(TAG, "onDataChange: uID " + user.getUid());
+                        UserSingleton.getInstance().setUser(new User());
+                        Log.d(TAG, "onDataChange: new user created in singleton");
+                        UserSingleton.getInstance().getUser().setuID(user.getUid());
+                        UserSingleton.getInstance().getUser().setEmail(user.getEmail());
+                    }
                     startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
                     finish();
                 }

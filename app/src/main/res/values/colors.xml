@@ -22,6 +22,7 @@
     <color name="secondaryTextColor">#000000</color>
 
     <color name="red">#F02231</color>
+    <color name="primaryDarkColor">#00675b</color>
 
 </resources>
 
