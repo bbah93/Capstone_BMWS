@@ -8,6 +8,8 @@ import com.nyc.polymerse.R;
 
 public class MyProfileActivity extends AppCompatActivity {
 
+    //TODO: Add hide and show for fragments
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

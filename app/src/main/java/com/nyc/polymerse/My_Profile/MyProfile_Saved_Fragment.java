@@ -71,7 +71,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
     Fragment frag = this;
 
-
+    //TODO: Alert Dialogue for langauges and fluency levels
 
     public MyProfile_Saved_Fragment() {
         // Required empty public constructor
@@ -127,7 +127,8 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 MyProfile_Saved_Fragment profile_saved_fragment = new MyProfile_Saved_Fragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .show(editFragment)
+                        .replace(R.id.my_prof_fragment_container, editFragment)
+                        //.addToBackStack("Saved Profile Fragment")
                         .commit();
             }
         });

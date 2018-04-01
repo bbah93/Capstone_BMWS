@@ -27,6 +27,9 @@ import java.util.Map;
  */
 public class Edit_MyProfile_Fragment extends Fragment {
 
+    //TODO: Add Spinner logic
+    //TODO: Pull profile image url
+
     View rootView;
     FloatingActionButton saveEditsButton;
     EditText nameEdit;
@@ -82,8 +85,7 @@ public class Edit_MyProfile_Fragment extends Fragment {
                 MyProfile_Saved_Fragment profile_saved_fragment = new MyProfile_Saved_Fragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .hide(editFragment)
-                        .show(profile_saved_fragment)
+                        .replace(R.id.my_prof_fragment_container, profile_saved_fragment)
                         .commit();
             }
         });
