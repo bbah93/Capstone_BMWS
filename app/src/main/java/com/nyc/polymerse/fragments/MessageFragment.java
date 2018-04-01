@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Message;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
@@ -59,7 +60,12 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_message, container, false);
+
+        if (rootView.getContext() instanceof HomeActivity) {
+            ((HomeActivity) rootView.getContext()).disableProgressBar();
+        }
+        return rootView;
     }
 
     @Override

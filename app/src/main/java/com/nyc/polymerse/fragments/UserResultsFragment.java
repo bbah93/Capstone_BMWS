@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.FilterUsersClass;
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
@@ -65,6 +66,9 @@ public class UserResultsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_user_results, container, false);
         ButterKnife.bind(this, rootView);
 
+        if (rootView.getContext() instanceof HomeActivity) {
+            ((HomeActivity) rootView.getContext()).disableProgressBar();
+        }
         return rootView;
 
     }
