@@ -64,8 +64,9 @@ public class UserDetailsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_user_details, container, false);
         context = rootView.getContext();
 
-        profilePic = rootView.findViewById(R.id.user_profile_avatar);
-
+        if (rootView.getContext() instanceof HomeActivity) {
+            ((HomeActivity) rootView.getContext()).disableProgressBar();
+        }
 
 
         return rootView;
@@ -140,12 +141,15 @@ public class UserDetailsFragment extends Fragment {
         sharingLang = view.findViewById(R.id.detail_sharing_value);
         learningFluency = view.findViewById(R.id.detail_learning_fluency);
         sharingFluency = view.findViewById(R.id.detail_sharing_fluency);
+        profilePic = rootView.findViewById(R.id.user_profile_avatar);
+
         setUserFields();
 
 
     }
 
     private void setUserFields() {
+        Picasso.get().load(user.getProfilePic()).placeholder(R.drawable.ic_account_circle_black_24dp).into(profilePic);
         profileUserName.setText(user.getUsername());
         Map<String, String> langLearn = user.getLangLearn();
         Map<String, String> langShare = user.getLangTeach();
