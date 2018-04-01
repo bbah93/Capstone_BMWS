@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,9 @@ import android.widget.Toast;
 
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.User;
+import com.nyc.polymerse.UserSingleton;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +60,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
     ProgressBar learningLevel;
     ProgressBar sharingLevel;
     SharedPreferences profileDetails;
+    User currentUser;
 
     protected static final int CAMERA_REQUEST = 0;
     protected static final int GALLERY_PICTURE = 1;
@@ -89,10 +94,12 @@ public class MyProfile_Saved_Fragment extends Fragment {
         sharing_Input = rootView.findViewById(R.id.sharing_lang_spinner);
         learningLevel = rootView.findViewById(R.id.myProfile_learning_level);
         sharingLevel = rootView.findViewById(R.id.myprof_sharing_level);
+        currentUser = UserSingleton.getInstance().getUser();
 
         profileDetails = getActivity().getSharedPreferences(PROF_CREATE_KEY, Context.MODE_PRIVATE);
 
 
+        grabProfileURL();
         homeButtonClick();
         editProfileClick();
         setAddProfileImage();
@@ -300,4 +307,11 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 learningLevel.setProgress(0);
         }
     }
+
+    public void grabProfileURL(){
+        String imgUrl = currentUser.getProfilePic();
+        Log.d(TAG, "grabProfileURL: "+ imgUrl);
+        Picasso.get().load(imgUrl).fit().into(profileImage);
+    }
+
 }
