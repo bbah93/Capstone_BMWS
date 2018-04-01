@@ -62,9 +62,6 @@ public class MessageFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_message, container, false);
 
-        if (rootView.getContext() instanceof HomeActivity) {
-            ((HomeActivity) rootView.getContext()).disableProgressBar();
-        }
         return rootView;
     }
 

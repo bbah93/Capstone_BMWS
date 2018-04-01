@@ -35,20 +35,25 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
     Context context;
     private final String TAG = "UserResultsAdapter";
     DummyUser_Data dummyUser_data;
+    ProgressBar progressBar;
 
-    public UserResultAdapter(ArrayList<User> userList, Context context){
+    public UserResultAdapter(ArrayList<User> userList, Context context, ProgressBar progressBar){
         this.userList = userList;
         this.context = context;
+        this.progressBar = progressBar;
+
     }
 
     @Override
     public UserResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_result_item,parent,false);
+
         return new UserResultViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final UserResultViewHolder holder, int position) {
+        progressBar.setVisibility(View.INVISIBLE);
         final User user = userList.get(position);
         holder.onBind(user);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

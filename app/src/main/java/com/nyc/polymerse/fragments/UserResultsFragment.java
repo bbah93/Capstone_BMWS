@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -47,6 +48,7 @@ public class UserResultsFragment extends Fragment {
     private final String TAG = "UserResultsFragment";
     private ArrayList<User> userList = new ArrayList<>();
     private Button filter;
+    private ProgressBar progressBar;
 
     private DatabaseReference mDatabase;
 
@@ -65,10 +67,8 @@ public class UserResultsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_user_results, container, false);
         ButterKnife.bind(this, rootView);
+        progressBar = rootView.findViewById(R.id.results_progressbar);
 
-        if (rootView.getContext() instanceof HomeActivity) {
-            ((HomeActivity) rootView.getContext()).disableProgressBar();
-        }
         return rootView;
 
     }
@@ -159,7 +159,7 @@ public class UserResultsFragment extends Fragment {
                 RecyclerView recyclerView = rootView.findViewById(R.id.user_results_rec_view);
                 LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 recyclerView.setLayoutManager(manager);
-                adapter = new UserResultAdapter(userList, rootView.getContext());
+                adapter = new UserResultAdapter(userList, rootView.getContext(), progressBar);
                 recyclerView.setAdapter(adapter);
             }
 
