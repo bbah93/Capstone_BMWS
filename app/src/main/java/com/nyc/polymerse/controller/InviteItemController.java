@@ -110,10 +110,11 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
 
         public void onBind(Invite_Schema invite) {
             invite_schema = invite;
+            String shortLoc = invite.getLocation().substring(0,9);
 
             date.setText(invite.getDate());
             time.setText(invite.getTime());
-            location.setText(invite.getLocation());
+            location.setText(shortLoc);
             cancel.setOnClickListener(this);
             deny.setOnClickListener(this);
             delete.setOnClickListener(this);
@@ -128,7 +129,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                 switch (invite.getAcceptStatus()) {
                     case "accepted":
                         //NEED TO GET OTHER USER'S NAME AND IMAGE
-                        otherUserName.setText(userResponse(invite.getReceiver_ID(), "accepted!"));
+                        otherUserName.setText(userResponse(invite.getRecieverName(), "accepted!"));
                         accepted.setImageResource(R.drawable.ic_check_circle_green_a700_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.VISIBLE);
@@ -138,7 +139,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                         //otherUserImg.setImageResource(invite.getReciever_ID());
                         break;
                     case "pending":
-                        otherUserName.setText(userResponse(invite.getReceiver_ID(), "has not responded"));
+                        otherUserName.setText(userResponse(invite.getRecieverName(), "has not responded"));
                         accepted.setImageResource(R.mipmap.hourglass);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.VISIBLE);
@@ -148,7 +149,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "rejected":
-                        otherUserName.setText(userResponse(invite.getReceiver_ID(), "cannot meet"));
+                        otherUserName.setText(userResponse(invite.getRecieverName(), "cannot meet"));
                         accepted.setImageResource(R.drawable.ic_cancel_red_500_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.GONE);
@@ -166,7 +167,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             } else {
                 switch (invite.getAcceptStatus()) {
                     case "accepted":
-                        otherUserName.setText(userResponse("You are meeting", invite.getSender_ID()));
+                        otherUserName.setText(userResponse("You are meeting", invite.getSenderName()));
                         accepted.setImageResource(R.drawable.ic_check_circle_green_a700_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.VISIBLE);
@@ -176,7 +177,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "pending":
-                        otherUserName.setText(userResponse("Respond to", invite.getSender_ID()));
+                        otherUserName.setText(userResponse("Respond to", invite.getSenderName()));
                         accepted.setVisibility(View.GONE);
                         cancel.setVisibility(View.VISIBLE);
                         deny.setVisibility(View.VISIBLE);
