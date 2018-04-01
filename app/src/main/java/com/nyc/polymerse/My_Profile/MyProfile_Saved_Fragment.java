@@ -153,7 +153,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 Intent pictureActionIntent = null;
 
                 pictureActionIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                frag.startActivityForResult(pictureActionIntent, GALLERY_PICTURE);
+                getActivity().startActivityForResult(pictureActionIntent, GALLERY_PICTURE);
             }
         });
 
@@ -163,8 +163,9 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 File file = new File(android.os.Environment.getExternalStorageDirectory(),"temp.jpg");
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-                frag.startActivityForResult(intent, CAMERA_REQUEST);
+                getActivity().startActivityForResult(intent, CAMERA_REQUEST);
 
             }
         });
