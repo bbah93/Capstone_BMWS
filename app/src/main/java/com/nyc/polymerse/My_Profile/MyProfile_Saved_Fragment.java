@@ -46,7 +46,7 @@ import static com.nyc.polymerse.Constants.PROF_CREATE_KEY;
  */
 public class MyProfile_Saved_Fragment extends Fragment {
 
-    public static String TAG;
+    public static String TAG = "MyProfile_Saved_Fragment";
     View rootView;
     Button homeButton;
     Button addProfileImage;
@@ -112,8 +112,9 @@ public class MyProfile_Saved_Fragment extends Fragment {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: pressed");
                 Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(homeIntent);
+                getActivity().startActivity(homeIntent);
             }
         });
     }

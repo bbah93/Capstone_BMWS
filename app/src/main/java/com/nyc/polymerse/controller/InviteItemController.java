@@ -1,8 +1,10 @@
 package com.nyc.polymerse.controller;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,9 +24,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.UserSingleton;
+import com.nyc.polymerse.fragments.NotificationFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +43,12 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
 
     List<Invite_Schema> inviteList = new ArrayList<>();
     FragmentManager fragmentManager;
+    Context context;
 
-    public InviteItemController(List<Invite_Schema> inviteList, FragmentManager fragmentManager) {
+    public InviteItemController(List<Invite_Schema> inviteList, FragmentManager fragmentManager, Context context) {
         this.inviteList = inviteList;
         this.fragmentManager = fragmentManager;
+        this.context = context;
     }
 
     public void setData(List<Invite_Schema> list) {
@@ -237,7 +243,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                 public void onClick(DialogInterface dialog, int id) {
                     invite_schema.setAcceptStatus(status);
                     updateInviteStatus();
-
+                    fragmentJump(new NotificationFragment());
                 }
             });
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -298,5 +304,19 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                                                     }
                     );
         }
+    }
+
+    private void fragmentJump(Fragment mFragment) {
+        switchContent(R.id.fragment_container, mFragment);
+    }
+
+    public void switchContent(int id, Fragment fragment) {
+        if (context == null)
+            return;
+        if (context instanceof HomeActivity) {
+            HomeActivity homeActivity = (HomeActivity) context;
+            homeActivity.switchContent(id, fragment);
+        }
+
     }
 }
