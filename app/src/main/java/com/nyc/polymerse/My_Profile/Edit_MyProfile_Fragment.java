@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -26,6 +27,9 @@ import java.util.Map;
  * A simple {@link Fragment} subclass.
  */
 public class Edit_MyProfile_Fragment extends Fragment {
+
+    //TODO: Add Spinner logic
+    //TODO: Pull profile image url
 
     View rootView;
     FloatingActionButton saveEditsButton;
@@ -59,6 +63,8 @@ public class Edit_MyProfile_Fragment extends Fragment {
         learnProgressBar = rootView.findViewById(R.id.myprof_sharing_level);
         user = UserSingleton.getInstance().getUser();
 
+        Toast.makeText(getActivity().getApplicationContext(),"Edit Profile Mode", Toast.LENGTH_LONG).show();
+
         saveEditsClick();
 
         return rootView;
@@ -82,8 +88,7 @@ public class Edit_MyProfile_Fragment extends Fragment {
                 MyProfile_Saved_Fragment profile_saved_fragment = new MyProfile_Saved_Fragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .hide(editFragment)
-                        .show(profile_saved_fragment)
+                        .replace(R.id.my_prof_fragment_container, profile_saved_fragment)
                         .commit();
             }
         });
