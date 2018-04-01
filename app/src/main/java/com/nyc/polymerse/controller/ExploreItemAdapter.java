@@ -45,7 +45,7 @@ public class ExploreItemAdapter extends RecyclerView.Adapter<ExploreItemAdapter.
         return exploreList.size();
     }
 
-    public class ExploreItemViewHolder extends RecyclerView.ViewHolder {
+    public class ExploreItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView movieImg;
         ImageView songImg;
@@ -71,6 +71,11 @@ public class ExploreItemAdapter extends RecyclerView.Adapter<ExploreItemAdapter.
             movie.setText(model.getShow_movie());
             song.setText(model.getSong());
             place.setText(model.getPlace());
+
+        }
+
+        @Override
+        public void onClick(View view) {
 
         }
     }

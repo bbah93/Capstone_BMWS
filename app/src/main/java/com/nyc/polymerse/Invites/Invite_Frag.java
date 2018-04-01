@@ -27,6 +27,7 @@ import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.fragments.SuggestedLocationsFragment;
 import com.nyc.polymerse.fragments.UserDetailsFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +37,7 @@ import java.util.Map;
  */
 public class Invite_Frag extends Fragment implements View.OnClickListener {
 
-    EditText time, date;
+    TextView time, date;
     Button dateButton, timeButton, send, location;
     TextView locationText;
 
@@ -73,8 +74,6 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         currentUser = UserSingleton.getInstance().getUser();
         invite.setSender_ID(currentUser.getuID());
         invite.setReceiver_ID(otherUser.getuID());
-        invite.setSenderName(currentUser.getUsername());
-        invite.setRecieverName(otherUser.getUsername());
 
         time = v.findViewById(R.id.time);
         date = v.findViewById(R.id.date);
@@ -122,18 +121,23 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.date_picker:
 
-                Calendar calendar = Calendar.getInstance();
+                final Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+
+
                 datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String dateString = dayOfMonth + " : " + (month + 1) + " : " + year;
-                        date.setText(dateString);
+                        calendar.set(year,month,dayOfMonth);
+                        SimpleDateFormat month_date = new SimpleDateFormat("MMMM dd, yyyy");
+                        String formattedDate = month_date.format(calendar.getTime());
 
-                        invite.setDate(dayOfMonth + " : " + (month + 1) + " : " + year);
+                        date.setText(formattedDate);
+
+                        invite.setDate(formattedDate);
 
                     }
                 }, year, month, day);
@@ -143,17 +147,17 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
             case R.id.time_picker:
 
-                Calendar calendar1 = Calendar.getInstance();
-                int hour = calendar1.get(Calendar.HOUR);
-                final int minute = calendar1.get(Calendar.MINUTE);
+                final Calendar timePick = Calendar.getInstance();
+                int hour = timePick.get(Calendar.HOUR);
+                final int minute = timePick.get(Calendar.MINUTE);
 
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String timeString = hourOfDay + " : " + minute;
+                        String timeString = (String.format("%02d:%02d", hourOfDay, minute));
                         time.setText(timeString);
 
-                        invite.setTime(hourOfDay + " : " + minute);
+                        invite.setTime(timeString);
 
                     }
                 }, hour, minute, false);
