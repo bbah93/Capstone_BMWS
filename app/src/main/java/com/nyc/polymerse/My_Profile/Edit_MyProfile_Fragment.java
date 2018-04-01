@@ -12,7 +12,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.User;
+import com.nyc.polymerse.UserSingleton;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +36,7 @@ public class Edit_MyProfile_Fragment extends Fragment {
     Spinner langLearnSpinner;
     ProgressBar shareProgressBar;
     ProgressBar learnProgressBar;
+    User user;
 
     public Edit_MyProfile_Fragment() {
         // Required empty public constructor
@@ -48,6 +57,7 @@ public class Edit_MyProfile_Fragment extends Fragment {
         langShareSpinner = rootView.findViewById(R.id.sharing_lang_spinner);
         shareProgressBar = rootView.findViewById(R.id.editMyProfile_learning_level);
         learnProgressBar = rootView.findViewById(R.id.myprof_sharing_level);
+        user = UserSingleton.getInstance().getUser();
 
         saveEditsClick();
 
@@ -58,6 +68,16 @@ public class Edit_MyProfile_Fragment extends Fragment {
         saveEditsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                user.setUsername(nameEdit.getText().toString());
+                user.setAboutMe(aboutMeEdit.getText().toString());
+                Map<String, String> langLearn = new HashMap<>();
+                UserSingleton.getInstance().setUser(user);
+
+                //This saves it to the database
+                FirebaseDatabase.getInstance().getReference().child(Constants.USERS)
+                        .child(user.getuID()).setValue(user);
+
+
                 Edit_MyProfile_Fragment editFragment = new Edit_MyProfile_Fragment();
                 MyProfile_Saved_Fragment profile_saved_fragment = new MyProfile_Saved_Fragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

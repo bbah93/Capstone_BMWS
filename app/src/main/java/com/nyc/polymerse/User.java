@@ -18,6 +18,15 @@ public class User {
     private Map<String, String> invites;
     private Map<String,String> blocked;
     private String profilePic;
+    private String aboutMe;
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
 
     public String getProfilePic() {
         return profilePic;
