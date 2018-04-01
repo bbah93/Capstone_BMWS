@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.controller.ExploreItemAdapter;
 
@@ -28,6 +29,9 @@ public class ExploreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_explore, container, false);
+        if (rootView.getContext() instanceof HomeActivity) {
+            ((HomeActivity) rootView.getContext()).disableProgressBar();
+        }
         RecyclerView recyclerView = rootView.findViewById(R.id.explore_rec_view);
         try {
             ExploreItemAdapter adapter = new ExploreItemAdapter();

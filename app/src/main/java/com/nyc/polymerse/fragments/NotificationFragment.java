@@ -57,6 +57,9 @@ public class NotificationFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_notification, container, false);
 
+        if (rootView.getContext() instanceof HomeActivity) {
+            ((HomeActivity) rootView.getContext()).disableProgressBar();
+        }
         return rootView;
     }
 
