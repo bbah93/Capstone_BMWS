@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -25,10 +26,12 @@ public class  MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter
 
     private List<User> userList;
     private Context context;
+    private ProgressBar progressBar;
 
-    public MessageListAdapter(List<User> userList, Context context) {
+    public MessageListAdapter(List<User> userList, Context context, ProgressBar progressBar) {
         this.userList = userList;
         this.context = context;
+        this.progressBar = progressBar;
     }
 
     @Override
@@ -41,6 +44,7 @@ public class  MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter
     @Override
     public void onBindViewHolder(ViewHoler holder, final int position) {
 
+        progressBar.setVisibility(View.INVISIBLE);
         holder.textView.setText(userList.get(position).getUsername());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

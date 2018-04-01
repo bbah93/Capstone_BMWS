@@ -29,9 +29,6 @@ public class ExploreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_explore, container, false);
-        if (rootView.getContext() instanceof HomeActivity) {
-            ((HomeActivity) rootView.getContext()).disableProgressBar();
-        }
         RecyclerView recyclerView = rootView.findViewById(R.id.explore_rec_view);
         try {
             ExploreItemAdapter adapter = new ExploreItemAdapter();

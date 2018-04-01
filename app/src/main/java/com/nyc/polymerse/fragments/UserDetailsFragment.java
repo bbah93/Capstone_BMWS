@@ -64,9 +64,6 @@ public class UserDetailsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_user_details, container, false);
         context = rootView.getContext();
 
-        if (rootView.getContext() instanceof HomeActivity) {
-            ((HomeActivity) rootView.getContext()).disableProgressBar();
-        }
 
 
         return rootView;
