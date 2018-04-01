@@ -32,6 +32,9 @@ public class  MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter
         this.userList = userList;
         this.context = context;
         this.progressBar = progressBar;
+        if (userList.size() < 1) {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

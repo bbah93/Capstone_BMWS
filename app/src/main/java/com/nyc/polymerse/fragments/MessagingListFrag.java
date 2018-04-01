@@ -102,6 +102,9 @@ public class MessagingListFrag extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() < 1 ) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     User user = ds.getValue(User.class);
                     for (String s : msgKeys) {
