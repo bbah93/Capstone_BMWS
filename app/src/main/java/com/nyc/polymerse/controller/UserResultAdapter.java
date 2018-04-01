@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.nyc.polymerse.DummyUser_Data;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
@@ -32,6 +33,7 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
     ArrayList<User> userList = new ArrayList<>();
     Context context;
     private final String TAG = "UserResultsAdapter";
+    DummyUser_Data dummyUser_data;
 
     public UserResultAdapter(ArrayList<User> userList, Context context){
         this.userList = userList;

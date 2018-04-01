@@ -2,8 +2,10 @@ package com.nyc.polymerse.My_Profile;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ import java.io.IOException;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
+import static com.nyc.polymerse.Constants.PROF_CREATE_KEY;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +53,9 @@ public class MyProfile_Saved_Fragment extends Fragment {
     TextView aboutMeInput;
     TextView learning_Input;
     TextView sharing_Input;
+    ProgressBar learningLevel;
+    ProgressBar sharingLevel;
+    SharedPreferences profileDetails;
 
     protected static final int CAMERA_REQUEST = 0;
     protected static final int GALLERY_PICTURE = 1;
@@ -58,6 +65,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
     String selectedImagePath;
 
     Fragment frag = this;
+
 
 
     public MyProfile_Saved_Fragment() {
@@ -79,6 +87,11 @@ public class MyProfile_Saved_Fragment extends Fragment {
         aboutMeInput = rootView.findViewById(R.id.aboutMe_EditTexts);
         learning_Input = rootView.findViewById(R.id.prof_langLearn_spinner);
         sharing_Input = rootView.findViewById(R.id.sharing_lang_spinner);
+        learningLevel = rootView.findViewById(R.id.myProfile_learning_level);
+        sharingLevel = rootView.findViewById(R.id.myprof_sharing_level);
+
+        profileDetails = getActivity().getSharedPreferences(PROF_CREATE_KEY, Context.MODE_PRIVATE);
+
 
         homeButtonClick();
         editProfileClick();
@@ -242,6 +255,49 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
     //TODO: Decide how name and user info will be stored in db
     public void grabUserInfo(){
+        name_Input.setText(String.format("%s %s", profileDetails.getString("first_name", null), profileDetails.getString("last_name", null)));
+        location_Input.setText(String.format("%s %s", profileDetails.getString("city", null), profileDetails.getString("state", null)));
 
+        //TODO:Put about me in if statement
+        //aboutMeInput
+        learning_Input.setText(profileDetails.getString("learning_lang", null));
+        sharing_Input.setText(profileDetails.getString("fluent", null));
+
+        String learnLevel = profileDetails.getString("learning_level", null);
+        String sharingLevel = profileDetails.getString("fluent_level", null);
+
+        switch (learnLevel){
+            case "Beginner":
+                learningLevel.setProgress(25);
+                break;
+            case "Intermediate":
+                learningLevel.setProgress(50);
+                break;
+            case "Advanced":
+                learningLevel.setProgress(75);
+                break;
+            case "Fluent":
+                learningLevel.setProgress(100);
+                break;
+            default:
+                learningLevel.setProgress(0);
+        }
+
+        switch (sharingLevel){
+            case "Beginner":
+                learningLevel.setProgress(25);
+                break;
+            case "Intermediate":
+                learningLevel.setProgress(50);
+                break;
+            case "Advanced":
+                learningLevel.setProgress(75);
+                break;
+            case "Fluent":
+                learningLevel.setProgress(100);
+                break;
+            default:
+                learningLevel.setProgress(0);
+        }
     }
 }
