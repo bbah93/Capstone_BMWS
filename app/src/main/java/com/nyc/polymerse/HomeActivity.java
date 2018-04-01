@@ -291,8 +291,6 @@ public class HomeActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_sign_out) {
-            signOutButton();
-            Toast.makeText(this, "Sign out", Toast.LENGTH_SHORT).show();
 
         }
 

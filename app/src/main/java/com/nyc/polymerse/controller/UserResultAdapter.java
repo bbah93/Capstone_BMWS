@@ -17,6 +17,7 @@ import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.fragments.UserDetailsFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -98,7 +99,9 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
 
             String userDisplayName = user.getUsername();
             userName.setText(userDisplayName);
-
+            if (user.getProfilePic() != null) {
+                Picasso.get().load(user.getProfilePic()).into(avatar);
+            }
             Map<String,String> learnMap = user.getLangLearn();
             String languageLearning = "";
             String languageLearningFluency = "";
