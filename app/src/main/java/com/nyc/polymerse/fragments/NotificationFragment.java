@@ -79,21 +79,14 @@ public class NotificationFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         for (int i = 0; i < invitesIDs.size(); i++) {
-            Log.d(TAG, "onViewCreated: inviteID = " + invitesIDs.get(i));
+
             db.child(invitesIDs.get(i)).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
-                    Log.d(TAG, "onDataChange: datasnapshot ref = " + dataSnapshot.getKey());
+
                     invitesList.add(invite);
-                    Log.d(TAG, "onDataChange: inviteList size " + invitesList.size());
-                    Log.d(TAG, "onDataChange: time = " + invite.getTime());
-                    Log.d(TAG, "onDataChange: date = " + invite.getDate());
-                    Log.d(TAG, "onDataChange: location = " + invite.getLocation());
-                    Log.d(TAG, "onDataChange: inviteId = " + invite.getInvite_ID());
-                    Log.d(TAG, "onDataChange: receiverId = " + invite.getReceiver_ID());
-                    Log.d(TAG, "onDataChange: senderId = " + invite.getSender_ID());
                     adapter.notifyDataSetChanged();
 
                 }
