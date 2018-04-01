@@ -22,6 +22,7 @@ import com.nyc.polymerse.Invites.Invite_Frag;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +63,11 @@ public class UserDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_user_details, container, false);
         context = rootView.getContext();
+
+        profilePic = rootView.findViewById(R.id.user_profile_avatar);
+
+
+
         return rootView;
     }
 

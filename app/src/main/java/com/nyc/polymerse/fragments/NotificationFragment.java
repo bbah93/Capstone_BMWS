@@ -17,7 +17,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
@@ -74,7 +76,7 @@ public class NotificationFragment extends Fragment {
         }
         recyclerView = rootView.findViewById(R.id.user_notification_rec_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        final InviteItemController adapter = new InviteItemController(invitesList, getActivity().getSupportFragmentManager());
+        final InviteItemController adapter = new InviteItemController(invitesList, getActivity().getSupportFragmentManager(), getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -99,5 +101,6 @@ public class NotificationFragment extends Fragment {
         }
 
     }
+
 
 }

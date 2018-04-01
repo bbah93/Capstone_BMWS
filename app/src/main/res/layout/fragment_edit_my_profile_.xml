@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context="com.nyc.polymerse.My_Profile.MyProfileActivity"
+    android:weightSum="3">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_profile_avatar"
+            android:layout_width="@dimen/avatar_dimen"
+            android:layout_height="@dimen/avatar_dimen"
+            android:src="@mipmap/ic_empty_profile_round" />
+
+        <TextView
+            android:id="@+id/prof_name_tv"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name:"
+            android:layout_toRightOf="@id/user_profile_avatar"
+            android:layout_margin="10dp" />
+
+        <EditText
+            android:id="@+id/Edit_Username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/location_tv"
+            android:layout_toEndOf="@+id/prof_name_tv"
+            android:hint="Name" />
+
+        <TextView
+            android:id="@+id/location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/prof_name_tv"
+            android:layout_below="@+id/prof_name_tv"
+            android:layout_marginTop="27dp"
+            android:text="Location:"
+            android:layout_marginEnd="2dp"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/Edit_UserLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/location_tv"
+            android:layout_alignBottom="@+id/location_tv"
+            android:layout_toEndOf="@+id/location_tv"
+            android:hint="Your Location" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/aboutme_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About Me:"
+            android:textStyle="bold"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="7dp">
+
+            <!-- TODO: make EditText text the saved about me -->
+        <EditText
+            android:id="@+id/aboutMe_EditTexts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="I Love Polymerse!"
+            android:gravity="top"
+            android:background="@android:color/transparent"
+            android:layout_below="@id/aboutme_tv"/>
+
+
+        </android.support.design.widget.TextInputLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="169dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/languages_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Languages"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/profile_learning_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Learning: "
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@id/languages_tv"/>
+
+        <Spinner
+            android:id="@+id/prof_langLearn_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Language Here"
+            android:layout_above="@+id/profile_sharing_tv"
+            android:layout_toEndOf="@+id/profile_learning_tv" />
+
+        <TextView
+            android:id="@+id/profile_sharing_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sharing: "
+            android:layout_below="@id/profile_learning_tv"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/languages_tv"
+            android:layout_marginEnd="7dp"
+            android:layout_centerVertical="true"/>
+        <Spinner
+            android:id="@+id/sharing_lang_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Language Here"
+            android:layout_below="@id/prof_langLearn_spinner"
+            android:layout_toEndOf="@id/profile_sharing_tv"
+            android:layout_marginTop="10dp" />
+
+        <ProgressBar
+            android:id="@+id/editMyProfile_learning_level"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prof_langLearn_spinner"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/save_profile_fab"
+            android:padding="@dimen/user_results_view_padding"
+            android:progress="25"
+            android:progressBackgroundTint="@color/secondaryColor"
+            android:progressTint="@color/primaryMediumColor"
+            android:visibility="invisible"/>
+
+        <ProgressBar
+            android:id="@+id/myprof_sharing_level"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/sharing_lang_spinner"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/save_profile_fab"
+            android:padding="@dimen/user_results_view_padding"
+            android:progress="75"
+            android:progressBackgroundTint="@color/secondaryColor"
+            android:progressTint="@color/primaryMediumColor"
+            android:visibility="invisible"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/save_profile_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="7dp"
+            android:src="@drawable/ic_save_profile" />
+    </RelativeLayout>
+
+</LinearLayout>
+
