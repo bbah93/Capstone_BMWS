@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -61,6 +62,8 @@ public class Edit_MyProfile_Fragment extends Fragment {
         shareProgressBar = rootView.findViewById(R.id.editMyProfile_learning_level);
         learnProgressBar = rootView.findViewById(R.id.myprof_sharing_level);
         user = UserSingleton.getInstance().getUser();
+
+        Toast.makeText(getActivity().getApplicationContext(),"Edit Profile Mode", Toast.LENGTH_LONG).show();
 
         saveEditsClick();
 
