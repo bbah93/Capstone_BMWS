@@ -4,9 +4,14 @@ package com.nyc.polymerse.My_Profile;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -16,13 +21,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 
 import java.io.File;
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,6 +56,8 @@ public class MyProfile_Saved_Fragment extends Fragment {
     Bitmap bitmap;
 
     String selectedImagePath;
+
+    Fragment frag = this;
 
 
     public MyProfile_Saved_Fragment() {
@@ -95,7 +106,6 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 MyProfile_Saved_Fragment profile_saved_fragment = new MyProfile_Saved_Fragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .hide(profile_saved_fragment)
                         .show(editFragment)
                         .commit();
             }
@@ -120,8 +130,9 @@ public class MyProfile_Saved_Fragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent pictureActionIntent = null;
+
                 pictureActionIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pictureActionIntent, GALLERY_PICTURE);
+                frag.startActivityForResult(pictureActionIntent, GALLERY_PICTURE);
             }
         });
 
@@ -132,10 +143,105 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 File file = new File(android.os.Environment.getExternalStorageDirectory(),"temp.jpg");
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
 
-                startActivityForResult(intent, CAMERA_REQUEST);
+                frag.startActivityForResult(intent, CAMERA_REQUEST);
 
             }
         });
         cameraAlertDialogue.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        bitmap = null;
+        selectedImagePath = null;
+
+        if(resultCode == RESULT_OK && requestCode == CAMERA_REQUEST){
+
+            File f = new File(Environment.getExternalStorageDirectory()
+            .toString());
+            for (File temp : f.listFiles()){
+                if(temp.getName().equals("temp.jpg")){
+                    f = temp;
+                    break;
+                }
+            }
+            if (!f.exists()) {
+                Toast.makeText(getActivity().getBaseContext(), "Error while capturing image", Toast.LENGTH_LONG).show();
+                return;
+            }
+            try{
+                bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
+
+                bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
+
+                int rotate = 0;
+                try {
+                    ExifInterface exifInterface = new ExifInterface(f.getAbsolutePath());
+                    int orientation = exifInterface
+                            .getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_NORMAL);
+
+                    switch (orientation){
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotate = 270;
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotate = 180;
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            rotate = 90;
+                            break;
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Matrix matrix = new Matrix();
+                matrix.postRotate(rotate);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0,bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+                //setting profile image
+                profileImage.setImageBitmap(bitmap);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        else if(resultCode == RESULT_OK && requestCode == GALLERY_PICTURE){
+            if(data != null){
+
+                Uri selectedImage = data.getData();
+                String [] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getActivity().getContentResolver().query(selectedImage, filePath,
+                        null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                selectedImagePath = c.getString(columnIndex);
+                c.close();
+
+//                if (selectedImagePath != null) {
+//                    // txt_image_path.setText(selectedImagePath);
+//                }
+
+                bitmap = BitmapFactory.decodeFile(selectedImagePath); // load
+                // preview image
+                bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
+
+                profileImage.setImageBitmap(bitmap);
+            }
+            else {
+                Toast.makeText(getActivity().getApplicationContext(), "Cancelled",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
+
+    //TODO: Decide how name and user info will be stored in db
+    public void grabUserInfo(){
+
     }
 }
