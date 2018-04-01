@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Wayne Kellman on 3/21/18.
  */
 
-public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.ViewHoler>{
+public class  MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.ViewHoler>{
 
     private List<User> userList;
     private Context context;

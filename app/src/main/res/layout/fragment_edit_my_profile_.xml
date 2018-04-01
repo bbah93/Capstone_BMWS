@@ -156,7 +156,7 @@
             android:padding="@dimen/user_results_view_padding"
             android:progress="25"
             android:progressBackgroundTint="@color/secondaryColor"
-            android:progressTint="@color/primaryDarkColor"
+            android:progressTint="@color/primaryMediumColor"
             android:visibility="invisible"/>
 
         <ProgressBar
@@ -170,7 +170,7 @@
             android:padding="@dimen/user_results_view_padding"
             android:progress="75"
             android:progressBackgroundTint="@color/secondaryColor"
-            android:progressTint="@color/primaryDarkColor"
+            android:progressTint="@color/primaryMediumColor"
             android:visibility="invisible"/>
 
         <android.support.design.widget.FloatingActionButton

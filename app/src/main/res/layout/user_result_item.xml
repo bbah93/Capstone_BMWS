@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relative_layout_users_results"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#f9f9f9"
     android:layout_margin="@dimen/user_results_padding_margin"
+    android:background="#f9f9f9"
     android:padding="@dimen/user_results_padding_margin">
 
 
@@ -15,19 +14,53 @@
         android:id="@+id/user_avatar_user_results"
         android:layout_width="@dimen/avatar_dimen"
         android:layout_height="@dimen/avatar_dimen"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:src="@mipmap/woman" />
 
+    <RatingBar
+        android:id="@+id/user_resuts_rating_bar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/user_avatar_user_results"
+        android:layout_below="@+id/user_avatar_user_results"
+        android:layout_marginEnd="23dp"
+        android:isIndicator="true"
+        android:numStars="4"
+        android:padding="@dimen/user_results_view_padding"
+        android:rating="3" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/darker_gray" />
+
+    <!--<TextView
+        android:id="@+id/located_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/constraintLayout"
+        android:layout_alignEnd="@+id/user_avatar_user_results"
+        android:layout_marginEnd="26dp"
+        android:text="Bronx, NY" />-->
+
     <android.support.constraint.ConstraintLayout
-        android:padding="@dimen/user_results_item_padding"
         android:layout_width="@dimen/user_results_item_width"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/user_results_item_padding"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/constraintLayout">
 
         <TextView
             android:id="@+id/user_results_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/user_results_view_padding"
+            android:padding="4dp"
+            android:textAllCaps="true"
             android:text="SHANTAL TAVERAS"
             android:textColor="@color/primaryTextColor"
             android:textStyle="bold" />
@@ -38,8 +71,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/user_results_view_padding"
             android:text="@string/learning"
-
-            app:layout_constraintTop_toBottomOf="@id/user_results_user_name" />
+            app:layout_constraintTop_toBottomOf="@id/sharing_fluency" />
 
         <TextView
             android:id="@+id/learning_value"
@@ -48,20 +80,18 @@
             android:padding="@dimen/user_results_view_padding"
             android:text="Spanish"
             app:layout_constraintLeft_toRightOf="@id/learning_field"
-            app:layout_constraintTop_toBottomOf="@id/user_results_user_name" />
+            app:layout_constraintTop_toBottomOf="@id/sharing_fluency" />
 
         <ProgressBar
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:progress="25"
-            android:progressTint="@color/primaryDarkColor"
-            android:progressBackgroundTint="@color/secondaryColor"
             android:id="@+id/learning_fluency"
-            android:layout_width="wrap_content"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:padding="@dimen/user_results_view_padding"
+            android:progress="25"
+
             android:text="Beginner"
-            app:layout_constraintLeft_toRightOf="@id/learning_value"
-            app:layout_constraintTop_toBottomOf="@id/user_results_user_name" />
+            app:layout_constraintTop_toBottomOf="@id/learning_field" />
 
         <TextView
             android:id="@+id/sharing_field"
@@ -69,7 +99,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/user_results_view_padding"
             android:text="@string/sharing"
-            app:layout_constraintTop_toBottomOf="@id/learning_field" />
+            app:layout_constraintTop_toBottomOf="@id/user_results_user_name" />
 
         <TextView
             android:id="@+id/sharing_value"
@@ -78,46 +108,20 @@
             android:padding="@dimen/user_results_view_padding"
             android:text="English"
             app:layout_constraintLeft_toRightOf="@id/sharing_field"
-            app:layout_constraintTop_toBottomOf="@id/learning_field" />
+            app:layout_constraintTop_toBottomOf="@id/user_results_user_name" />
 
         <ProgressBar
             android:id="@+id/sharing_fluency"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:progressTint="@color/primaryDarkColor"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/user_results_view_padding"
             android:progress="100"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/user_results_view_padding"
             android:text="Fluent"
-            app:layout_constraintLeft_toRightOf="@id/sharing_value"
-            app:layout_constraintTop_toBottomOf="@id/learning_field" />
-
-
-        <TextView
-            android:id="@+id/located_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/user_results_view_padding"
-            android:text="Bronx, NY"
-            app:layout_constraintLeft_toRightOf="@id/user_results_user_name" />
-
-        <RatingBar
-            android:id="@+id/user_resuts_rating_bar"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:padding="@dimen/user_results_view_padding"
-
             app:layout_constraintTop_toBottomOf="@id/sharing_field" />
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/secondaryDarkColor"
-            app:layout_constraintTop_toBottomOf="@id/user_resuts_rating_bar" />
+
 
 
     </android.support.constraint.ConstraintLayout>

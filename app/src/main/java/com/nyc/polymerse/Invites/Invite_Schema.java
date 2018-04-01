@@ -7,6 +7,7 @@ package com.nyc.polymerse.Invites;
 public class Invite_Schema {
 
 
+
     private String invite_ID;
     private String sender_ID;
     private String location;
@@ -14,13 +15,34 @@ public class Invite_Schema {
     private String date;
     private String receiver_ID;
     private String acceptStatus;
+    private String senderName;
+    private String recieverName;
+
+
 
     public Invite_Schema() {
         this.acceptStatus = "pending";
     }
 
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getRecieverName() {
+        return recieverName;
+    }
+
+    public void setRecieverName(String recieverName) {
+        this.recieverName = recieverName;
+    }
+
     public void setInvite_ID(String invite_ID) {
         this.invite_ID = invite_ID;
+
     }
 
     public void setSender_ID(String sender_ID) {

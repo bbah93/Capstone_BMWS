@@ -92,6 +92,7 @@ public class User {
     public Map<String, String> getInvites() {
         return invites;
     }
+
     public void setInvites(Map<String, String> invites) {
         this.invites = invites;
     }

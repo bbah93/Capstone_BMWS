@@ -78,7 +78,7 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
         ProgressBar learningFluency;
         TextView sharingLang;
         ProgressBar sharingFluency;
-        TextView location;
+        //TextView location;
         RatingBar ratingBar;
         CircleImageView avatar;
 
@@ -89,7 +89,7 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
             learningFluency = itemView.findViewById(R.id.learning_fluency);
             sharingLang =itemView.findViewById(R.id.sharing_value);
             sharingFluency = itemView.findViewById(R.id.sharing_fluency);
-            location = itemView.findViewById(R.id.located_value);
+            //location = itemView.findViewById(R.id.located_value);
             ratingBar = itemView.findViewById(R.id.user_resuts_rating_bar);
             avatar = itemView.findViewById(R.id.user_avatar_user_results);
         }
@@ -140,7 +140,7 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
             //sharingFluency.setText(languageSharingFluency);
 
             String locationValue = user.getCity();
-            location.setText(locationValue);
+            //location.setText(locationValue);
 
 
         }

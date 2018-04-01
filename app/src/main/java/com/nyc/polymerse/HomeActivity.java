@@ -103,6 +103,41 @@ public class HomeActivity extends AppCompatActivity
             }
         };
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabaseUsers = mDatabase.child(Constants.USERS);
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                isProfileNotCreated = true;
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    String userKey = d.getKey();
+                    Log.d(TAG, "onDataChange: user " + userKey);
+
+                    profileNotCreated(userKey);
+                    if (saveUser) {
+                        UserSingleton.getInstance().setUser(d.getValue(User.class));
+
+                    }
+                }
+                if (isProfileNotCreated) {
+                    Log.d(TAG, "onDataChange: uID " + user.getUid());
+                    UserSingleton.getInstance().setUser(new User());
+                    Log.d(TAG, "onDataChange: new user created in singleton");
+                    UserSingleton.getInstance().getUser().setuID(user.getUid());
+                    UserSingleton.getInstance().getUser().setEmail(user.getEmail());
+                    startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
+                    finish();
+                }
+                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("The read failed: ", databaseError.getMessage());
+
+            }
+        });
+
         fragment = new ExploreFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
@@ -111,7 +146,6 @@ public class HomeActivity extends AppCompatActivity
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Polymerse");
-
 
         bottomNavigationView = findViewById(R.id.nav_tab);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -145,7 +179,7 @@ public class HomeActivity extends AppCompatActivity
                         return true;
                     case R.id.nav_explore:
                         fragment = new ExploreFragment();
-                        transaction.replace(R.id.fragment_container,fragment,"explore_frag");
+                        transaction.replace(R.id.fragment_container, fragment, "explore_frag");
                         toolbar.setTitle("Polymerse");
                         transaction.commit();
                         return true;
@@ -153,9 +187,6 @@ public class HomeActivity extends AppCompatActivity
                 return false;
             }
         });
-
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -337,5 +368,20 @@ public class HomeActivity extends AppCompatActivity
         ft.addToBackStack("");
         ft.commit();
     }
+
+    public void switchContent(int i, MessageFragment frag) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, frag, "details_user_frag");
+        ft.addToBackStack("user_detail_frag");
+        ft.commit();
+    }
+
+    public void switchContent(int id, UserDetailsFragment frag) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        this.frag = frag;
+        ft.replace(R.id.fragment_container, frag, "details_user_frag");
+        ft.addToBackStack("user_detail_frag");
+        ft.commit();
+    }
+
 }
-            
