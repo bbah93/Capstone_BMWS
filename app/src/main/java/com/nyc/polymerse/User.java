@@ -17,6 +17,17 @@ public class User {
     private String uID;
     private Map<String, String> invites;
     private Map<String,String> blocked;
+    private String profilePic;
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+
 
     public String getuID() {
         return uID;
