@@ -75,7 +75,6 @@ public class UserResultsFragment extends Fragment {
 
     @OnClick(R.id.filter_button)
     public void showFilterFragment() {
-        Toast.makeText(getActivity().getApplicationContext(), "CLICK", Toast.LENGTH_SHORT).show();
         UserResultsFilterFragment userResultsFilterFragment = new UserResultsFilterFragment();
         userResultsFilterFragment.setAdapter(adapter, userList);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.filter_container, userResultsFilterFragment).commit();

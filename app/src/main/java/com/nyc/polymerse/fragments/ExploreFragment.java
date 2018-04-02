@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
@@ -14,12 +16,16 @@ import com.nyc.polymerse.controller.ExploreItemAdapter;
 
 import org.json.JSONException;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ExploreFragment extends Fragment {
 
     View rootView;
+    Button filter;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -29,6 +35,7 @@ public class ExploreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_explore, container, false);
+        ButterKnife.bind(this, rootView);
         if (rootView.getContext() instanceof HomeActivity) {
             ((HomeActivity) rootView.getContext()).disableProgressBar();
         }
@@ -42,8 +49,18 @@ public class ExploreFragment extends Fragment {
             e.printStackTrace();
         }
 
+
+
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    @OnClick(R.id.explore_filter_button)
+    public void showFilterFragment() {
+        ExploreFilterFragment exploreFilterFragment = new ExploreFilterFragment();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.explore_filter_container, exploreFilterFragment).commit();
+        FrameLayout layout = (FrameLayout) getActivity().findViewById(R.id.explore_filter_container);
+        layout.setVisibility(View.VISIBLE);
     }
 
 }
