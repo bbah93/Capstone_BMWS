@@ -35,21 +35,21 @@ public class ExploreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_explore, container, false);
+
         ButterKnife.bind(this, rootView);
         if (rootView.getContext() instanceof HomeActivity) {
             ((HomeActivity) rootView.getContext()).disableProgressBar();
         }
+
         RecyclerView recyclerView = rootView.findViewById(R.id.explore_rec_view);
         try {
             ExploreItemAdapter adapter = new ExploreItemAdapter();
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
 
         // Inflate the layout for this fragment
         return rootView;

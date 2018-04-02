@@ -68,16 +68,12 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private boolean saveUser;
 
-    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         ButterKnife.bind(this);
-
-        progressBar = findViewById(R.id.home_progress_bar);
-        progressBar.setVisibility(View.VISIBLE);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -147,7 +143,6 @@ public class HomeActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
         transaction.commit();
 
-        disableProgressBar();
 
         bottomNavigationView = findViewById(R.id.nav_tab);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -159,8 +154,6 @@ public class HomeActivity extends AppCompatActivity {
                 switch (id) {
                     case R.id.nav_people:
 
-                        progressBar.setVisibility(View.VISIBLE);
-                        progressBar.setIndeterminate(true);
 
                         fragment = new UserResultsFragment();
 
@@ -170,8 +163,6 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_messages:
 
-                        progressBar.setVisibility(View.VISIBLE);
-                        progressBar.setIndeterminate(true);
 
                         fragment = new MessagingListFrag();
                         Log.d(TAG, "onOptionsItemSelected: messages clicked");
@@ -180,8 +171,6 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_notification:
 
-                        progressBar.setVisibility(View.VISIBLE);
-                        progressBar.setIndeterminate(true);
 
 
                         fragment = new NotificationFragment();
@@ -192,8 +181,6 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_explore:
 
-                        progressBar.setVisibility(View.VISIBLE);
-                        progressBar.setIndeterminate(true);
 
 
                         fragment = new ExploreFragment();
@@ -207,10 +194,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void disableProgressBar() {
-        progressBar.setIndeterminate(false);
-        progressBar.setVisibility(View.INVISIBLE);
-    }
 
     private void profileNotCreated(String userKey) {
         String firebaseUid = sharedPreferences.getString(Constants.FIREBASE_UID_KEY, "");
