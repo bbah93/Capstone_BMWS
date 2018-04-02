@@ -18,37 +18,52 @@ public class StaticMockExploreData {
     private final static String json = "{\n" +
             "\t\"suggestions\": [\n" +
             "\t\t{\n" +
-            "\t\t\t\"song\": \"DuHast by RammStein\",\n" +
-            "\t\t\t\"song_img\": \"http://assets.teamrock.com/image/b46b7ccb-5f68-4cc7-8770-b22c5aa75288?w=800\",\n" +
-            "\t\t\t\"song_url\": \"https://www.youtube.com/watch?v=W3q8Od5qJio\",\n" +
-            "\t\t\t\"show_movie\": \"Dark\",\n" +
-            "\t\t\t\"show_movie_imdb\": \"http://www.imdb.com/title/tt5753856/?ref_=fn_al_tt_1\",\n" +
-            "\t\t\t\"show_movie_img\": \"http://www.indiewire.com/wp-content/uploads/2017/09/dark-netflix-jonas-cave.jpg?w=780\",\n" +
-            "\t\t\t\"place\": \"Hofbräu Bierhaus NYC\",\n" +
-            "\t\t\t\"place_img\": \"https://static1.squarespace.com/static/561d2e21e4b09f4393705cae/57324a2f37013bd42764bef6/57e9709046c3c41f43ad1866/1474916905957/IMG_1236_Bierhaus.jpg?format=1500w\",\n" +
-            "\t\t\t\"place_url\": \"http://www.bierhausnyc.com/\"\n" +
+            "\t\t\t\"item_name\": \"Dark\",\n" +
+            "\t\t\t\"item_url\": \"http://www.imdb.com/title/tt5753856/\",\n" +
+            "\t\t\t\"item_img\": \"http://www.brooklynvegan.com/files/2018/01/dark.jpg\",\n" +
+            "\t\t\t\"item_type\": \"film\"\n" +
             "\t\t},\n" +
             "\t\t{\n" +
-            "\t\t\t\"song\": \"DuHast by RammStein\",\n" +
-            "\t\t\t\"song_img\": \"http://assets.teamrock.com/image/b46b7ccb-5f68-4cc7-8770-b22c5aa75288?w=800\",\n" +
-            "\t\t\t\"song_url\": \"https://www.youtube.com/watch?v=W3q8Od5qJio\",\n" +
-            "\t\t\t\"show_movie\": \"Dark\",\n" +
-            "\t\t\t\"show_movie_imdb\": \"http://www.imdb.com/title/tt5753856/?ref_=fn_al_tt_1\",\n" +
-            "\t\t\t\"show_movie_img\": \"http://www.indiewire.com/wp-content/uploads/2017/09/dark-netflix-jonas-cave.jpg?w=780\",\n" +
-            "\t\t\t\"place\": \"Hofbräu Bierhaus NYC\",\n" +
-            "\t\t\t\"place_img\": \"https://static1.squarespace.com/static/561d2e21e4b09f4393705cae/57324a2f37013bd42764bef6/57e9709046c3c41f43ad1866/1474916905957/IMG_1236_Bierhaus.jpg?format=1500w\",\n" +
-            "\t\t\t\"place_url\": \"http://www.bierhausnyc.com/\"\n" +
+            "\t\t\t\"item_name\": \"Du Hast by Rammstein\",\n" +
+            "\t\t\t\"item_url\": \"https://www.youtube.com/watch?v=W3q8Od5qJio\",\n" +
+            "\t\t\t\"item_img\": \"https://img.discogs.com/nZ2KNNYQVMLAPYi0e4NHWxMkarE=/fit-in/600x610/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-6442309-1486649803-4941.jpeg.jpg\",\n" +
+            "\t\t\t\"item_type\": \"music\"\n" +
             "\t\t},\n" +
             "\t\t{\n" +
-            "\t\t\t\"song\": \"DuHast by RammStein\",\n" +
-            "\t\t\t\"song_img\": \"http://assets.teamrock.com/image/b46b7ccb-5f68-4cc7-8770-b22c5aa75288?w=800\",\n" +
-            "\t\t\t\"song_url\": \"https://www.youtube.com/watch?v=W3q8Od5qJio\",\n" +
-            "\t\t\t\"show_movie\": \"Dark\",\n" +
-            "\t\t\t\"show_movie_imdb\": \"http://www.imdb.com/title/tt5753856/?ref_=fn_al_tt_1\",\n" +
-            "\t\t\t\"show_movie_img\": \"http://www.indiewire.com/wp-content/uploads/2017/09/dark-netflix-jonas-cave.jpg?w=780\",\n" +
-            "\t\t\t\"place\": \"Hofbräu Bierhaus NYC\",\n" +
-            "\t\t\t\"place_img\": \"https://static1.squarespace.com/static/561d2e21e4b09f4393705cae/57324a2f37013bd42764bef6/57e9709046c3c41f43ad1866/1474916905957/IMG_1236_Bierhaus.jpg?format=1500w\",\n" +
-            "\t\t\t\"place_url\": \"http://www.bierhausnyc.com/\"\n" +
+            "\t\t\t\"item_name\": \"Hofbraus Bierhaus NYC\",\n" +
+            "\t\t\t\"item_url\": \"http://www.bierhausnyc.com/\",\n" +
+            "\t\t\t\"item_img\": \"https://static1.squarespace.com/static/561d2e21e4b09f4393705cae/t/568e97aa0ab3778fcdf8ec03/1452185519392/IMG_1270.JPG?format=1500w\",\n" +
+            "\t\t\t\"item_type\": \"food\"\n" +
+            "\t\t},\n" +
+            "\t\t{\n" +
+            "\t\t\t\"item_name\": \"Neue Galerie New York\",\n" +
+            "\t\t\t\"item_url\": \"http://www.neuegalerie.org/\",\n" +
+            "\t\t\t\"item_img\": \"https://d1smv7h0armdzg.cloudfront.net/wp-content/uploads/2012/03/ps-neue1.jpg\",\n" +
+            "\t\t\t\"item_type\": \"site\"\n" +
+            "\t\t},\n" +
+            "\t\t{\n" +
+            "\t\t\t\"item_name\": \"99 Luftballoons by Nena\",\n" +
+            "\t\t\t\"item_url\": \"https://www.youtube.com/watch?v=La4Dcd1aUcE\",\n" +
+            "\t\t\t\"item_img\": \"https://upload.wikimedia.org/wikipedia/en/thumb/4/40/99_Luftballons_single_cover.jpg/220px-99_Luftballons_single_cover.jpg\",\n" +
+            "\t\t\t\"item_type\": \"music\"\n" +
+            "\t\t},\n" +
+            "\t\t{\n" +
+            "\t\t\t\"item_name\": \"NSU: German History X\",\n" +
+            "\t\t\t\"item_url\": \"http://www.imdb.com/title/tt5765988/\",\n" +
+            "\t\t\t\"item_img\": \"http://betafilm.com/media/images/proddata/e3/163800.jpg\",\n" +
+            "\t\t\t\"item_type\": \"film\"\n" +
+            "\t\t},\n" +
+            "\t\t{\n" +
+            "\t\t\t\"item_name\": \"Rolf's\",\n" +
+            "\t\t\t\"item_url\": \"http://rolfsnyc.com/www.rolfsnyc.com/Welcome.html\",\n" +
+            "\t\t\t\"item_img\": \"https://media-cdn.tripadvisor.com/media/photo-s/07/22/88/e3/rolf-s-bar-restaurant.jpg\",\n" +
+            "\t\t\t\"item_type\": \"food\"\n" +
+            "\t\t},\n" +
+            "\t\t{\n" +
+            "\t\t\t\"item_name\": \"Run Lola Run\",\n" +
+            "\t\t\t\"item_url\": \"http://www.imdb.com/title/tt0130827/\",\n" +
+            "\t\t\t\"item_img\": \"https://s3.drafthouse.com/images/made/run_lola_run_SD10_758_426_81_s_c1.jpg\",\n" +
+            "\t\t\t\"item_type\": \"film\"\n" +
             "\t\t}\n" +
             "\t]\n" +
             "}";
@@ -59,26 +74,17 @@ public class StaticMockExploreData {
 
         for(int i = 0; i < arr.length(); i++){
             JSONObject currObj = arr.getJSONObject(i);
-            String song = currObj.getString("song");
-            String songImg = currObj.getString("song_img");
-            String songUrl = currObj.getString("song_url");
-            String place = currObj.getString("place");
-            String placeImg = currObj.getString("place_img");
-            String placeUrl = currObj.getString("place_url");
-            String showMovie = currObj.getString("show_movie");
-            String showMovieImdb = currObj.getString("show_movie_imdb");
-            String showImg = currObj.getString("show_movie_img");
+            String name = currObj.getString("item_name");
+            String url = currObj.getString("item_url");
+            String type = currObj.getString("item_type");
+            String img = currObj.getString("item_img");
+
 
             ExploreItemModel model = new ExploreItemModel();
-            model.setPlace(place);
-            model.setPlace_img(placeImg);
-            model.setPlace_url(placeUrl);
-            model.setShow_movie(showMovie);
-            model.setShow_movie_imdb(showMovieImdb);
-            model.setShow_movie_img(showImg);
-            model.setSong(song);
-            model.setSong_img(songImg);
-            model.setSong_url(songUrl);
+            model.setItem_name(name);
+            model.setItem_img(img);
+            model.setItem_url(url);
+            model.setItem_type(type);
             exploreItemModelList.add(model);
 
         }

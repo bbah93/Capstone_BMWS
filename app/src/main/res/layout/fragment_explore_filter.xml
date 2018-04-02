@@ -1,0 +1,87 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context="com.nyc.polymerse.fragments.UserResultsFilterFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/explore_close_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/button_hollow"
+            android:text="@string/close_filters" />
+
+        <Button
+            android:id="@+id/explore_clear_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/button_hollow"
+            android:text="@string/clear_filters" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/explore_filter_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Type of Immersion Source"
+        android:textColor="@color/secondaryDarkColor"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <CheckBox
+
+        android:id="@+id/explore_music_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Music" />
+
+    <CheckBox
+        android:id="@+id/explore_film_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Film" />
+
+    <CheckBox
+
+        android:id="@+id/explore_food_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Food" />
+
+    <CheckBox
+        android:id="@+id/explore_place_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Places" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/explore_apply_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/button_hollow"
+            android:text="@string/apply_filters" />
+
+    </RelativeLayout>
+
+</LinearLayout>

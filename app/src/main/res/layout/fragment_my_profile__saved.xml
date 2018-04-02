@@ -1,6 +1,5 @@
 <!--<?xml version="1.0" encoding="utf-8"?>-->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,18 +12,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1">
+
         <Button
             android:id="@+id/back_home_button"
             android:layout_width="33dp"
             android:layout_height="31dp"
-            android:layout_marginStart="5dp"
-
             android:layout_alignParentEnd="true"
-            android:background="@drawable/ic_home_black_24dp"
-            />
+            android:layout_marginStart="5dp"
+            android:background="@drawable/ic_home_black_24dp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_profile_avatar"
@@ -36,27 +34,27 @@
             android:id="@+id/ad_profile_image"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="-20dp"
             android:layout_alignParentTop="true"
+            android:layout_marginStart="-20dp"
             android:layout_toEndOf="@+id/user_profile_avatar"
             android:background="@mipmap/add_image" />
 
         <TextView
             android:id="@+id/prof_name_tv"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name:"
+            android:layout_margin="10dp"
             android:layout_toRightOf="@id/ad_profile_image"
-            android:layout_margin="10dp" />
+            android:text="Name:"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:layout_alignBottom="@id/prof_name_tv"
             android:layout_toEndOf="@id/prof_name_tv"
-            android:layout_alignBottom="@id/prof_name_tv"/>
+            android:text="Name" />
 
 
         <TextView
@@ -65,19 +63,19 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/prof_name_tv"
             android:layout_below="@+id/prof_name_tv"
+            android:layout_marginEnd="2dp"
             android:layout_marginTop="27dp"
             android:text="Location:"
-            android:layout_marginEnd="2dp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/user_location"
-            android:layout_toEndOf="@id/location_tv"
-            android:layout_alignBottom="@id/location_tv"
-            android:text="User Location"
-            android:layout_marginStart="2dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/location_tv"
+            android:layout_marginStart="2dp"
+            android:layout_toEndOf="@id/location_tv"
+            android:text="User Location" />
 
     </RelativeLayout>
 
@@ -92,14 +90,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="About Me:"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/aboutMe_EditTexts"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:text="I love Polymerse!"
-            android:layout_below="@id/aboutme_tv"/>
+            android:layout_below="@id/aboutme_tv"
+            android:text="I love Polymerse!" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -121,36 +119,37 @@
             android:id="@+id/profile_learning_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Learning: "
             android:layout_marginTop="30dp"
-            android:layout_toEndOf="@id/languages_tv"/>
+            android:layout_toEndOf="@id/languages_tv"
+            android:text="Learning: " />
 
         <TextView
             android:id="@+id/prof_langLearn_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Language Here"
             android:layout_above="@+id/profile_sharing_tv"
-            android:layout_toEndOf="@+id/profile_learning_tv" />
+            android:layout_toEndOf="@+id/profile_learning_tv"
+            android:text="Language Here" />
 
         <TextView
             android:id="@+id/profile_sharing_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sharing: "
             android:layout_below="@id/profile_learning_tv"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="7dp"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/languages_tv"
-            android:layout_marginEnd="7dp"
-            android:layout_centerVertical="true"/>
+            android:text="Sharing: " />
+
         <TextView
             android:id="@+id/sharing_lang_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Language Here"
             android:layout_below="@id/prof_langLearn_spinner"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/profile_sharing_tv"
-            android:layout_marginTop="10dp" />
+            android:text="Language Here" />
 
         <ProgressBar
             android:id="@+id/myProfile_learning_level"
