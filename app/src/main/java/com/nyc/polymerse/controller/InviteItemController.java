@@ -9,13 +9,11 @@ import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -130,7 +128,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                 switch (invite.getAcceptStatus()) {
                     case "accepted":
                         //NEED TO GET OTHER USER'S NAME AND IMAGE
-                        otherUserName.setText(userResponse(invite.getRecieverName(), "accepted!"));
+                        otherUserName.setText(userResponse(invite.getReceiverName(), "accepted!"));
                         accepted.setImageResource(R.drawable.ic_check_circle_green_a700_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.VISIBLE);
@@ -140,7 +138,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                         //otherUserImg.setImageResource(invite.getReciever_ID());
                         break;
                     case "pending":
-                        otherUserName.setText(userResponse(invite.getRecieverName(), "has not responded"));
+                        otherUserName.setText(userResponse(invite.getReceiverName(), "has not responded"));
                         accepted.setImageResource(R.mipmap.hourglass);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.VISIBLE);
@@ -150,7 +148,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "rejected":
-                        otherUserName.setText(userResponse(invite.getRecieverName(), "cannot meet"));
+                        otherUserName.setText(userResponse(invite.getReceiverName(), "cannot meet"));
                         accepted.setImageResource(R.drawable.ic_cancel_red_500_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         cancel.setVisibility(View.GONE);

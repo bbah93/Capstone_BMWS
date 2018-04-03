@@ -120,11 +120,13 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
                 if (isProfileNotCreated) {
-                    Log.d(TAG, "onDataChange: uID " + user.getUid());
-                    UserSingleton.getInstance().setUser(new User());
-                    Log.d(TAG, "onDataChange: new user created in singleton");
-                    UserSingleton.getInstance().getUser().setuID(user.getUid());
-                    UserSingleton.getInstance().getUser().setEmail(user.getEmail());
+                    if (user != null) {
+                        Log.d(TAG, "onDataChange: uID " + user.getUid());
+                        UserSingleton.getInstance().setUser(new User());
+                        Log.d(TAG, "onDataChange: new user created in singleton");
+                        UserSingleton.getInstance().getUser().setuID(user.getUid());
+                        UserSingleton.getInstance().getUser().setEmail(user.getEmail());
+                    }
                     startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
                     finish();
                 }
