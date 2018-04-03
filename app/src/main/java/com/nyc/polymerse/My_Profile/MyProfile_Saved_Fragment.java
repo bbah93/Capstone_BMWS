@@ -35,6 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -82,7 +83,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         rootView = inflater.inflate(R.layout.fragment_my_profile__saved, container, false);
+        rootView = inflater.inflate(R.layout.fragment_my_profile__saved, container, false);
         homeButton = rootView.findViewById(R.id.back_home_button);
         addProfileImage = rootView.findViewById(R.id.ad_profile_image);
         editProfileButton = rootView.findViewById(R.id.save_profile_fab);
@@ -103,12 +104,13 @@ public class MyProfile_Saved_Fragment extends Fragment {
         homeButtonClick();
         editProfileClick();
         setAddProfileImage();
+        grabUserInfo();
 
 
         return rootView;
     }
 
-    public void homeButtonClick(){
+    public void homeButtonClick() {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +121,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
         });
     }
 
-    public void editProfileClick(){
+    public void editProfileClick() {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +136,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
         });
     }
 
-    public void setAddProfileImage(){
+    public void setAddProfileImage() {
         addProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +145,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
         });
     }
 
-    private void startDialogue(){
+    private void startDialogue() {
         AlertDialog.Builder cameraAlertDialogue = new AlertDialog.Builder(getActivity());
         cameraAlertDialogue.setTitle("Upload Profile Pictures Option");
         cameraAlertDialogue.setMessage("How do you want to set your picture?");
@@ -162,7 +164,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File file = new File(android.os.Environment.getExternalStorageDirectory(),"temp.jpg");
+                File file = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
@@ -174,18 +176,18 @@ public class MyProfile_Saved_Fragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         bitmap = null;
         selectedImagePath = null;
 
-        if(resultCode == RESULT_OK && requestCode == CAMERA_REQUEST){
+        if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
 
             File f = new File(Environment.getExternalStorageDirectory()
-            .toString());
-            for (File temp : f.listFiles()){
-                if(temp.getName().equals("temp.jpg")){
+                    .toString());
+            for (File temp : f.listFiles()) {
+                if (temp.getName().equals("temp.jpg")) {
                     f = temp;
                     break;
                 }
@@ -194,7 +196,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 Toast.makeText(getActivity().getBaseContext(), "Error while capturing image", Toast.LENGTH_LONG).show();
                 return;
             }
-            try{
+            try {
                 bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
 
                 bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
@@ -204,9 +206,9 @@ public class MyProfile_Saved_Fragment extends Fragment {
                     ExifInterface exifInterface = new ExifInterface(f.getAbsolutePath());
                     int orientation = exifInterface
                             .getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                            ExifInterface.ORIENTATION_NORMAL);
+                                    ExifInterface.ORIENTATION_NORMAL);
 
-                    switch (orientation){
+                    switch (orientation) {
                         case ExifInterface.ORIENTATION_ROTATE_270:
                             rotate = 270;
                             break;
@@ -223,19 +225,18 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 }
                 Matrix matrix = new Matrix();
                 matrix.postRotate(rotate);
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0,bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
                 //setting profile image
                 profileImage.setImageBitmap(bitmap);
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else if(resultCode == RESULT_OK && requestCode == GALLERY_PICTURE){
-            if(data != null){
+        } else if (resultCode == RESULT_OK && requestCode == GALLERY_PICTURE) {
+            if (data != null) {
 
                 Uri selectedImage = data.getData();
-                String [] filePath = {MediaStore.Images.Media.DATA};
+                String[] filePath = {MediaStore.Images.Media.DATA};
                 Cursor c = getActivity().getContentResolver().query(selectedImage, filePath,
                         null, null, null);
                 c.moveToFirst();
@@ -252,8 +253,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
 
                 profileImage.setImageBitmap(bitmap);
-            }
-            else {
+            } else {
                 Toast.makeText(getActivity().getApplicationContext(), "Cancelled",
                         Toast.LENGTH_SHORT).show();
             }
@@ -261,22 +261,44 @@ public class MyProfile_Saved_Fragment extends Fragment {
     }
 
 
-
-
     //TODO: Decide how name and user info will be stored in db
-    public void grabUserInfo(){
-        name_Input.setText(String.format("%s %s", profileDetails.getString("first_name", null), profileDetails.getString("last_name", null)));
-        location_Input.setText(String.format("%s %s", profileDetails.getString("city", null), profileDetails.getString("state", null)));
+    public void grabUserInfo() {
+
+        if (currentUser.getAboutMe() != null) {
+            aboutMeInput.setText(currentUser.getAboutMe());
+        }
+        name_Input.setText(currentUser.getUsername());
+        String locationString = currentUser.getCity() + ", " + currentUser.getState();
+        location_Input.setText(locationString);
+//        name_Input.setText(String.format("%s %s", profileDetails.getString("first_name", null), profileDetails.getString("last_name", null)));
+//        location_Input.setText(String.format("%s %s", profileDetails.getString("city", null), profileDetails.getString("state", null)));
 
         //TODO:Put about me in if statement
         //aboutMeInput
-        learning_Input.setText(profileDetails.getString("learning_lang", null));
-        sharing_Input.setText(profileDetails.getString("fluent", null));
+        Map<String, String> langLearn = currentUser.getLangLearn();
+        Map<String, String> langTeach = currentUser.getLangTeach();
 
         String learnLevel = profileDetails.getString("learning_level", null);
         String sharingLevel = profileDetails.getString("fluent_level", null);
-
-        switch (learnLevel){
+        if (langLearn != null) {
+            for (String s : langLearn.keySet()) {
+                learning_Input.setText(s);
+                learnLevel = langLearn.get(s);
+            }
+        } else {
+            learnLevel = "";
+        }
+        if (langTeach != null) {
+            for (String s : langTeach.keySet()) {
+                sharing_Input.setText(s);
+                sharingLevel = langTeach.get(s);
+            }
+        } else {
+            sharingLevel = "";
+        }
+//        learning_Input.setText(profileDetails.getString("learning_lang", null));
+//        sharing_Input.setText(profileDetails.getString("fluent", null));
+        switch (learnLevel) {
             case "Beginner":
                 learningLevel.setProgress(25);
                 break;
@@ -293,7 +315,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 learningLevel.setProgress(0);
         }
 
-        switch (sharingLevel){
+        switch (sharingLevel) {
             case "Beginner":
                 learningLevel.setProgress(25);
                 break;
@@ -311,10 +333,13 @@ public class MyProfile_Saved_Fragment extends Fragment {
         }
     }
 
-    public void grabProfileURL(){
-        String imgUrl = currentUser.getProfilePic();
-        Log.d(TAG, "grabProfileURL: "+ imgUrl);
-        Picasso.get().load(imgUrl).fit().into(profileImage);
+    public void grabProfileURL() {
+
+        if (currentUser.getProfilePic() != null) {
+            String imgUrl = currentUser.getProfilePic();
+            Log.d(TAG, "grabProfileURL: " + imgUrl);
+            Picasso.get().load(imgUrl).fit().placeholder(R.drawable.ic_account_circle_black_24dp).into(profileImage);
+        }
     }
 
 }

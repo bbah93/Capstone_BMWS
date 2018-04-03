@@ -14,7 +14,7 @@ public class Invite_Schema {
     private String receiver_ID;
     private String acceptStatus;
     private String senderName;
-    private String recieverName;
+    private String receiverName;
     private String img;
 
     public Invite_Schema() {
@@ -29,12 +29,12 @@ public class Invite_Schema {
         this.senderName = senderName;
     }
 
-    public String getRecieverName() {
-        return recieverName;
+    public String getReceiverName() {
+        return receiverName;
     }
 
-    public void setRecieverName(String recieverName) {
-        this.recieverName = recieverName;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
     public void setInvite_ID(String invite_ID) {

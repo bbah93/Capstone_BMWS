@@ -105,7 +105,7 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
             String userDisplayName = user.getUsername();
             userName.setText(userDisplayName);
             if (user.getProfilePic() != null) {
-                Picasso.get().load(user.getProfilePic()).into(avatar);
+                Picasso.get().load(user.getProfilePic()).placeholder(R.drawable.ic_account_circle_black_24dp).into(avatar);
             }
             Map<String,String> learnMap = user.getLangLearn();
             String languageLearning = "";

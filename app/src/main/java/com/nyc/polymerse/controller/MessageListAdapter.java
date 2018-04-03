@@ -15,8 +15,11 @@ import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.fragments.MessageFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Wayne Kellman on 3/21/18.
@@ -55,6 +58,7 @@ public class  MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter
                 fragmentJump(userList.get(position));
             }
         });
+        Picasso.get().load(userList.get(position).getProfilePic()).placeholder(R.drawable.ic_account_circle_black_24dp).into(holder.avatar);
     }
 
     @Override
@@ -65,10 +69,12 @@ public class  MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter
     public class ViewHoler extends RecyclerView.ViewHolder {
 
         TextView textView;
+        CircleImageView avatar;
         public ViewHoler(View itemView) {
             super(itemView);
 
             textView = itemView.findViewById(R.id.msg_user_name);
+            avatar = itemView.findViewById(R.id.message_avatar);
         }
     }
     MessageFragment mFragment;
