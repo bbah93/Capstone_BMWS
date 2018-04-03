@@ -247,7 +247,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
         android:layout_marginEnd="30dp"
-        />
+        android:tint="@color/buttonColor"
+        android:backgroundTint="@color/errorColor"/>
 
 
 
