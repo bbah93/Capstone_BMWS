@@ -8,8 +8,6 @@
     android:orientation="vertical"
     tools:context="com.nyc.polymerse.Profile_Creation.Location_Fragment">
 
-    <!-- TODO: Shorten TextViews -->
-    <!-- TODO: Beautify/Update color scheme -->
     <TextView
         android:id="@+id/closing_TV"
         android:layout_width="wrap_content"
@@ -31,7 +29,6 @@
 
 
     <RelativeLayout
-        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -39,7 +36,7 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/known_card"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="15dp"
@@ -48,41 +45,25 @@
             android:foreground="?android:selectableItemBackground"
             card_view:cardCornerRadius="8dp">
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
             <Spinner
                 android:id="@+id/known_input"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_gravity="bottom"
-                android:textStyle="italic"/>
+                android:textStyle="italic" />
 
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/fluent_level_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-
-            android:layout_marginStart="15dp"
-            android:layout_alignParentEnd="true"
-            card_view:cardBorder="20dp"
-            card_view:cardCornerRadius="8dp"
-            card_view:cardElevation="2dp"
-            card_view:cardUseCompatPadding="true">
-
-            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            <RadioGroup
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/known_RadioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/known_input"
                 android:orientation="vertical">
-
-                <RadioButton android:id="@+id/radio__know_beginner"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/beginner_filter"
-                    android:textSize="12sp" />
 
                 <RadioButton android:id="@+id/radio__know_inter"
                     android:layout_width="wrap_content"
@@ -105,34 +86,35 @@
                     />
 
             </RadioGroup>
-
+            </RelativeLayout>
         </android.support.v7.widget.CardView>
     </RelativeLayout>
+
 
     <TextView
         android:id="@+id/difficulty_TV"
         android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:text="Which language are you trying to learn?\n"
         android:textAlignment="center" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
         <android.support.v7.widget.CardView
             android:id="@+id/learn_card"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
+            android:layout_marginTop="-15dp"
             android:layout_marginStart="15dp"
             android:layout_gravity="center"
             card_view:cardCornerRadius="8dp"
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
             <Spinner
                 android:id="@+id/lang_learn_input"
@@ -142,61 +124,45 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="bottom"/>
 
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/learning_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_alignParentEnd="true"
-            card_view:cardCornerRadius="8dp"
-            card_view:cardElevation="2dp"
-            card_view:cardUseCompatPadding="true">
 
             <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/learn_RadioGroup"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/lang_learn_input"
+                android:orientation="vertical">
+
                 <RadioButton android:id="@+id/radio_learn_beginner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/beginner_filter"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
 
                 <RadioButton android:id="@+id/radio_learn_inter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/intermediate_filter"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
 
                 <RadioButton android:id="@+id/radio_learn_advanced"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/advanced_filter"
-                    android:textSize="12sp"
-                    />
-
+                    android:textSize="12sp" />
             </RadioGroup>
 
+        </RelativeLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/language_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/learning_card"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="bottom|center"
             android:layout_marginBottom="@dimen/fab_margin"
             android:src="@mipmap/ic_done" />
-
-    </RelativeLayout>
-    
 
 </LinearLayout>
