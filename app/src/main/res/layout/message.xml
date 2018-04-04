@@ -8,14 +8,17 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/message_user"
-        android:textStyle="normal|bold" />
+        android:text="@string/first_name"
+        android:textStyle="normal|bold"
+        android:visibility="gone"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/message_user"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/message_time" />
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBottom="@+id/message_user"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:text="@string/message_time"-->
+        <!--android:id="@+id/message_time" />-->
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,6 +27,31 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"
         android:id="@+id/message_text"
+        android:text="@string/about_details"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/message_other_user"
+        android:text="@string/first_name"
+        android:gravity="end"
+        android:textStyle="normal|bold"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/message_other_user"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:id="@+id/message_other_text"
+        android:text="@string/about_details"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 </RelativeLayout>

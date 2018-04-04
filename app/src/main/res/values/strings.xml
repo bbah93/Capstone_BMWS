@@ -125,5 +125,6 @@
     <string name="suggestions_search_button">search</string>
     <string name="suggested_locations">Or let us suggest a place!</string>
     <string name="block_details">Block</string>
+    <string name="message_time">11:00</string>
 
 </resources>
