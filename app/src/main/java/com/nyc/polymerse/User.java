@@ -17,6 +17,26 @@ public class User {
     private String uID;
     private Map<String, String> invites;
     private Map<String,String> blocked;
+    private String profilePic;
+    private String aboutMe;
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+
 
     public String getuID() {
         return uID;
@@ -81,6 +101,7 @@ public class User {
     public Map<String, String> getInvites() {
         return invites;
     }
+
     public void setInvites(Map<String, String> invites) {
         this.invites = invites;
     }

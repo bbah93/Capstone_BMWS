@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Message;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
@@ -59,7 +60,9 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_message, container, false);
+
+        return rootView;
     }
 
     @Override
@@ -73,7 +76,7 @@ public class MessageFragment extends Fragment {
         Bundle bundle = getArguments();
         //deserialize the other otherUser and store in a field.
         String userString = bundle.getString("item_selected_key");
-        User otherUser = new Gson().fromJson(userString, User.class);
+        final User otherUser = new Gson().fromJson(userString, User.class);
         this.otherUser = otherUser;
         Log.d(TAG, "onViewCreated: " + otherUser.getuID());
 
@@ -113,11 +116,26 @@ public class MessageFragment extends Fragment {
                 // Get references to the views of message.xml
                 TextView messageText = (TextView) v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView) v.findViewById(R.id.message_user);
+                TextView messageOtherUser = v.findViewById(R.id.message_other_user);
+                TextView messageOtherText = v.findViewById(R.id.message_other_text);
 //                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
 
-                // Set their text
-                messageText.setText(model.getMessageText());
-                messageUser.setText(model.getMessageUser());
+                //make the proper views visible depending on who sent and who's receiving
+                if (model.getMessageUser().equals(otherUser.getUsername())) {
+                    messageText.setVisibility(View.VISIBLE);
+                    messageUser.setVisibility(View.VISIBLE);
+
+                    // Set their text
+                    messageText.setText(model.getMessageText());
+                    messageUser.setText(model.getMessageUser());
+                } else {
+                    messageOtherText.setVisibility(View.VISIBLE);
+                    messageOtherUser.setVisibility(View.VISIBLE);
+
+                    // Set their text
+                    messageOtherText.setText(model.getMessageText());
+                    messageOtherUser.setText(model.getMessageUser());
+                }
 //
 //                // Format the date before showing it
 //                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",

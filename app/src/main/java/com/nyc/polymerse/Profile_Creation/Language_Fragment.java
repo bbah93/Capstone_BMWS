@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
+import com.nyc.polymerse.My_Profile.MyProfileActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
@@ -40,9 +41,7 @@ public class Language_Fragment extends Fragment implements AdapterView.OnItemSel
 
     public static String TAG;
     Spinner fluent;
-
     Spinner learning;
-
     FloatingActionButton language_fab;
     private static final String PROF_CREATE_KEY = "profile_creator";
     SharedPreferences profile_creator;
@@ -127,7 +126,7 @@ public class Language_Fragment extends Fragment implements AdapterView.OnItemSel
                        createUser.put(UserSingleton.getInstance().getUser().getuID(),UserSingleton.getInstance().getUser());
                        databaseReference.updateChildren(createUser);
 
-                       Intent intent = new Intent(getActivity(), HomeActivity.class);
+                       Intent intent = new Intent(getActivity(), MyProfileActivity.class);
                        startActivity(intent);
                }
 

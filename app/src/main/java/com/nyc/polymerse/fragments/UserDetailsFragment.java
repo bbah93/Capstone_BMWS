@@ -2,9 +2,12 @@ package com.nyc.polymerse.fragments;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +25,7 @@ import com.nyc.polymerse.Invites.Invite_Frag;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,9 +46,10 @@ public class UserDetailsFragment extends Fragment {
     UserResultsFragment mUserResultsFragment;
     private Context context;
 
-    private CircleImageView profilePic, profileBlock, profileReviewerPic;
-    private TextView profileUserName, aboutMe, profileReviewDate, profileReview, sharingLang, learningLang;
-    private Button message, invite;
+    private CircleImageView profilePic,  profileReviewerPic;
+    private TextView profileUserName, aboutMe, profileReviewDate, profileReview, sharingLang, learningLang,profileBlock;
+    private Button invite;
+    private FloatingActionButton message;
     private ProgressBar sharingFluency, learningFluency;
     private User currentUser;
 
@@ -62,6 +67,9 @@ public class UserDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_user_details, container, false);
         context = rootView.getContext();
+
+
+
         return rootView;
     }
 
@@ -69,7 +77,7 @@ public class UserDetailsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        message = view.findViewById(R.id.profile_message);
+        message = view.findViewById(R.id.user_details_message);
         invite = view.findViewById(R.id.profile_invite);
         profileBlock = view.findViewById(R.id.profile_block);
 
@@ -93,27 +101,55 @@ public class UserDetailsFragment extends Fragment {
                 fragmentJump(user, new Invite_Frag());
             }
         });
+        // setting up alert for blocking another user.
+
+
+
         profileBlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference databaseReferenceBlocked = databaseReference.child(Constants.BLOCKED_USER_KEY);
-                Map<String,Object> userGettingBlock = new HashMap<>();
-                String currentTime = String.valueOf(System.currentTimeMillis());
-                userGettingBlock.put(currentTime, currentUser.getuID());
-                databaseReferenceBlocked.child(user.getuID()).updateChildren(userGettingBlock);
+                //Accessing database to find a reference to the blocked child.
+                String question = "Are you sure you want to block them. It is permanent.";
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                Map<String,String> userBlockReference = new HashMap<>();
-                if (currentUser.getBlocked() != null){
-                    userBlockReference = currentUser.getBlocked();
-                }
-                userBlockReference.put(currentTime,user.getuID());
-                currentUser.setBlocked(userBlockReference);
-                UserSingleton.getInstance().setUser(currentUser);
-                databaseReference.child(Constants.USERS).child(currentUser.getuID()).setValue(currentUser);
-                switchContent(R.id.fragment_container, new UserResultsFragment());
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        DatabaseReference databaseReferenceBlocked = databaseReference.child(Constants.BLOCKED_USER_KEY);
+                        Map<String,Object> userGettingBlock = new HashMap<>();
+                        String currentTime = String.valueOf(System.currentTimeMillis());
+                        //Creating a map of the blocked user and the time they where blocked
+                        userGettingBlock.put(currentTime, currentUser.getuID());
+                        //Updating child so the new map gets added to FireBase.
+                        databaseReferenceBlocked.child(user.getuID()).updateChildren(userGettingBlock);
 
+                        //Getting the blocked map from the user
+                        Map<String,String> userBlockReference = new HashMap<>();
+                        if (currentUser.getBlocked() != null){
+                            userBlockReference = currentUser.getBlocked();
+                        }
+                        //Adding the same blocked info as previously shown
+                        userBlockReference.put(currentTime,user.getuID());
 
+                        //Updated the current app users object
+                        currentUser.setBlocked(userBlockReference);
+                        UserSingleton.getInstance().setUser(currentUser);
 
+                        //Setting the updated user to the FireBase database
+                        databaseReference.child(Constants.USERS).child(currentUser.getuID()).setValue(currentUser);
+
+                        //Leaving profile to the home page
+                        switchContent(R.id.fragment_container, new UserResultsFragment());
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+                builder.setMessage(question);
+
+                builder.create();
+                builder.show();
             }
         });
 
@@ -123,12 +159,15 @@ public class UserDetailsFragment extends Fragment {
         sharingLang = view.findViewById(R.id.detail_sharing_value);
         learningFluency = view.findViewById(R.id.detail_learning_fluency);
         sharingFluency = view.findViewById(R.id.detail_sharing_fluency);
+        profilePic = rootView.findViewById(R.id.user_profile_avatar);
+
         setUserFields();
 
 
     }
 
     private void setUserFields() {
+        Picasso.get().load(user.getProfilePic()).placeholder(R.drawable.ic_account_circle_black_24dp).into(profilePic);
         profileUserName.setText(user.getUsername());
         Map<String, String> langLearn = user.getLangLearn();
         Map<String, String> langShare = user.getLangTeach();

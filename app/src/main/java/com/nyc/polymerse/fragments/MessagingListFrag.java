@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.controller.MessageListAdapter;
@@ -38,6 +40,7 @@ public class MessagingListFrag extends Fragment {
     private List<User> userList;
     private List<String> msgKeys;
     private SharedPreferences sharedPreferences;
+    private ProgressBar progressBar;
 
     public MessagingListFrag() {
         // Required empty public constructor
@@ -50,6 +53,8 @@ public class MessagingListFrag extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_messaging_list, container, false);
         sharedPreferences = rootView.getContext().getSharedPreferences(Constants.FIREBASE_UID, Context.MODE_PRIVATE);
+        progressBar = rootView.findViewById(R.id.msg_progressbar);
+
         return rootView;
     }
 
@@ -97,6 +102,9 @@ public class MessagingListFrag extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() < 1 ) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     User user = ds.getValue(User.class);
                     for (String s : msgKeys) {
@@ -109,7 +117,7 @@ public class MessagingListFrag extends Fragment {
                     RecyclerView recyclerView = rootView.findViewById(R.id.msg_recview);
                     LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(manager);
-                    MessageListAdapter adapter = new MessageListAdapter(userList, rootView.getContext());
+                    MessageListAdapter adapter = new MessageListAdapter(userList, rootView.getContext(), progressBar);
                     recyclerView.setAdapter(adapter);
                 }
                 Log.d(TAG, "onDataChange: user " + userList.size());

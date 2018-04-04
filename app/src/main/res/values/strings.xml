@@ -122,5 +122,9 @@
     <string name="message_details">Message</string>
     <string name="last_msg_input_here">Last Msg Input Here</string>
     <string name="title_polymerse">Polymerse</string>
+    <string name="suggestions_search_button">search</string>
+    <string name="suggested_locations">Or let us suggest a place!</string>
+    <string name="block_details">Block</string>
+    <string name="message_time">11:00</string>
 
 </resources>

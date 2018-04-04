@@ -75,6 +75,8 @@
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_forward"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/primaryDarkColor"/>
+        android:backgroundTint="@color/primaryMediumColor"/>
+
+
 
 </LinearLayout>

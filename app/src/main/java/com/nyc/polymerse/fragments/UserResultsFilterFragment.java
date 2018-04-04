@@ -161,10 +161,10 @@ public class UserResultsFilterFragment extends Fragment {
         if (clearAndApply) {
             editor.clear().commit();
         }
-
+        clearAndApply = false;
         closeFragment();
-
     }
+
     public void filterList(){
         ArrayList<User> userListFilter = filterThroughSharedPrefs(userList, UserSingleton.getInstance().getUser());
         adapter.updateList(userListFilter);
@@ -173,9 +173,17 @@ public class UserResultsFilterFragment extends Fragment {
     private ArrayList<User> filterThroughSharedPrefs(ArrayList<User> userList, User user) {
         boolean sharing = sharedPreferences.getBoolean("Sharing",false);
         boolean learning = sharedPreferences.getBoolean("Learning", false);
+        boolean beginner = sharedPreferences.getBoolean("Beginner", false);
+        boolean intermediate = sharedPreferences.getBoolean("Intermediate", false);
+        boolean advance = sharedPreferences.getBoolean("Advanced", false);
+        boolean fluent = sharedPreferences.getBoolean("Fluent", false);
 
         Log.d(TAG, "filterThroughSharedPrefs: sharing " + sharing);
         Log.d(TAG, "filterThroughSharedPrefs: learning " + learning);
+        Log.d(TAG, "filterThroughSharedPrefs: beginner " + beginner);
+        Log.d(TAG, "filterThroughSharedPrefs: intermediate " + intermediate);
+        Log.d(TAG, "filterThroughSharedPrefs: advance " + advance);
+        Log.d(TAG, "filterThroughSharedPrefs: fluent " + fluent);
         ArrayList<User> filteredUsers = userList;
         for (int i = 0; i < userList.size(); i++) {
             Log.d(TAG, "filterThroughSharedPrefs: pre " + userList.get(i).getUsername() + " " + i);
@@ -192,6 +200,36 @@ public class UserResultsFilterFragment extends Fragment {
 
             for (int i = 0; i < filteredUsers.size(); i++) {
                 Log.d(TAG, "filterThroughSharedPrefs: post learning " + filteredUsers.get(i).getUsername() + " " + i);
+            }
+        }
+
+        //These should filter the fluency but needs work
+        if (beginner) {
+            filteredUsers = FilterUsersClass.filterUserByBeginner(filteredUsers);
+
+            for (int i = 0; i < filteredUsers.size(); i++) {
+                Log.d(TAG, "filterThroughSharedPrefs: post beginner " + filteredUsers.get(i).getUsername() + " " + i);
+            }
+        }
+        if (intermediate) {
+            filteredUsers = FilterUsersClass.filterUserByIntermediate(filteredUsers);
+
+            for (int i = 0; i < filteredUsers.size(); i++) {
+                Log.d(TAG, "filterThroughSharedPrefs: post intermediate " + filteredUsers.get(i).getUsername() + " " + i);
+            }
+        }
+        if (advance) {
+            filteredUsers = FilterUsersClass.filterUserByAdvanced(filteredUsers);
+
+            for (int i = 0; i < filteredUsers.size(); i++) {
+                Log.d(TAG, "filterThroughSharedPrefs: post advance " + filteredUsers.get(i).getUsername() + " " + i);
+            }
+        }
+        if (fluent) {
+            filteredUsers = FilterUsersClass.filterUserByFluent(filteredUsers);
+
+            for (int i = 0; i < filteredUsers.size(); i++) {
+                Log.d(TAG, "filterThroughSharedPrefs: post fluent " + filteredUsers.get(i).getUsername() + " " + i);
             }
         }
 

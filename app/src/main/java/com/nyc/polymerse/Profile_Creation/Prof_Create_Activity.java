@@ -1,16 +1,18 @@
 package com.nyc.polymerse.Profile_Creation;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.My_Profile.MyProfileActivity;
 import com.nyc.polymerse.R;
 
 
 public class Prof_Create_Activity extends AppCompatActivity {
-    //TODO:Give Language and Location Fragments spinners instead of EditTexts
-    //TODO:Add Transition Animation to fragment swipes
+
+    //TODO:Add Transition Animation
 
     SharedPreferences profile_creator;
 
@@ -33,4 +35,10 @@ public class Prof_Create_Activity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(Prof_Create_Activity.this, MyProfileActivity.class);
+        startActivity(intent);
+    }
 }

@@ -5,6 +5,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -17,13 +25,16 @@
             android:name=".HomeActivity"
             android:label="@string/title_polymerse"
             android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".SplashActivity" android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".Profile_Creation.Prof_Create_Activity" />
         <activity
@@ -34,7 +45,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nyc.polymerse.HomeActivity" />
         </activity>
-        <activity android:name=".MyProfileActivity"></activity>
+        <activity android:name=".My_Profile.MyProfileActivity"></activity>
     </application>
 
 </manifest>

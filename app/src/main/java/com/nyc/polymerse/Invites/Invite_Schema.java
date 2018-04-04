@@ -6,21 +6,40 @@ package com.nyc.polymerse.Invites;
 
 public class Invite_Schema {
 
-
-    String invite_ID;
-    String sender_ID;
-    String location;
-    String time;
-    String date;
-    String receiver_ID;
-    String acceptStatus;
+    private String invite_ID;
+    private String sender_ID;
+    private String location;
+    private String time;
+    private String date;
+    private String receiver_ID;
+    private String acceptStatus;
+    private String senderName;
+    private String receiverName;
+    private String img;
 
     public Invite_Schema() {
         this.acceptStatus = "pending";
     }
 
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
     public void setInvite_ID(String invite_ID) {
         this.invite_ID = invite_ID;
+
     }
 
     public void setSender_ID(String sender_ID) {
@@ -73,5 +92,13 @@ public class Invite_Schema {
 
     public String getAcceptStatus() {
         return acceptStatus;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

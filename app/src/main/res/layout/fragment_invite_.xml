@@ -7,101 +7,144 @@
     android:padding="@dimen/user_results_padding_margin"
     tools:context="com.nyc.polymerse.Invites.Invite_Frag">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/user_avatar_user_results"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/user_avatar_user_results"
+        android:text="Invite Sam for a chat"
+        android:textColor="@color/primaryColor"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_avatar_user_results"
-        android:layout_width="@dimen/avatar_dimen"
-        android:layout_height="@dimen/avatar_dimen"
-        android:src="@mipmap/woman" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="@dimen/user_results_item_width"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:orientation="vertical"
-        android:padding="@dimen/user_results_item_padding">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Date"
-                android:padding="@dimen/user_results_view_padding" />
-
-            <Button
-                android:id="@+id/date_picker"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:background="@drawable/date" />
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="13dp"
+        android:src="@mipmap/woman"
+        android:visibility="visible" />
 
 
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/user_results_view_padding"
-                android:hint="Time" />
-
-            <Button
-                android:id="@+id/time_picker"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/time" />
-
-        </LinearLayout>
-
-
-        <TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-        </TimePicker>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/user_results_view_padding"
-                android:text="Location" />
-
-
-            <Button
-                android:id="@+id/location_button"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/location" />
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/send_button_invite"
-        style="?android:attr/borderlessButtonStyle"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/linearLayout2"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_marginStart="38dp"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/location"
+        android:layout_marginTop="28dp"
+        android:text="When do you want to meet?"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/date_picker"
+        android:layout_centerHorizontal="true"
+        android:hint="Date"
+        android:padding="@dimen/user_results_view_padding"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/date_picker"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/textView2"
+        android:layout_gravity="center"
+        android:layout_marginTop="19dp"
+        android:layout_toEndOf="@+id/textView3"
+        android:background="@drawable/date" />
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="At what time?"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/date"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="19dp"
+        android:hint="Time"
+        android:padding="@dimen/user_results_view_padding"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/time_picker"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignTop="@+id/time"
+        android:layout_toEndOf="@+id/textView3"
+        android:background="@drawable/time" />
+
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+    </TimePicker>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_avatar_user_results"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:text="Where do you want to meet?"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:padding="@dimen/user_results_view_padding"
+        android:text="Location"
+        android:textSize="20dp" />
+
+
+    <Button
+        android:id="@+id/location_button"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@+id/date_picker"
+        android:layout_alignTop="@+id/location"
+        android:background="@drawable/location" />
+
+
+    <Button
+
+        android:id="@+id/send_button_invite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_hollow"
         android:text="send" />
 </RelativeLayout>

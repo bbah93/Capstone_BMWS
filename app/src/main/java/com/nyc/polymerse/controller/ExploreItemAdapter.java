@@ -1,5 +1,8 @@
 package com.nyc.polymerse.controller;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +32,7 @@ public class ExploreItemAdapter extends RecyclerView.Adapter<ExploreItemAdapter.
 
     @Override
     public ExploreItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View holder = LayoutInflater.from(parent.getContext()).inflate(R.layout.explore_item,parent,false);
+        View holder = LayoutInflater.from(parent.getContext()).inflate(R.layout.explore_item, parent, false);
         return new ExploreItemViewHolder(holder);
     }
 
@@ -39,7 +42,6 @@ public class ExploreItemAdapter extends RecyclerView.Adapter<ExploreItemAdapter.
         holder.onBind(model);
     }
 
-
     @Override
     public int getItemCount() {
         return exploreList.size();
@@ -47,31 +49,69 @@ public class ExploreItemAdapter extends RecyclerView.Adapter<ExploreItemAdapter.
 
     public class ExploreItemViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView movieImg;
-        ImageView songImg;
-        ImageView placeImg;
-        TextView movie;
-        TextView place;
-        TextView song;
+        ImageView img;
+        ImageView type;
+        TextView name;
+        TextView goTo;
 
         public ExploreItemViewHolder(View itemView) {
             super(itemView);
-            movieImg = itemView.findViewById(R.id.explore_item_show);
-            songImg = itemView.findViewById(R.id.explore_item_song);
-            placeImg = itemView.findViewById(R.id.explore_item_place);
-            movie = itemView.findViewById(R.id.show_name);
-            place = itemView.findViewById(R.id.place_name);
-            song = itemView.findViewById(R.id.song_name);
+            img = itemView.findViewById(R.id.explore_item_img);
+            type = itemView.findViewById(R.id.explore_item_type);
+            goTo = itemView.findViewById(R.id.explore_item_go_to);
+            name = itemView.findViewById(R.id.explore_item_name);
         }
 
-        public void onBind(ExploreItemModel model){
-            Picasso.get().load(model.getPlace_img()).fit().into(placeImg);
-            Picasso.get().load(model.getSong_img()).fit().into(songImg);
-            Picasso.get().load(model.getShow_movie_img()).fit().into(movieImg);
-            movie.setText(model.getShow_movie());
-            song.setText(model.getSong());
-            place.setText(model.getPlace());
+        public void onBind(final ExploreItemModel model) {
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url = model.getItem_url();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    itemView.getContext().startActivity(i);
+                }
+            });
+
+            Picasso.get().load(model.getItem_img()).fit().into(img);
+            name.setText(model.getItem_name());
+            getItemTypeImg(model.getItem_type());
+            goTo.setText(getGoToString(model.getItem_type()));
 
         }
+
+        public void getItemTypeImg(String type) {
+            switch (type) {
+                case "film":
+                    this.type.setImageResource(R.mipmap.show_round);
+                    break;
+                case "site":
+                    this.type.setImageResource(R.mipmap.place_round);
+                    break;
+                case "food":
+                    this.type.setImageResource(R.mipmap.food_icon_round);
+                    break;
+                case "music":
+                    this.type.setImageResource(R.mipmap.song_round);
+                    break;
+            }
+        }
+
+        public String getGoToString(String type) {
+            switch (type) {
+                case "film":
+                    return "Go to IMDB";
+                case "site":
+                    return "Go to Website";
+                case "food":
+                    return "Go to Website";
+                case "music":
+                    return "Listen on Youtube";
+                default:
+                    return "";
+            }
+        }
+
     }
 }
