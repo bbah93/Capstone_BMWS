@@ -37,9 +37,6 @@ public class ExploreFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_explore, container, false);
 
         ButterKnife.bind(this, rootView);
-        //if (rootView.getContext() instanceof HomeActivity) {
-        //    ((HomeActivity) rootView.getContext()).disableProgressBar();
-        //}
 
         RecyclerView recyclerView = rootView.findViewById(R.id.explore_rec_view);
         try {

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.My_Profile.MyProfileActivity;
 import com.nyc.polymerse.R;
 
 
@@ -34,6 +35,10 @@ public class Prof_Create_Activity extends AppCompatActivity {
 
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(Prof_Create_Activity.this, MyProfileActivity.class);
+        startActivity(intent);
+    }
 }

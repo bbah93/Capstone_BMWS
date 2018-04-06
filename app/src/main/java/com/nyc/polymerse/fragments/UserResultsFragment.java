@@ -109,7 +109,7 @@ public class UserResultsFragment extends Fragment {
                             }
                         }
                     }
-                    if (!userBlocked) {
+                    if (!userBlocked && !user.getuID().equals(currentUser.getuID()) && !user.getUsername().isEmpty()) {
                         userList.add(user);
                         userBlocked = false;
                     }
