@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.fragments.InviteDialogFragment;
 import com.nyc.polymerse.fragments.NotificationFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +87,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
         private String status;
         private Invite_Schema inviteSchema;
         private final String ID = UserSingleton.getInstance().getUser().getuID();
+        private final String TAG = "InviteItemViewHolder";
 
         public InviteItemViewHolder(View itemView) {
             super(itemView);
@@ -99,11 +109,41 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                     inviteDialog();
                 }
             });
+
+            //get img of the other user through there profile
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.USERS).child(invite.getSender_ID());
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot != null) {
+                        User senderUser = dataSnapshot.getValue(User.class);
+                        if (senderUser != null) {
+                            Log.d(TAG, "onDataChange: senderUser " + senderUser.getUsername());
+                            if (senderUser.getProfilePic() != null) {
+                                Picasso.get().load(senderUser.getProfilePic()).placeholder(R.drawable.ic_account_circle_black_24dp).into(otherUserImg);
+                            } else {
+                                otherUserImg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+
+                        } else {
+                            otherUserImg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    } else {
+                        otherUserImg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
             status = invite.getAcceptStatus();
             date.setText(invite.getDate());
             time.setText(invite.getTime());
 
-            if (ID == invite.getSender_ID()) {
+            if (ID.equals(invite.getSender_ID())) {
                 switch (invite.getAcceptStatus()) {
                     case "accepted":
                         //NEED TO GET OTHER USER'S NAME AND IMAGE
