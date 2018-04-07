@@ -2,10 +2,12 @@ package com.nyc.polymerse.fragments;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,10 +21,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.nyc.polymerse.Constants;
+import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Message;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
@@ -112,6 +118,39 @@ public class MessageFragment extends Fragment {
             @Override
             protected void populateView(View v, Message model, int position) {
 
+                v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String question = "Go to user profile?";
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.USERS).child(otherUID);
+                                databaseReference.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        User otherUser = dataSnapshot.getValue(User.class);
+                                        fragmentJump(otherUser, new UserDetailsFragment());
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+                        });
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                        builder.setMessage(question);
+                        builder.create();
+                        builder.show();
+                    }
+                });
+
                 // Get references to the views of message.xml
                 TextView messageText = (TextView) v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView) v.findViewById(R.id.message_user);
@@ -163,6 +202,23 @@ public class MessageFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
+    }
+    private void fragmentJump(User otherMsgUser, Fragment fragment) {
+
+        Bundle mBundle = new Bundle();
+        String userString = new Gson().toJson(otherMsgUser);
+        mBundle.putString(Constants.ITEM_SELECTED_KEY, userString);
+        fragment.setArguments(mBundle);
+        switchContent(R.id.fragment_container, fragment);
+    }
+
+    public void switchContent(int id, Fragment fragment) {
+
+        if (getActivity() instanceof HomeActivity) {
+            HomeActivity homeActivity = (HomeActivity) getActivity();
+            homeActivity.switchContent(id, fragment);
+        }
+
     }
 }
 
