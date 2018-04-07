@@ -81,6 +81,8 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         date = v.findViewById(R.id.date);
         send = v.findViewById(R.id.send_button_invite);
         locationText = v.findViewById(R.id.location);
+        time.setOnClickListener(this);
+        date.setOnClickListener(this);
 
         //here I'm getting the time and date I sent to locations
         String timeString = bundle.getString("time_was_selected", "");
@@ -111,6 +113,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         timeButton.setOnClickListener(this);
         send.setOnClickListener(this);
         location.setOnClickListener(this);
+        locationText.setOnClickListener(this);
 
         context = getActivity();
 
@@ -121,7 +124,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.date_picker:
+            case R.id.date_picker:case R.id.date:
 
                 final Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
@@ -147,7 +150,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.time_picker:
+            case R.id.time_picker:case R.id.time:
 
                 final Calendar timePick = Calendar.getInstance();
                 int hour = timePick.get(Calendar.HOUR);
@@ -182,7 +185,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                 }
                 break;
 
-            case R.id.location_button:
+            case R.id.location_button:case R.id.location:
                 SuggestedLocationsFragment suggestedLocationsFragment = new SuggestedLocationsFragment();
 
                 fragmentJump(otherUser, new SuggestedLocationsFragment());

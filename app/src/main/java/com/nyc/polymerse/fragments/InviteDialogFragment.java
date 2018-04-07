@@ -49,6 +49,7 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
     private TextView date;
     private TextView time;
     private CircleImageView otherUserImg;
+    private CircleImageView statusImg;
     private TextView location;
     private Button goTo;
 
@@ -71,6 +72,9 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
         otherUserImg = v.findViewById(R.id.invite_dialog_avatar);
         location = v.findViewById(R.id.dialog_address);
         goTo = v. findViewById(R.id.dialog_loc_button);
+        statusImg = v.findViewById(R.id.invite_dialog_invite_status);
+
+        setStatusImg(invite.getAcceptStatus());
         statusView.setText("Status: "+invite.getAcceptStatus());
         time.setText(invite.getTime());
         date.setText(invite.getDate());
@@ -275,6 +279,23 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
                                                     }
                                                 }
                 );
+    }
+
+    public void setStatusImg(String status){
+        switch(status){
+            case "accepted":
+                statusImg.setImageResource(R.drawable.ic_check_circle_green_a700_18dp);
+                break;
+            case "pending":
+                statusImg.setImageResource(R.mipmap.hourglass);
+                break;
+            case "rejected":
+                statusImg.setImageResource(R.drawable.ic_cancel_red_500_18dp);
+                break;
+            case "cancelled":
+                statusImg.setImageResource(R.drawable.ic_cancel_red_500_18dp);
+                break;
+        }
     }
 
 }
