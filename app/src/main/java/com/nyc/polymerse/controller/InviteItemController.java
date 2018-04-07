@@ -82,7 +82,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
         private TextView acceptStatus;
         private ImageView accepted;
         private TextView date;
-        private TextView time;
+        private TextView details;
         private CircleImageView otherUserImg;
         private String status;
         private Invite_Schema inviteSchema;
@@ -92,18 +92,23 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
         public InviteItemViewHolder(View itemView) {
             super(itemView);
             otherUserName = itemView.findViewById(R.id.user_notification_user_name);
+            acceptStatus = itemView.findViewById(R.id.status_update);
             accepted = itemView.findViewById(R.id.accepted);
             date = itemView.findViewById(R.id.date);
-            time = itemView.findViewById(R.id.time);
+            details = itemView.findViewById(R.id.go_to_details);
             otherUserImg = itemView.findViewById(R.id.user_avatar_user_notification);
         }
 
         public void onBind(Invite_Schema invite) {
             inviteSchema = invite;
 
-
-
             itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    inviteDialog();
+                }
+            });
+            details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     inviteDialog();
@@ -114,7 +119,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
 
             //get img of the other user through there profile
             String otherUser = "";
-            if (ID.equals(invite.getSender_ID())){
+            if (ID.equals(invite.getSender_ID())) {
                 otherUser = invite.getReceiver_ID();
             } else {
                 otherUser = invite.getSender_ID();
@@ -124,6 +129,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null) {
+
                         User otherUser = dataSnapshot.getValue(User.class);
                         if (otherUser != null) {
                             Log.d(TAG, "onDataChange: otherUser " + otherUser.getUsername());
@@ -149,31 +155,32 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
 
             status = invite.getAcceptStatus();
             date.setText(invite.getDate());
-            time.setText(invite.getTime());
 
             if (ID.equals(invite.getSender_ID())) {
                 switch (invite.getAcceptStatus()) {
                     case "accepted":
                         //NEED TO GET OTHER USER'S NAME AND IMAGE
-                        otherUserName.setText(userResponse(invite.getReceiverName(), "accepted!"));
+                        otherUserName.setText(invite.getReceiverName());
+                        acceptStatus.setText("accepted!");
                         accepted.setImageResource(R.drawable.ic_check_circle_green_a700_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         //otherUserImg.setImageResource(invite.get);
                         break;
                     case "pending":
-                        otherUserName.setText(userResponse(invite.getReceiverName(), "has not responded"));
+                        otherUserName.setText(invite.getReceiverName());
+                        acceptStatus.setText("has not responded");
                         accepted.setImageResource(R.mipmap.hourglass);
                         accepted.setVisibility(View.VISIBLE);
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "rejected":
-                        otherUserName.setText(userResponse(invite.getReceiverName(), "cannot meet"));
+                        otherUserName.setText(invite.getReceiverName());
+                        acceptStatus.setText("cannot meet");
                         accepted.setImageResource(R.drawable.ic_cancel_red_500_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "cancelled":
-
                         cancel();
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
@@ -181,13 +188,15 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             } else {
                 switch (invite.getAcceptStatus()) {
                     case "accepted":
-                        otherUserName.setText(userResponse("You are meeting", invite.getSenderName()));
+                        otherUserName.setText(invite.getSenderName());
+                        acceptStatus.setText("and you are meeting!");
                         accepted.setImageResource(R.drawable.ic_check_circle_green_a700_18dp);
                         accepted.setVisibility(View.VISIBLE);
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
                     case "pending":
-                        otherUserName.setText(userResponse("Respond to", invite.getSenderName()));
+                        otherUserName.setText(invite.getSenderName());
+                        acceptStatus.setText("is waiting for a response");
                         accepted.setVisibility(View.GONE);
                         otherUserImg.setImageResource(R.mipmap.man);
                         break;
@@ -212,7 +221,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
 
         public void cancel() {
             otherUserName.setText(userResponse("Invite", "cancelled"));
-            otherUserName.setTextColor(Color.rgb(230, 34, 49));
+            acceptStatus.setVisibility(View.GONE);
             accepted.setImageResource(R.drawable.ic_cancel_red_500_18dp);
             accepted.setVisibility(View.VISIBLE);
 
@@ -222,7 +231,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             InviteDialogFragment inviteDialogFragment = new InviteDialogFragment();
             inviteDialogFragment.setInvite(inviteSchema);
             android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            inviteDialogFragment.show(fragmentTransaction,"Invite Dialog");
+            inviteDialogFragment.show(fragmentTransaction, "Invite Dialog");
 
         }
 
