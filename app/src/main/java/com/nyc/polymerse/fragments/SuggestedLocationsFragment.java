@@ -73,7 +73,6 @@ public class SuggestedLocationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_suggested_locations, container, false);
-        suggestedImg = rootView.findViewById(R.id.suggested_img);
         // Inflate the layout for this fragment
         return rootView;
     }
