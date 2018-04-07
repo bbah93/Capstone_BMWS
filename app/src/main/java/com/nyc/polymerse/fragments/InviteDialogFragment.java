@@ -37,12 +37,12 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
     private String status;
 
     private Invite_Schema invite;
-    private View rootView;
     private TextView statusView;
     private TextView user;
     private TextView date;
     private TextView time;
-    private Button location;
+    private TextView location;
+    private Button goTo;
 
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.INVITES);
     private final String ID = UserSingleton.getInstance().getUser().getuID();
@@ -54,15 +54,15 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        ViewGroup container = new ConstraintLayout(getContext());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View v = inflater.inflate(R.layout.invite_dialog, null);
         statusView = v.findViewById(R.id.dialog_invite_status);
         user = v.findViewById(R.id.dialog_username);
         date = v.findViewById(R.id.dialog_date);
         time = v.findViewById(R.id.dialog_time);
-        location = v.findViewById(R.id.dialog_loc_button);
-        statusView.setText(invite.getAcceptStatus());
+        location = v.findViewById(R.id.dialog_address);
+        goTo = v. findViewById(R.id.dialog_loc_button);
+        statusView.setText("Status: "+invite.getAcceptStatus());
         time.setText(invite.getTime());
         date.setText(invite.getDate());
         user.setText(invite.getSenderName());
@@ -195,7 +195,7 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
                 break;
 
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage(question);
 
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
