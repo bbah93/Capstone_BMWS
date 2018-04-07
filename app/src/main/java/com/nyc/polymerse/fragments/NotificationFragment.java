@@ -1,5 +1,6 @@
 package com.nyc.polymerse.fragments;
 
+import android.app.FragmentManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -101,6 +102,5 @@ public class NotificationFragment extends Fragment {
         }
 
     }
-
 
 }
