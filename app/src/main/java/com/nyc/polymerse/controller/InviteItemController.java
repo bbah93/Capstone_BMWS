@@ -1,20 +1,14 @@
 package com.nyc.polymerse.controller;
 
-import android.app.AlertDialog;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +24,6 @@ import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.fragments.InviteDialogFragment;
-import com.nyc.polymerse.fragments.NotificationFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

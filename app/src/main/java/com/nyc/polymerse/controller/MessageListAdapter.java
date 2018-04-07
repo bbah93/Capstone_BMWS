@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
-import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.fragments.MessageFragment;
 import com.squareup.picasso.Picasso;
 

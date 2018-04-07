@@ -10,11 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Frag;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
 import com.nyc.polymerse.models.SuggestedLocationModel;
 import com.squareup.picasso.Picasso;
 

@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.nyc.polymerse.Profile_Creation.Prof_Create_Activity;
 
 public class SignupActivity extends AppCompatActivity {
 
