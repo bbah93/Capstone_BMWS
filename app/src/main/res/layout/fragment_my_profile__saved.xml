@@ -16,14 +16,6 @@
         android:layout_marginTop="10dp"
         android:layout_weight="1">
 
-        <Button
-            android:id="@+id/back_home_button"
-            android:layout_width="33dp"
-            android:layout_height="31dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="5dp"
-            android:background="@drawable/ic_home_black_24dp" />
-
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_profile_avatar"
             android:layout_width="@dimen/avatar_dimen"
@@ -161,8 +153,7 @@
             android:layout_toStartOf="@+id/save_profile_fab"
             android:padding="@dimen/user_results_view_padding"
             android:progress="25"
-            android:progressBackgroundTint="@color/secondaryColor"
-            android:progressTint="@color/primaryMediumColor" />
+            android:progressTint="@color/secondaryColor" />
 
         <ProgressBar
             android:id="@+id/myprof_sharing_level"
@@ -174,8 +165,7 @@
             android:layout_toStartOf="@+id/save_profile_fab"
             android:padding="@dimen/user_results_view_padding"
             android:progress="75"
-            android:progressBackgroundTint="@color/secondaryColor"
-            android:progressTint="@color/primaryMediumColor" />
+            android:progressTint="@color/secondaryColor" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/save_profile_fab"

@@ -7,12 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Frag;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.models.SuggestedLocationModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,7 @@ public class SuggestedLocationsAdapter extends RecyclerView.Adapter<SuggestedLoc
 
             holder.vicinity.setText(vicinity);
             holder.title.setText(suggestedLocationModels.get(position).getTitle());
+            Picasso.get().load("http://www.realdetroitweekly.com/wp-content/uploads/2017/06/Restaurants.jpg").fit().into(holder.img);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -96,11 +99,15 @@ public class SuggestedLocationsAdapter extends RecyclerView.Adapter<SuggestedLoc
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title, vicinity;
+        private ImageView img;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.suggestions_title);
             vicinity = itemView.findViewById(R.id.suggestions_vicinity);
+            img = itemView.findViewById(R.id.suggested_img);
         }
+
+
     }
 }
