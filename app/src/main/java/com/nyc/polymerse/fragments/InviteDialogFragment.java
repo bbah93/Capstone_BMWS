@@ -9,6 +9,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,11 @@ import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
+import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,11 +41,14 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
     private String question;
     private String status;
 
+    private final String TAG = "InviteDialogFragment";
+
     private Invite_Schema invite;
     private TextView statusView;
     private TextView user;
     private TextView date;
     private TextView time;
+    private CircleImageView otherUserImg;
     private TextView location;
     private Button goTo;
 
@@ -60,6 +68,7 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
         user = v.findViewById(R.id.dialog_username);
         date = v.findViewById(R.id.dialog_date);
         time = v.findViewById(R.id.dialog_time);
+        otherUserImg = v.findViewById(R.id.invite_dialog_avatar);
         location = v.findViewById(R.id.dialog_address);
         goTo = v. findViewById(R.id.dialog_loc_button);
         statusView.setText("Status: "+invite.getAcceptStatus());
@@ -73,6 +82,35 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
         } else {
             setAsReceiverButton(dialogBuilder, invite.getAcceptStatus());
         }
+
+        //get img of the other user through there profile
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.USERS).child(invite.getSender_ID());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    User senderUser = dataSnapshot.getValue(User.class);
+                    if (senderUser != null) {
+                        Log.d(TAG, "onDataChange: senderUser " + senderUser.getUsername());
+                        if (senderUser.getProfilePic() != null) {
+                            Picasso.get().load(senderUser.getProfilePic()).placeholder(R.drawable.ic_account_circle_black_24dp).into(otherUserImg);
+                        } else {
+                            otherUserImg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+
+                    } else {
+                        otherUserImg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                } else {
+                    otherUserImg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return dialogBuilder.create();
 
     }
