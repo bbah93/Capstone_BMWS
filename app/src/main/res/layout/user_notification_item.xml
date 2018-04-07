@@ -81,9 +81,6 @@
             app:layout_constraintLeft_toRightOf="@id/user_avatar_user_notification"
             app:layout_constraintTop_toBottomOf="@id/status_update" />
 
-
-        >
-
     </android.support.constraint.ConstraintLayout>
 
 

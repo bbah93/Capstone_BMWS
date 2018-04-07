@@ -23,8 +23,8 @@ import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.controller.InviteItemController;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,6 +55,7 @@ public class NotificationFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
 
         db = FirebaseDatabase.getInstance().getReference();
         User user = UserSingleton.getInstance().getUser();
@@ -79,12 +80,16 @@ public class NotificationFragment extends Fragment {
 
                     for (int i = 0; i < invitesIDs.size(); i++) {
 
+                    Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
+                    invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
                         db.child(Constants.INVITES).child(invitesIDs.get(i)).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
                                 Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
                                 linearLayout.setVisibility(View.GONE);
+
+                                invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
 
                                 invitesList.add(invite);
                                 adapter.notifyDataSetChanged();
@@ -109,40 +114,6 @@ public class NotificationFragment extends Fragment {
 
             }
         });
-//        Map<String, String> inviteMap = user.getInvites();
-//        if (inviteMap != null) {
-//            for (String s : inviteMap.values()) {
-//                invitesIDs.add(s);
-//            }
-//        } else {
-//
-////        }
-//        recyclerView = rootView.findViewById(R.id.user_notification_rec_view);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-//        final InviteItemController adapter = new InviteItemController(invitesList, getActivity().getSupportFragmentManager(), getActivity());
-//        recyclerView.setLayoutManager(linearLayoutManager);
-//        recyclerView.setAdapter(adapter);
-//
-//        for (int i = 0; i < invitesIDs.size(); i++) {
-//
-//            db.child(Constants.INVITES).child(invitesIDs.get(i)).addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                    Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
-//                    linearLayout.setVisibility(View.GONE);
-//
-//                    invitesList.add(invite);
-//                    adapter.notifyDataSetChanged();
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            });
-//        }
 
     }
 

@@ -5,10 +5,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,8 +21,8 @@ import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
+import com.nyc.polymerse.User;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,14 +39,17 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
     private final String TAG = "InviteDialogFragment";
 
     private Invite_Schema invite;
+
     private TextView statusView;
     private TextView user;
     private TextView date;
     private TextView time;
+
     private CircleImageView otherUserImg;
     private CircleImageView statusImg;
     private TextView location;
     private Button goTo;
+
 
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.INVITES);
     private final String ID = UserSingleton.getInstance().getUser().getuID();

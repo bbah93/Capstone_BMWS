@@ -109,9 +109,7 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             });
 
             //get img of the other user through there profile
-
-            //get img of the other user through there profile
-            String otherUser = "";
+            String otherUser;
             if (ID.equals(invite.getSender_ID())) {
                 otherUser = invite.getReceiver_ID();
             } else {
