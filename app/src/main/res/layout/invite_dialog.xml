@@ -116,7 +116,7 @@
         android:id="@+id/dialog_loc_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/ic_map_black_24dp"
+        android:background="@drawable/mapicon"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dialog_address" />
 
