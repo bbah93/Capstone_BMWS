@@ -116,15 +116,25 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
             });
 
             //get img of the other user through there profile
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.USERS).child(invite.getSender_ID());
+
+            //get img of the other user through there profile
+            String otherUser = "";
+            if (ID.equals(invite.getSender_ID())) {
+                otherUser = invite.getReceiver_ID();
+            } else {
+                otherUser = invite.getSender_ID();
+            }
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.USERS).child(otherUser);
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null) {
-                        User senderUser = dataSnapshot.getValue(User.class);
-                        if (senderUser != null) {
-                            if (senderUser.getProfilePic() != null) {
-                                Picasso.get().load(senderUser.getProfilePic()).placeholder(R.drawable.ic_account_circle_black_24dp).into(otherUserImg);
+
+                        User otherUser = dataSnapshot.getValue(User.class);
+                        if (otherUser != null) {
+                            Log.d(TAG, "onDataChange: otherUser " + otherUser.getUsername());
+                            if (otherUser.getProfilePic() != null) {
+                                Picasso.get().load(otherUser.getProfilePic()).placeholder(R.drawable.ic_account_circle_black_24dp).into(otherUserImg);
                             } else {
                                 otherUserImg.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
@@ -145,7 +155,6 @@ public class InviteItemController extends RecyclerView.Adapter<InviteItemControl
 
             status = invite.getAcceptStatus();
             date.setText(invite.getDate());
-
 
             if (ID.equals(invite.getSender_ID())) {
                 switch (invite.getAcceptStatus()) {
