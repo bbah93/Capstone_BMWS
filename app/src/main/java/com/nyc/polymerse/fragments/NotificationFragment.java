@@ -1,26 +1,20 @@
 package com.nyc.polymerse.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 import com.nyc.polymerse.Constants;
-import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
@@ -28,13 +22,10 @@ import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.controller.InviteItemController;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,6 +54,7 @@ public class NotificationFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
 
         db = FirebaseDatabase.getInstance().getReference().child(Constants.INVITES);
         User user = UserSingleton.getInstance().getUser();
@@ -87,6 +79,7 @@ public class NotificationFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
+                    invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
 
                     invitesList.add(invite);
                     adapter.notifyDataSetChanged();

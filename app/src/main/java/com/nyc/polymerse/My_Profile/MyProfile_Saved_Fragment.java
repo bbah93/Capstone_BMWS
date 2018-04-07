@@ -99,13 +99,13 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
         profileDetails = getActivity().getSharedPreferences(PROF_CREATE_KEY, Context.MODE_PRIVATE);
 
-
-        grabProfileURL();
-        homeButtonClick();
-        editProfileClick();
-        setAddProfileImage();
-        grabUserInfo();
-
+        if (currentUser != null) {
+            grabProfileURL();
+            homeButtonClick();
+            editProfileClick();
+            setAddProfileImage();
+            grabUserInfo();
+        }
 
         return rootView;
     }
@@ -335,10 +335,12 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
     public void grabProfileURL() {
 
-        if (currentUser.getProfilePic() != null) {
-            String imgUrl = currentUser.getProfilePic();
-            Log.d(TAG, "grabProfileURL: " + imgUrl);
-            Picasso.get().load(imgUrl).fit().placeholder(R.drawable.ic_account_circle_black_24dp).into(profileImage);
+        if (currentUser != null) {
+            if (currentUser.getProfilePic() != null) {
+                String imgUrl = currentUser.getProfilePic();
+                Log.d(TAG, "grabProfileURL: " + imgUrl);
+                Picasso.get().load(imgUrl).fit().placeholder(R.drawable.ic_account_circle_black_24dp).into(profileImage);
+            }
         }
     }
 
