@@ -2,13 +2,21 @@ package com.nyc.polymerse.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,7 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Schema;
@@ -77,6 +84,16 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
         location.setText(invite.getLocation());
         dialogBuilder.setView(v);
 
+        goTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri gmmIntentUri = Uri.parse("google.navigation:q="+invite.getLocation());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
+
         if (ID == invite.getSender_ID()) {
             setAsSenderButtons(dialogBuilder, invite.getAcceptStatus());
         } else {
@@ -115,48 +132,6 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
-        //set an onclick on the pic to go to the users profile
-
-        otherUserImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String question = "Go to user profile?";
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String otherID = "";
-                        if (ID.equals(invite.getSender_ID())){
-                            otherID = invite.getReceiver_ID();
-                        } else {
-                            otherID = invite.getSender_ID();
-                        }
-                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.USERS).child(otherID);
-                        databaseReference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                User otherUser = dataSnapshot.getValue(User.class);
-                                fragmentJump(otherUser, new UserDetailsFragment());
-                                InviteDialogFragment.this.dismiss();
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-                builder.setMessage(question);
-                builder.create();
-                builder.show();
             }
         });
         return dialogBuilder.create();
@@ -319,23 +294,6 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
                 );
     }
 
-    private void fragmentJump(User otherMsgUser, Fragment fragment) {
-
-        Bundle mBundle = new Bundle();
-        String userString = new Gson().toJson(otherMsgUser);
-        mBundle.putString(Constants.ITEM_SELECTED_KEY, userString);
-        fragment.setArguments(mBundle);
-        switchContent(R.id.fragment_container, fragment);
-    }
-
-    public void switchContent(int id, Fragment fragment) {
-
-        if (getActivity() instanceof HomeActivity) {
-            HomeActivity homeActivity = (HomeActivity) getActivity();
-            homeActivity.switchContent(id, fragment);
-        }
-
-    }
     public void setStatusImg(String status){
         switch(status){
             case "accepted":
