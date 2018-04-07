@@ -13,10 +13,7 @@ import android.widget.FrameLayout;
 
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
-import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.controller.ExploreItemAdapter;
-import com.nyc.polymerse.controller.UserResultAdapter;
 import com.nyc.polymerse.explore.ExploreItemModel;
 
 import java.util.ArrayList;

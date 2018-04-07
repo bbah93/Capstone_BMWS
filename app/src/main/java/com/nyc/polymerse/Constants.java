@@ -18,6 +18,7 @@ public class Constants {
     public static final String BLOCKED_USER_KEY = "Blocked";
     public static final String APP_ID = "Afzh08eWQCeNDC5SZo2z";
     public static final String APP_CODE = "xvTuMxaPXi1W1mzApsj-Sw";
+    public static final String USER_CHILD_INVITES = "invites";
 
 
 }
