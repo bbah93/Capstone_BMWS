@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,9 +24,7 @@ import com.nyc.polymerse.controller.InviteItemController;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +36,8 @@ public class NotificationFragment extends Fragment {
     List<Invite_Schema> invitesList = new ArrayList<>();
     List<String> invitesIDs = new ArrayList<>();
     RecyclerView recyclerView;
+
+    private LinearLayout linearLayout;
 
     private DatabaseReference db;
 
@@ -56,44 +57,64 @@ public class NotificationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
 
-        db = FirebaseDatabase.getInstance().getReference().child(Constants.INVITES);
+        db = FirebaseDatabase.getInstance().getReference();
         User user = UserSingleton.getInstance().getUser();
-        Map<String, String> inviteMap = user.getInvites();
-        if (inviteMap != null) {
-            for (String s : inviteMap.values()) {
-                invitesIDs.add(s);
-            }
-        } else {
-            inviteMap = new HashMap<>();
-        }
+
+        linearLayout = view.findViewById(R.id.nothing_here_notification);
+
         recyclerView = rootView.findViewById(R.id.user_notification_rec_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         final InviteItemController adapter = new InviteItemController(invitesList, getActivity().getSupportFragmentManager(), getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
-        for (int i = 0; i < invitesIDs.size(); i++) {
+        db.child(Constants.USERS).child(user.getuID()).child(Constants.USER_CHILD_INVITES).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() > 0) {
+                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+                        if (d.getValue() != null) {
+                            invitesIDs.add(d.getValue().toString());
+                        }
+                    }
 
-            db.child(invitesIDs.get(i)).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (int i = 0; i < invitesIDs.size(); i++) {
 
                     Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
                     invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
+                        db.child(Constants.INVITES).child(invitesIDs.get(i)).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    invitesList.add(invite);
-                    adapter.notifyDataSetChanged();
+                                Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
+                                linearLayout.setVisibility(View.GONE);
 
+                                invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
+
+                                invitesList.add(invite);
+                                adapter.notifyDataSetChanged();
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                } else {
+
+                    linearLayout.setVisibility(View.VISIBLE);
                 }
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
-        }
+            }
+        });
 
     }
-
 
 }

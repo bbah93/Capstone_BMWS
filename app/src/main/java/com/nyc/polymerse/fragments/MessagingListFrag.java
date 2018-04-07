@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Constants;
-import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.controller.MessageListAdapter;
@@ -59,7 +59,7 @@ public class MessagingListFrag extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         userList = new ArrayList<>();
@@ -75,14 +75,24 @@ public class MessagingListFrag extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "onDataChange: msg " + dataSnapshot.getChildrenCount());
                 Log.d(TAG, "onDataChange: msg " + dataSnapshot.getKey());
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    msgKeys.add(d.getKey());
-                    Log.d(TAG, "onDataChange: msg " + d.getKey());
-                    for (DataSnapshot ds : d.getChildren()) {
-                        Log.d(TAG, "onDataChange: msg " + ds.getKey());
+
+                LinearLayout linearLayout = view.findViewById(R.id.nothing_here_msg);
+                if (dataSnapshot.getChildrenCount() > 0) {
+
+                    linearLayout.setVisibility(View.GONE);
+                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+
+                        msgKeys.add(d.getKey());
+                        Log.d(TAG, "onDataChange: msg " + d.getKey());
+                        for (DataSnapshot ds : d.getChildren()) {
+                            Log.d(TAG, "onDataChange: msg " + ds.getKey());
+                        }
                     }
+                    getUsers();
+                } else {
+                    linearLayout.setVisibility(View.VISIBLE);
                 }
-                getUsers();
+
 
 
             }
