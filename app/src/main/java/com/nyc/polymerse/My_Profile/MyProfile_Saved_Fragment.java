@@ -49,7 +49,6 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
     public static String TAG = "MyProfile_Saved_Fragment";
     View rootView;
-    Button homeButton;
     Button addProfileImage;
     FloatingActionButton editProfileButton;
     CircleImageView profileImage;
@@ -84,7 +83,6 @@ public class MyProfile_Saved_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_my_profile__saved, container, false);
-        homeButton = rootView.findViewById(R.id.back_home_button);
         addProfileImage = rootView.findViewById(R.id.ad_profile_image);
         editProfileButton = rootView.findViewById(R.id.save_profile_fab);
         profileImage = rootView.findViewById(R.id.user_profile_avatar);
@@ -101,24 +99,12 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
 
         grabProfileURL();
-        homeButtonClick();
         editProfileClick();
         setAddProfileImage();
         grabUserInfo();
 
 
         return rootView;
-    }
-
-    public void homeButtonClick() {
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: pressed");
-                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                getActivity().startActivity(homeIntent);
-            }
-        });
     }
 
     public void editProfileClick() {
