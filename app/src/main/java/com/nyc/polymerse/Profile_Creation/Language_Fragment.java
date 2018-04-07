@@ -3,28 +3,22 @@ package com.nyc.polymerse.Profile_Creation;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nyc.polymerse.Constants;
-import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.My_Profile.MyProfileActivity;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
 
 import java.util.HashMap;
