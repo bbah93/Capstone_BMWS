@@ -34,6 +34,9 @@ import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -154,25 +157,34 @@ public class MessageFragment extends Fragment {
                 // Get references to the views of message.xml
                 TextView messageText = (TextView) v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView) v.findViewById(R.id.message_user);
+                TextView messageDate = v.findViewById(R.id.message_time);
                 TextView messageOtherUser = v.findViewById(R.id.message_other_user);
                 TextView messageOtherText = v.findViewById(R.id.message_other_text);
+                TextView messageOtherDate = v.findViewById(R.id.message_other_time);
 //                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
 
                 //make the proper views visible depending on who sent and who's receiving
+                DateFormat df = DateFormat.getDateInstance();
                 if (model.getMessageUser().equals(otherUser.getUsername())) {
                     messageText.setVisibility(View.VISIBLE);
                     messageUser.setVisibility(View.VISIBLE);
+                    messageDate.setVisibility(View.VISIBLE);
 
                     // Set their text
                     messageText.setText(model.getMessageText());
                     messageUser.setText(model.getMessageUser());
+                    Date date = new Date(model.getMessageTime());
+                    messageDate.setText(df.format(date));
                 } else {
                     messageOtherText.setVisibility(View.VISIBLE);
                     messageOtherUser.setVisibility(View.VISIBLE);
+                    messageOtherDate.setVisibility(View.VISIBLE);
 
                     // Set their text
                     messageOtherText.setText(model.getMessageText());
                     messageOtherUser.setText(model.getMessageUser());
+                    Date date = new Date(model.getMessageTime());
+                    messageOtherDate.setText(df.format(date));
                 }
 //
 //                // Format the date before showing it
