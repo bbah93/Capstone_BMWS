@@ -27,7 +27,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
@@ -97,12 +96,12 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
         profileDetails = getActivity().getSharedPreferences(PROF_CREATE_KEY, Context.MODE_PRIVATE);
 
-
-        grabProfileURL();
-        editProfileClick();
-        setAddProfileImage();
-        grabUserInfo();
-
+        if (currentUser != null) {
+            grabProfileURL();
+            editProfileClick();
+            setAddProfileImage();
+            grabUserInfo();
+        }
 
         return rootView;
     }
@@ -299,6 +298,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 break;
             default:
                 learningLevel.setProgress(0);
+                break;
         }
 
         switch (sharingLevel) {
@@ -316,15 +316,18 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 break;
             default:
                 learningLevel.setProgress(0);
+                break;
         }
     }
 
     public void grabProfileURL() {
 
-        if (currentUser.getProfilePic() != null) {
-            String imgUrl = currentUser.getProfilePic();
-            Log.d(TAG, "grabProfileURL: " + imgUrl);
-            Picasso.get().load(imgUrl).fit().placeholder(R.drawable.ic_account_circle_black_24dp).into(profileImage);
+        if (currentUser != null) {
+            if (currentUser.getProfilePic() != null) {
+                String imgUrl = currentUser.getProfilePic();
+                Log.d(TAG, "grabProfileURL: " + imgUrl);
+                Picasso.get().load(imgUrl).fit().placeholder(R.drawable.ic_account_circle_black_24dp).into(profileImage);
+            }
         }
     }
 
