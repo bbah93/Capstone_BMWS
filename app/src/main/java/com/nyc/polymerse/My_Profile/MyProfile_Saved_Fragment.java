@@ -298,6 +298,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 break;
             default:
                 learningLevel.setProgress(0);
+                break;
         }
 
         switch (sharingLevel) {
@@ -315,6 +316,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 break;
             default:
                 learningLevel.setProgress(0);
+                break;
         }
     }
 
