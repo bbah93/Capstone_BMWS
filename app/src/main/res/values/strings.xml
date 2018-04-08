@@ -126,5 +126,6 @@
     <string name="suggested_locations">Or let us suggest a place!</string>
     <string name="block_details">Block</string>
     <string name="message_time">11:00</string>
+    <string name="time_msg">10:30</string>
 
 </resources>

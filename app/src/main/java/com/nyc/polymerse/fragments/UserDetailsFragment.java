@@ -166,6 +166,9 @@ public class UserDetailsFragment extends Fragment {
     private void setUserFields() {
         Picasso.get().load(user.getProfilePic()).placeholder(R.drawable.ic_account_circle_black_24dp).into(profilePic);
         profileUserName.setText(user.getUsername());
+        if (user.getAboutMe() != null) {
+            aboutMe.setText(user.getAboutMe());
+        }
         Map<String, String> langLearn = user.getLangLearn();
         Map<String, String> langShare = user.getLangTeach();
         for (String s : langLearn.keySet()) {
