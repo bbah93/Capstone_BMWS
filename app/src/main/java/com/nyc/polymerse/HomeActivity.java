@@ -86,46 +86,12 @@ public class HomeActivity extends AppCompatActivity {
                     Log.d(TAG, "onAuthStateChanged: " + user.getEmail());
                     Log.d(TAG, "onAuthStateChanged: " + user.getUid());
                     Toast.makeText(HomeActivity.this, user.getEmail() + " is logged in", Toast.LENGTH_SHORT).show();
+                    checkProfileOfUser();
+
                 }
             }
         };
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabaseUsers = mDatabase.child(Constants.USERS);
-        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                isProfileNotCreated = true;
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    String userKey = d.getKey();
-                    Log.d(TAG, "onDataChange: user " + userKey);
-
-                    profileNotCreated(userKey);
-                    if (saveUser) {
-                        UserSingleton.getInstance().setUser(d.getValue(User.class));
-
-                    }
-                }
-                if (isProfileNotCreated) {
-                    if (user != null) {
-                        Log.d(TAG, "onDataChange: uID " + user.getUid());
-                        UserSingleton.getInstance().setUser(new User());
-                        Log.d(TAG, "onDataChange: new user created in singleton");
-                        UserSingleton.getInstance().getUser().setuID(user.getUid());
-                        UserSingleton.getInstance().getUser().setEmail(user.getEmail());
-                    }
-                    startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
-                    finish();
-                }
-                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("The read failed: ", databaseError.getMessage());
-                Log.e(TAG, "onCancelled: ", databaseError.toException());
-            }
-        });
 
         fragment = new ExploreFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -181,6 +147,46 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void checkProfileOfUser() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabaseUsers = mDatabase.child(Constants.USERS);
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                isProfileNotCreated = true;
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    String userKey = d.getKey();
+                    Log.d(TAG, "onDataChange: user " + userKey);
+
+                    profileNotCreated(userKey);
+                    if (saveUser) {
+                        UserSingleton.getInstance().setUser(d.getValue(User.class));
+
+                    }
+                }
+                if (isProfileNotCreated) {
+                    if (user != null) {
+                        Log.d(TAG, "onDataChange: uID " + user.getUid());
+                        UserSingleton.getInstance().setUser(new User());
+                        Log.d(TAG, "onDataChange: new user created in singleton");
+                        UserSingleton.getInstance().getUser().setuID(user.getUid());
+                        UserSingleton.getInstance().getUser().setEmail(user.getEmail());
+                    }
+                    Log.d(TAG, "onDataChange: goto profile create");
+                    startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
+                    finish();
+                }
+                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("The read failed: ", databaseError.getMessage());
+                Log.e(TAG, "onCancelled: ", databaseError.toException());
+            }
+        });
     }
 
 
@@ -255,41 +261,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabaseUsers = mDatabase.child(Constants.USERS);
-
-        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                isProfileNotCreated = true;
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    String userKey = d.getKey();
-                    Log.d(TAG, "onDataChange: user " + userKey);
-                    profileNotCreated(userKey);
-                    if (saveUser) {
-                        UserSingleton.getInstance().setUser(d.getValue(User.class));
-                    }
-                }
-                if (isProfileNotCreated) {
-                    if (user != null) {
-                        Log.d(TAG, "onDataChange: uID " + user.getUid());
-                        UserSingleton.getInstance().setUser(new User());
-                        Log.d(TAG, "onDataChange: new user created in singleton");
-                        UserSingleton.getInstance().getUser().setuID(user.getUid());
-                        UserSingleton.getInstance().getUser().setEmail(user.getEmail());
-                    }
-                    startActivity(new Intent(HomeActivity.this, Prof_Create_Activity.class));
-                    finish();
-                }
-                Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("The read failed: ", databaseError.getMessage());
-
-            }
-        });
     }
 
     @Override

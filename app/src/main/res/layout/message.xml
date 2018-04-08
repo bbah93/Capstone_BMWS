@@ -13,14 +13,6 @@
         android:textStyle="normal|bold"
         android:visibility="gone"/>
 
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBottom="@+id/message_user"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:text="@string/message_time"-->
-        <!--android:id="@+id/message_time" />-->
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
