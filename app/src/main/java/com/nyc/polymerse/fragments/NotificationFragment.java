@@ -36,6 +36,7 @@ public class NotificationFragment extends Fragment {
     List<Invite_Schema> invitesList = new ArrayList<>();
     List<String> invitesIDs = new ArrayList<>();
     RecyclerView recyclerView;
+    InviteItemController adapter;
 
     private LinearLayout linearLayout;
 
@@ -64,7 +65,7 @@ public class NotificationFragment extends Fragment {
 
         recyclerView = rootView.findViewById(R.id.user_notification_rec_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        final InviteItemController adapter = new InviteItemController(invitesList, getActivity().getSupportFragmentManager(), getActivity());
+        adapter = new InviteItemController(invitesList, getActivity().getSupportFragmentManager(), getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
