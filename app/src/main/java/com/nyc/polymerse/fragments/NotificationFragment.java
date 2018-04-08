@@ -23,6 +23,7 @@ import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.controller.InviteItemController;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -55,6 +56,7 @@ public class NotificationFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
 
         db = FirebaseDatabase.getInstance().getReference();
         User user = UserSingleton.getInstance().getUser();
@@ -79,12 +81,16 @@ public class NotificationFragment extends Fragment {
 
                     for (int i = 0; i < invitesIDs.size(); i++) {
 
+                    Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
+                    invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
                         db.child(Constants.INVITES).child(invitesIDs.get(i)).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
                                 Invite_Schema invite = dataSnapshot.getValue(Invite_Schema.class);
                                 linearLayout.setVisibility(View.GONE);
+
+                                invitesList.sort(Comparator.comparing(Invite_Schema::getAcceptStatus));
 
                                 invitesList.add(invite);
                                 adapter.notifyDataSetChanged();

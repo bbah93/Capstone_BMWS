@@ -14,7 +14,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.nyc.polymerse"
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -67,4 +67,8 @@ android {
 
     }
     apply plugin: 'com.google.gms.google-services'
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
