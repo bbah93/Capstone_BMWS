@@ -49,6 +49,7 @@ public class UserResultsFragment extends Fragment {
     private UserResultAdapter adapter;
 
     private User currentUser;
+    private FrameLayout frameLayout;
 
     public UserResultsFragment() {
         // Required empty public constructor
@@ -62,6 +63,7 @@ public class UserResultsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_user_results, container, false);
         ButterKnife.bind(this, rootView);
         progressBar = rootView.findViewById(R.id.results_progressbar);
+        frameLayout = rootView.findViewById(R.id.results_frame_layout);
 
         return rootView;
 
@@ -89,30 +91,30 @@ public class UserResultsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    User user = d.getValue(User.class);
-                    Map<String, String> blockedUser = new HashMap<>();
-                    if (UserSingleton.getInstance().getUser().getBlocked() != null) {
-                        blockedUser = UserSingleton.getInstance().getUser().getBlocked();
-                    }
-                    boolean userBlocked = false;
-                    for (String s : blockedUser.values()) {
-                        if (user != null) {
-                            if (user.getuID().equals(s)) {
-                                userBlocked = true;
+                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+                        User user = d.getValue(User.class);
+                        Map<String, String> blockedUser = new HashMap<>();
+                        if (UserSingleton.getInstance().getUser().getBlocked() != null) {
+                            blockedUser = UserSingleton.getInstance().getUser().getBlocked();
+                        }
+                        boolean userBlocked = false;
+                        for (String s : blockedUser.values()) {
+                            if (user != null) {
+                                if (user.getuID().equals(s)) {
+                                    userBlocked = true;
+                                }
                             }
                         }
-                    }
-                    if (!userBlocked && !user.getuID().equals(currentUser.getuID()) && !user.getUsername().isEmpty()) {
-                        userList.add(user);
-                        userBlocked = false;
-                    }
-                    Log.d(TAG, "onDataChange: user " + user.getUsername());
+                        if (!userBlocked && !user.getuID().equals(currentUser.getuID()) && !user.getUsername().isEmpty()) {
+                            userList.add(user);
+                            userBlocked = false;
+                        }
+                        Log.d(TAG, "onDataChange: user " + user.getUsername());
 
-                    //This is the test user only;
-                    Log.d(TAG, "onSuccess: " + user.getCity());
-                }
-                checkBlocked();
+                        //This is the test user only;
+                        Log.d(TAG, "onSuccess: " + user.getCity());
+                    }
+                    checkBlocked();
             }
 
             @Override
@@ -153,6 +155,13 @@ public class UserResultsFragment extends Fragment {
                 LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 recyclerView.setLayoutManager(manager);
                 adapter = new UserResultAdapter(userList, rootView.getContext(), progressBar);
+                Log.d(TAG, "onDataChange: userlist size " + userList.size() );
+                if (userList.size() < 1) {
+                    progressBar.setVisibility(View.GONE);
+                    frameLayout.setBackgroundResource(R.drawable.nothing_to_do_here_template);
+                } else {
+                    frameLayout.setBackgroundResource(R.color.whiteish_gray);
+                }
                 recyclerView.setAdapter(adapter);
             }
 

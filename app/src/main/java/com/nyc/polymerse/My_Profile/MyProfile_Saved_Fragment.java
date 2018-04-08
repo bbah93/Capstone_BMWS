@@ -264,7 +264,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
         Map<String, String> langTeach = currentUser.getLangTeach();
 
         String learnLevel = profileDetails.getString("learning_level", null);
-        String sharingLevel = profileDetails.getString("fluent_level", null);
+        String sharingLevelString = profileDetails.getString("fluent_level", null);
         if (langLearn != null) {
             for (String s : langLearn.keySet()) {
                 learning_Input.setText(s);
@@ -276,13 +276,15 @@ public class MyProfile_Saved_Fragment extends Fragment {
         if (langTeach != null) {
             for (String s : langTeach.keySet()) {
                 sharing_Input.setText(s);
-                sharingLevel = langTeach.get(s);
+                sharingLevelString = langTeach.get(s);
             }
         } else {
-            sharingLevel = "";
+            sharingLevelString = "";
         }
-//        learning_Input.setText(profileDetails.getString("learning_lang", null));
-//        sharing_Input.setText(profileDetails.getString("fluent", null));
+
+        if (learnLevel == null){
+            learnLevel = "";
+        }
         switch (learnLevel) {
             case "Beginner":
                 learningLevel.setProgress(25);
@@ -294,6 +296,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 learningLevel.setProgress(75);
                 break;
             case "Fluent":
+                Log.d(TAG, "grabUserInfo: user learn language level " + learnLevel);
                 learningLevel.setProgress(100);
                 break;
             default:
@@ -301,21 +304,24 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 break;
         }
 
-        switch (sharingLevel) {
+        if (sharingLevelString == null) {
+            sharingLevelString = "";
+        }
+        switch (sharingLevelString) {
             case "Beginner":
-                learningLevel.setProgress(25);
+                sharingLevel.setProgress(25);
                 break;
             case "Intermediate":
-                learningLevel.setProgress(50);
+                sharingLevel.setProgress(50);
                 break;
             case "Advanced":
-                learningLevel.setProgress(75);
+                sharingLevel.setProgress(75);
                 break;
             case "Fluent":
-                learningLevel.setProgress(100);
+                sharingLevel.setProgress(100);
                 break;
             default:
-                learningLevel.setProgress(0);
+                sharingLevel.setProgress(0);
                 break;
         }
     }
