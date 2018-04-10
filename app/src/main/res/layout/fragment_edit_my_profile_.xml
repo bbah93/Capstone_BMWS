@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp"
+    android:padding="20dp"
     tools:context="com.nyc.polymerse.My_Profile.MyProfileActivity"
     android:weightSum="3">
 
@@ -83,14 +83,14 @@
             android:layout_marginTop="7dp">
 
             <!-- TODO: make EditText text the saved about me -->
-        <EditText
-            android:id="@+id/aboutMe_EditTexts"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="I Love Polymerse!"
-            android:gravity="top"
-            android:background="@android:color/transparent"
-            android:layout_below="@id/aboutme_tv"/>
+            <EditText
+                android:id="@+id/aboutMe_EditTexts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="I Love Polymerse!"
+                android:gravity="top"
+                android:background="@android:color/transparent"
+                android:layout_below="@id/aboutme_tv"/>
 
 
         </android.support.design.widget.TextInputLayout>
@@ -145,33 +145,6 @@
             android:layout_toEndOf="@id/profile_sharing_tv"
             android:layout_marginTop="10dp" />
 
-        <ProgressBar
-            android:id="@+id/editMyProfile_learning_level"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/prof_langLearn_spinner"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/save_profile_fab"
-            android:padding="@dimen/user_results_view_padding"
-            android:progress="25"
-            android:progressBackgroundTint="@color/secondaryColor"
-            android:progressTint="@color/primaryMediumColor"
-            android:visibility="invisible"/>
-
-        <ProgressBar
-            android:id="@+id/myprof_sharing_level"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/sharing_lang_spinner"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/save_profile_fab"
-            android:padding="@dimen/user_results_view_padding"
-            android:progress="75"
-            android:progressBackgroundTint="@color/secondaryColor"
-            android:progressTint="@color/primaryMediumColor"
-            android:visibility="invisible"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/save_profile_fab"
@@ -185,4 +158,5 @@
     </RelativeLayout>
 
 </LinearLayout>
+
 
