@@ -84,7 +84,6 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
         statusView.setText("Status: "+invite.getAcceptStatus());
         time.setText(invite.getTime());
         date.setText(invite.getDate());
-        user.setText(invite.getSenderName());
         location.setText(invite.getLocation());
         dialogBuilder.setView(v);
 
@@ -98,10 +97,12 @@ public class InviteDialogFragment extends android.support.v4.app.DialogFragment 
             }
         });
 
-        if (ID == invite.getSender_ID()) {
+        if (ID.equals(invite.getSender_ID())) {
             setAsSenderButtons(dialogBuilder, invite.getAcceptStatus());
+            user.setText(invite.getReceiverName());
         } else {
             setAsReceiverButton(dialogBuilder, invite.getAcceptStatus());
+            user.setText(invite.getSenderName());
         }
 
         //get img of the other user through there profile
