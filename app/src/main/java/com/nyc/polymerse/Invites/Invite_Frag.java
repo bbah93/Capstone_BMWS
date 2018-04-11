@@ -38,7 +38,7 @@ import java.util.Map;
  */
 public class Invite_Frag extends Fragment implements View.OnClickListener {
 
-    TextView time, date;
+    TextView time, date,title;
     Button dateButton, timeButton, send, location;
     TextView locationText;
 
@@ -78,8 +78,13 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         invite.setSenderName(currentUser.getUsername());
         invite.setReceiverName(otherUser.getUsername());
 
+        invite.setReceiverName(otherUser.getUsername());
+
         time = v.findViewById(R.id.time);
         date = v.findViewById(R.id.date);
+        title = v.findViewById(R.id.invite_title);
+        title.setText("Invite "+invite.getReceiverName()+"!");
+
         send = v.findViewById(R.id.send_button_invite);
         locationText = v.findViewById(R.id.location);
         time.setOnClickListener(this);
