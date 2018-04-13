@@ -27,7 +27,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
@@ -49,7 +48,6 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
     public static String TAG = "MyProfile_Saved_Fragment";
     View rootView;
-    Button homeButton;
     Button addProfileImage;
     FloatingActionButton editProfileButton;
     CircleImageView profileImage;
@@ -84,7 +82,6 @@ public class MyProfile_Saved_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_my_profile__saved, container, false);
-        homeButton = rootView.findViewById(R.id.back_home_button);
         addProfileImage = rootView.findViewById(R.id.ad_profile_image);
         editProfileButton = rootView.findViewById(R.id.save_profile_fab);
         profileImage = rootView.findViewById(R.id.user_profile_avatar);
@@ -99,26 +96,14 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
         profileDetails = getActivity().getSharedPreferences(PROF_CREATE_KEY, Context.MODE_PRIVATE);
 
-
-        grabProfileURL();
-        homeButtonClick();
-        editProfileClick();
-        setAddProfileImage();
-        grabUserInfo();
-
+        if (currentUser != null) {
+            grabProfileURL();
+            editProfileClick();
+            setAddProfileImage();
+            grabUserInfo();
+        }
 
         return rootView;
-    }
-
-    public void homeButtonClick() {
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: pressed");
-                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                getActivity().startActivity(homeIntent);
-            }
-        });
     }
 
     public void editProfileClick() {
@@ -279,7 +264,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
         Map<String, String> langTeach = currentUser.getLangTeach();
 
         String learnLevel = profileDetails.getString("learning_level", null);
-        String sharingLevel = profileDetails.getString("fluent_level", null);
+        String sharingLevelString = profileDetails.getString("fluent_level", null);
         if (langLearn != null) {
             for (String s : langLearn.keySet()) {
                 learning_Input.setText(s);
@@ -291,13 +276,15 @@ public class MyProfile_Saved_Fragment extends Fragment {
         if (langTeach != null) {
             for (String s : langTeach.keySet()) {
                 sharing_Input.setText(s);
-                sharingLevel = langTeach.get(s);
+                sharingLevelString = langTeach.get(s);
             }
         } else {
-            sharingLevel = "";
+            sharingLevelString = "";
         }
-//        learning_Input.setText(profileDetails.getString("learning_lang", null));
-//        sharing_Input.setText(profileDetails.getString("fluent", null));
+
+        if (learnLevel == null){
+            learnLevel = "";
+        }
         switch (learnLevel) {
             case "Beginner":
                 learningLevel.setProgress(25);
@@ -309,36 +296,44 @@ public class MyProfile_Saved_Fragment extends Fragment {
                 learningLevel.setProgress(75);
                 break;
             case "Fluent":
+                Log.d(TAG, "grabUserInfo: user learn language level " + learnLevel);
                 learningLevel.setProgress(100);
                 break;
             default:
                 learningLevel.setProgress(0);
+                break;
         }
 
-        switch (sharingLevel) {
+        if (sharingLevelString == null) {
+            sharingLevelString = "";
+        }
+        switch (sharingLevelString) {
             case "Beginner":
-                learningLevel.setProgress(25);
+                sharingLevel.setProgress(25);
                 break;
             case "Intermediate":
-                learningLevel.setProgress(50);
+                sharingLevel.setProgress(50);
                 break;
             case "Advanced":
-                learningLevel.setProgress(75);
+                sharingLevel.setProgress(75);
                 break;
             case "Fluent":
-                learningLevel.setProgress(100);
+                sharingLevel.setProgress(100);
                 break;
             default:
-                learningLevel.setProgress(0);
+                sharingLevel.setProgress(0);
+                break;
         }
     }
 
     public void grabProfileURL() {
 
-        if (currentUser.getProfilePic() != null) {
-            String imgUrl = currentUser.getProfilePic();
-            Log.d(TAG, "grabProfileURL: " + imgUrl);
-            Picasso.get().load(imgUrl).fit().placeholder(R.drawable.ic_account_circle_black_24dp).into(profileImage);
+        if (currentUser != null) {
+            if (currentUser.getProfilePic() != null) {
+                String imgUrl = currentUser.getProfilePic();
+                Log.d(TAG, "grabProfileURL: " + imgUrl);
+                Picasso.get().load(imgUrl).fit().placeholder(R.drawable.ic_account_circle_black_24dp).into(profileImage);
+            }
         }
     }
 

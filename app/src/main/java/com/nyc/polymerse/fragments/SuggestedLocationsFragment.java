@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -30,6 +30,7 @@ import com.nyc.polymerse.User;
 import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.models.SuggestedLocationsResultsModel;
 import com.nyc.polymerse.network.PlacesApi;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,8 @@ public class SuggestedLocationsFragment extends Fragment {
     private TextView searchText;
     private Retrofit retrofit;
     private Location location;
+    private ImageView suggestedImg;
+    private View rootView;
 
 
     public SuggestedLocationsFragment() {
@@ -68,8 +71,9 @@ public class SuggestedLocationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_suggested_locations, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_suggested_locations, container, false);
+        return rootView;
     }
 
     @Override
@@ -78,6 +82,8 @@ public class SuggestedLocationsFragment extends Fragment {
 
         currentUser = UserSingleton.getInstance().getUser();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+
 
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://places.api.here.com")

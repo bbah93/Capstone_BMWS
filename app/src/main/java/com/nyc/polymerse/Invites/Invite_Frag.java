@@ -1,8 +1,10 @@
 package com.nyc.polymerse.Invites;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -37,7 +38,7 @@ import java.util.Map;
  */
 public class Invite_Frag extends Fragment implements View.OnClickListener {
 
-    TextView time, date;
+    TextView time, date,title;
     Button dateButton, timeButton, send, location;
     TextView locationText;
 
@@ -77,10 +78,17 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         invite.setSenderName(currentUser.getUsername());
         invite.setReceiverName(otherUser.getUsername());
 
+        invite.setReceiverName(otherUser.getUsername());
+
         time = v.findViewById(R.id.time);
         date = v.findViewById(R.id.date);
+        title = v.findViewById(R.id.invite_title);
+        title.setText("Invite "+invite.getReceiverName()+"!");
+
         send = v.findViewById(R.id.send_button_invite);
         locationText = v.findViewById(R.id.location);
+        time.setOnClickListener(this);
+        date.setOnClickListener(this);
 
         //here I'm getting the time and date I sent to locations
         String timeString = bundle.getString("time_was_selected", "");
@@ -111,6 +119,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         timeButton.setOnClickListener(this);
         send.setOnClickListener(this);
         location.setOnClickListener(this);
+        locationText.setOnClickListener(this);
 
         context = getActivity();
 
@@ -121,7 +130,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.date_picker:
+            case R.id.date_picker:case R.id.date:
 
                 final Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
@@ -147,7 +156,7 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.time_picker:
+            case R.id.time_picker:case R.id.time:
 
                 final Calendar timePick = Calendar.getInstance();
                 int hour = timePick.get(Calendar.HOUR);
@@ -176,13 +185,24 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                     invite.setInvite_ID(newRef.getKey());
                     newRef.setValue(invite);
 
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Your invite was sent!");
+
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+
+                    builder.show();
+
                     fragmentJump(otherUser, new UserDetailsFragment());
                 } else {
                     Toast.makeText(getActivity(), "Please Fill all areas", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
-            case R.id.location_button:
+            case R.id.location_button:case R.id.location:
                 SuggestedLocationsFragment suggestedLocationsFragment = new SuggestedLocationsFragment();
 
                 fragmentJump(otherUser, new SuggestedLocationsFragment());

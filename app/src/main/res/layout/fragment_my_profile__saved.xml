@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp"
+    android:padding="10dp"
     android:weightSum="3"
     tools:context="com.nyc.polymerse.My_Profile.MyProfileActivity">
 
@@ -15,14 +15,6 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1">
-
-        <Button
-            android:id="@+id/back_home_button"
-            android:layout_width="33dp"
-            android:layout_height="31dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="5dp"
-            android:background="@drawable/ic_home_black_24dp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_profile_avatar"
@@ -46,6 +38,8 @@
             android:layout_margin="10dp"
             android:layout_toRightOf="@id/ad_profile_image"
             android:text="Name:"
+            android:textColor="@color/primaryColor"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -54,7 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/prof_name_tv"
             android:layout_toEndOf="@id/prof_name_tv"
-            android:text="Name" />
+            android:text="Name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="15sp" />
 
 
         <TextView
@@ -66,6 +62,8 @@
             android:layout_marginEnd="2dp"
             android:layout_marginTop="27dp"
             android:text="Location:"
+            android:textColor="@color/primaryColor"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -75,7 +73,9 @@
             android:layout_alignBottom="@id/location_tv"
             android:layout_marginStart="2dp"
             android:layout_toEndOf="@id/location_tv"
-            android:text="User Location" />
+            android:text="User Location"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
@@ -90,6 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="About Me:"
+            android:textColor="@color/primaryColor"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -97,7 +99,9 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_below="@id/aboutme_tv"
-            android:text="I love Polymerse!" />
+            android:text="I love Polymerse!"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="15sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -112,6 +116,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:text="Languages"
+            android:textColor="@color/primaryColor"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
 
@@ -119,63 +125,68 @@
             android:id="@+id/profile_learning_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_toEndOf="@id/languages_tv"
-            android:text="Learning: " />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/languages_tv"
+            android:layout_marginTop="16dp"
+            android:text="Learning: "
+            android:textColor="@color/primaryTextColor"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/prof_langLearn_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/profile_sharing_tv"
-            android:layout_toEndOf="@+id/profile_learning_tv"
-            android:text="Language Here" />
+            android:layout_alignBaseline="@+id/profile_learning_tv"
+            android:layout_alignBottom="@+id/profile_learning_tv"
+            android:layout_marginStart="21dp"
+            android:layout_toEndOf="@+id/profile_sharing_tv"
+            android:text="Language Here"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/profile_sharing_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profile_learning_tv"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="7dp"
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@id/languages_tv"
-            android:text="Sharing: " />
+            android:text="Sharing: "
+            android:textColor="@color/primaryTextColor"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/sharing_lang_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/prof_langLearn_spinner"
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@id/profile_sharing_tv"
-            android:text="Language Here" />
+            android:layout_alignBaseline="@+id/profile_sharing_tv"
+            android:layout_alignBottom="@+id/profile_sharing_tv"
+            android:layout_alignStart="@+id/prof_langLearn_spinner"
+            android:text="Language Here"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="15sp" />
 
         <ProgressBar
             android:id="@+id/myProfile_learning_level"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/prof_langLearn_spinner"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/save_profile_fab"
+            android:layout_alignTop="@+id/prof_langLearn_spinner"
+            android:layout_marginStart="40dp"
+            android:layout_toEndOf="@+id/prof_langLearn_spinner"
             android:padding="@dimen/user_results_view_padding"
             android:progress="25"
-            android:progressBackgroundTint="@color/secondaryColor"
-            android:progressTint="@color/primaryMediumColor" />
+            android:progressTint="@color/secondaryColor" />
 
         <ProgressBar
             android:id="@+id/myprof_sharing_level"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/sharing_lang_spinner"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/save_profile_fab"
+            android:layout_alignStart="@+id/myProfile_learning_level"
+            android:layout_alignTop="@+id/sharing_lang_spinner"
             android:padding="@dimen/user_results_view_padding"
             android:progress="75"
-            android:progressBackgroundTint="@color/secondaryColor"
-            android:progressTint="@color/primaryMediumColor" />
+            android:progressTint="@color/secondaryColor" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/save_profile_fab"

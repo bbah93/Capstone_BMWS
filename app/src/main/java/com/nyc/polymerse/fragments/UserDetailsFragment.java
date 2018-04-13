@@ -41,13 +41,10 @@ public class UserDetailsFragment extends Fragment {
     private static final String TAG = "UserDetailsFragment";
     private View rootView;
     private User user;
-    MessageFragment mMessageFragment;
-    Invite_Frag mInviteFragment;
-    UserResultsFragment mUserResultsFragment;
     private Context context;
 
-    private CircleImageView profilePic,  profileReviewerPic;
-    private TextView profileUserName, aboutMe, profileReviewDate, profileReview, sharingLang, learningLang,profileBlock;
+    private CircleImageView profilePic;
+    private TextView profileUserName, aboutMe, sharingLang, learningLang, profileBlock;
     private Button invite;
     private FloatingActionButton message;
     private ProgressBar sharingFluency, learningFluency;
@@ -169,6 +166,9 @@ public class UserDetailsFragment extends Fragment {
     private void setUserFields() {
         Picasso.get().load(user.getProfilePic()).placeholder(R.drawable.ic_account_circle_black_24dp).into(profilePic);
         profileUserName.setText(user.getUsername());
+        if (user.getAboutMe() != null) {
+            aboutMe.setText(user.getAboutMe());
+        }
         Map<String, String> langLearn = user.getLangLearn();
         Map<String, String> langShare = user.getLangTeach();
         for (String s : langLearn.keySet()) {
@@ -203,9 +203,6 @@ public class UserDetailsFragment extends Fragment {
 
     }
 
-    private void fragmentJump(Fragment fragment) {
-        switchContent(R.id.fragment_container, fragment);
-    }
     private void fragmentJump(User mItemSelected, Fragment fragment) {
 
         Bundle mBundle = new Bundle();

@@ -41,6 +41,9 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
         this.userList = userList;
         this.context = context;
         this.progressBar = progressBar;
+        if (userList.size() > 0) {
+            progressBar.setVisibility(View.GONE);
+        }
 
     }
 
@@ -53,7 +56,7 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
 
     @Override
     public void onBindViewHolder(final UserResultViewHolder holder, final int position) {
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.GONE);
 //        final User user = userList.get(position);
         holder.onBind(userList.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +71,9 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.Us
 
     public void updateList(ArrayList<User> newList) {
         this.userList = newList;
+        if (userList.size() > 0) {
+            progressBar.setVisibility(View.GONE);
+        }
         notifyDataSetChanged();
         Log.d(TAG, "updateList: ran");
     }

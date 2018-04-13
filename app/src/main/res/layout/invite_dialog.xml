@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:padding="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/invite_dialog_avatar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/ic_profile"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_invite_status" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/invite_dialog_invite_status"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:alpha=".5"
+        android:src="@mipmap/hourglass"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_invite_status" />
+
+    <TextView
+        android:id="@+id/dialog_invite_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invite Pending"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <TextView
+        android:id="@+id/dialog_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shantal Taveras"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/invite_dialog_avatar" />
+
+    <TextView
+        android:id="@+id/location_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location:"
+        app:layout_constraintTop_toBottomOf="@id/time_field" />
+
+    <TextView
+        android:id="@+id/dialog_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="47-10 Austell Place, LIC, NY 11221"
+        android:textAlignment="center"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@id/location_field"
+        app:layout_constraintTop_toBottomOf="@id/location_field" />
+
+    <TextView
+        android:id="@+id/dialog_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="10:00 PM"
+        android:textColor="@color/primaryTextColor"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/time_field"
+        app:layout_constraintTop_toBottomOf="@id/dialog_date" />
+
+    <TextView
+        android:id="@+id/time_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:text="Time:"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_date" />
+
+    <TextView
+        android:id="@+id/date_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:text="Date:"
+        app:layout_constraintRight_toLeftOf="@id/dialog_date"
+        app:layout_constraintTop_toBottomOf="@id/dialog_username" />
+
+    <TextView
+        android:id="@+id/dialog_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="March 18, 2018"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/dialog_date"
+        app:layout_constraintTop_toBottomOf="@id/dialog_username"
+        tools:layout_editor_absoluteX="46dp" />
+
+    <Button
+        android:id="@+id/dialog_loc_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/mapicon"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_address" />
+
+</android.support.constraint.ConstraintLayout>

@@ -47,19 +47,19 @@
         android:id="@+id/learning_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sharing" />
+        android:text= "Sharing German" />
 
     <CheckBox
         android:id="@+id/sharing_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/learning" />
+        android:text="Learning Spanish" />
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/fluency_filter"
+        android:text="German Fluency Level"
         android:textColor="@color/secondaryDarkColor"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
