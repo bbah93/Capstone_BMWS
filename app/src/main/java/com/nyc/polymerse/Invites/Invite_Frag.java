@@ -1,8 +1,10 @@
 package com.nyc.polymerse.Invites;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,7 +38,7 @@ import java.util.Map;
  */
 public class Invite_Frag extends Fragment implements View.OnClickListener {
 
-    TextView time, date;
+    TextView time, date,title;
     Button dateButton, timeButton, send, location;
     TextView locationText;
 
@@ -76,8 +78,13 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
         invite.setSenderName(currentUser.getUsername());
         invite.setReceiverName(otherUser.getUsername());
 
+        invite.setReceiverName(otherUser.getUsername());
+
         time = v.findViewById(R.id.time);
         date = v.findViewById(R.id.date);
+        title = v.findViewById(R.id.invite_title);
+        title.setText("Invite "+invite.getReceiverName()+"!");
+
         send = v.findViewById(R.id.send_button_invite);
         locationText = v.findViewById(R.id.location);
         time.setOnClickListener(this);
@@ -177,6 +184,17 @@ public class Invite_Frag extends Fragment implements View.OnClickListener {
                     updateInvites(newRef.getKey());
                     invite.setInvite_ID(newRef.getKey());
                     newRef.setValue(invite);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Your invite was sent!");
+
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+
+                    builder.show();
 
                     fragmentJump(otherUser, new UserDetailsFragment());
                 } else {

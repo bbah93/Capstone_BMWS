@@ -32,7 +32,6 @@ import com.nyc.polymerse.fragments.MessagingListFrag;
 import com.nyc.polymerse.fragments.UserDetailsFragment;
 import com.nyc.polymerse.fragments.UserResultsFragment;
 
-
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
@@ -54,7 +53,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private boolean saveUser;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,19 +83,17 @@ public class HomeActivity extends AppCompatActivity {
                     Log.d(TAG, "onAuthStateChanged: user isn't null");
                     Log.d(TAG, "onAuthStateChanged: " + user.getEmail());
                     Log.d(TAG, "onAuthStateChanged: " + user.getUid());
-                    Toast.makeText(HomeActivity.this, user.getEmail() + " is logged in", Toast.LENGTH_SHORT).show();
+
                     checkProfileOfUser();
 
                 }
             }
         };
 
-
         fragment = new ExploreFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
         transaction.commit();
-
 
         bottomNavigationView = findViewById(R.id.nav_tab);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -109,38 +105,36 @@ public class HomeActivity extends AppCompatActivity {
                 switch (id) {
                     case R.id.nav_people:
 
-
                         fragment = new UserResultsFragment();
 
                         transaction.replace(R.id.fragment_container, fragment, "UserFrag");
                         transaction.commit();
+                        toolbar.setTitle("Find Users");
                         Log.d(TAG, "onOptionsItemSelected: people clicked");
                         return true;
                     case R.id.nav_messages:
-
 
                         fragment = new MessagingListFrag();
                         Log.d(TAG, "onOptionsItemSelected: messages clicked");
                         transaction.replace(R.id.fragment_container, fragment, "msgFrag");
                         transaction.commit();
+                        toolbar.setTitle("Messages");
                         return true;
                     case R.id.nav_notification:
-
-
 
                         fragment = new NotificationFragment();
                         transaction.replace(R.id.fragment_container, fragment, "notifrag");
                         Log.d(TAG, "onOptionsItemSelected: notification clicked");
 
                         transaction.commit();
+                        toolbar.setTitle("Invites Status");
                         return true;
                     case R.id.nav_explore:
-
-
 
                         fragment = new ExploreFragment();
                         transaction.replace(R.id.fragment_container, fragment, "explore_frag");
                         transaction.commit();
+                        toolbar.setTitle("Polymerse");
                         return true;
                 }
                 return false;
@@ -189,7 +183,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-
     private void profileNotCreated(String userKey) {
         String firebaseUid = sharedPreferences.getString(Constants.FIREBASE_UID_KEY, "");
         if (firebaseUid.equals(userKey)) {
@@ -234,17 +227,16 @@ public class HomeActivity extends AppCompatActivity {
             transaction.replace(R.id.fragment_container, fragment, "UserFrag");
             transaction.commit();
             Log.d(TAG, "onOptionsItemSelected: people clicked");
-            Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
+
         }
         if (id == R.id.nav_settings) {
             Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
         if (id == R.id.nav_profile) {
-            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(this, MyProfileActivity.class);
             startActivity(intent);
-
 
         }
 
