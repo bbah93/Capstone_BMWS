@@ -80,8 +80,6 @@ public class Edit_MyProfile_Fragment extends Fragment implements AdapterView.OnI
         aboutMeEdit = rootView.findViewById(R.id.aboutMe_EditTexts);
         langLearnSpinner = rootView.findViewById(R.id.prof_langLearn_spinner);
         langShareSpinner = rootView.findViewById(R.id.sharing_lang_spinner);
-        shareProgressBar = rootView.findViewById(R.id.editMyProfile_learning_level);
-        learnProgressBar = rootView.findViewById(R.id.myprof_sharing_level);
         user = UserSingleton.getInstance().getUser();
         profileAvatar = rootView.findViewById(R.id.user_profile_avatar);
 
@@ -90,8 +88,8 @@ public class Edit_MyProfile_Fragment extends Fragment implements AdapterView.OnI
         Toast.makeText(getActivity().getApplicationContext(),"Edit Profile Mode", Toast.LENGTH_LONG).show();
 
         saveEditsClick();
-        setLangLearn_Spinner();
-        setLangKnown_Spinner();
+        setUpViews();
+        grabProfileURL();
 
         return rootView;
     }
@@ -150,7 +148,7 @@ public class Edit_MyProfile_Fragment extends Fragment implements AdapterView.OnI
 
         if (spinner.getId() == R.id.prof_langLearn_spinner) {
             knownString = parent.getItemAtPosition(position).toString();
-            AlertDialog.Builder alertDialogue = new AlertDialog.Builder(getActivity().getApplicationContext());
+            AlertDialog.Builder alertDialogue = new AlertDialog.Builder(getActivity());
             alertDialogue.setTitle("Choose Your Fluency Level");
             String [] fluencyLevels = {"Beginner", "Intermediate", "Advanced", "Fluent"};
 
@@ -165,6 +163,7 @@ public class Edit_MyProfile_Fragment extends Fragment implements AdapterView.OnI
             alertDialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    String [] fluencyLevels = {"Beginner", "Intermediate", "Advanced", "Fluent"};
                     String learningLevel = fluencyLevels[which];
                     editor.putString("learning_level", learningLevel);
                     editor.putString("learning_lang", learnString);
@@ -179,7 +178,7 @@ public class Edit_MyProfile_Fragment extends Fragment implements AdapterView.OnI
 
         } else if (spinner.getId() == R.id.sharing_lang_spinner) {
             learnString = parent.getItemAtPosition(position).toString();
-            AlertDialog.Builder alertDialogue = new AlertDialog.Builder(getActivity().getApplicationContext());
+            AlertDialog.Builder alertDialogue = new AlertDialog.Builder(getActivity());
             alertDialogue.setTitle("Choose Your Fluency Level");
             String [] fluencyLevels = {"Beginner", "Intermediate", "Advanced", "Fluent"};
 
@@ -223,6 +222,11 @@ public class Edit_MyProfile_Fragment extends Fragment implements AdapterView.OnI
                 Picasso.get().load(imgUrl).fit().placeholder(R.drawable.ic_account_circle_black_24dp).into(profileAvatar);
             }
         }
+    }
+
+    public void setUpViews() {
+        setLangKnown_Spinner();
+        setLangLearn_Spinner();
     }
 
 }
