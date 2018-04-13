@@ -3,8 +3,7 @@
 
 # Welcome To Polymerse!
 
-Polymerse is A social education app on the Android Platform that connects people who are learning a new language with those who are doing the same, 
-fostering face-to-face mutual learning through language immersion.
+Polymerse is a social education app on the Android platform that connects people who are learning a new language with those who are doing the same, fostering face-to-face mutual learning through language immersion.
 
 ## Features
 
