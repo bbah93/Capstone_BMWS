@@ -1,4 +1,4 @@
-package com.nyc.polymerse.Profile_Creation;
+package com.nyc.polymerse.profile_creation;
 
 
 import android.content.SharedPreferences;

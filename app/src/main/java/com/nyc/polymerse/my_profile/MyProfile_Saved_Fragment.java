@@ -1,4 +1,4 @@
-package com.nyc.polymerse.My_Profile;
+package com.nyc.polymerse.my_profile;
 
 
 import android.app.AlertDialog;
@@ -68,8 +68,6 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
     String selectedImagePath;
 
-    Fragment frag = this;
-
     //TODO: Alert Dialogue for langauges and fluency levels
 
     public MyProfile_Saved_Fragment() {
@@ -107,27 +105,20 @@ public class MyProfile_Saved_Fragment extends Fragment {
     }
 
     public void editProfileClick() {
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Edit_MyProfile_Fragment editFragment = new Edit_MyProfile_Fragment();
-                MyProfile_Saved_Fragment profile_saved_fragment = new MyProfile_Saved_Fragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.my_prof_fragment_container, editFragment)
-                        //.addToBackStack("Saved Profile Fragment")
-                        .commit();
-            }
+        editProfileButton.setOnClickListener(v -> {
+            Edit_MyProfile_Fragment editFragment = new Edit_MyProfile_Fragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.my_prof_fragment_container, editFragment)
+                    //.addToBackStack("Saved Profile Fragment")
+                    .commit();
         });
     }
 
+
+    //TODO:Add File Provider to solve UriExposed exception
     public void setAddProfileImage() {
-        addProfileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startDialogue();
-            }
-        });
+        addProfileImage.setOnClickListener(v -> startDialogue());
     }
 
     private void startDialogue() {
@@ -138,24 +129,21 @@ public class MyProfile_Saved_Fragment extends Fragment {
         cameraAlertDialogue.setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent pictureActionIntent = null;
+                Intent pictureActionIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                pictureActionIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 getActivity().startActivityForResult(pictureActionIntent, GALLERY_PICTURE);
             }
         });
 
-        cameraAlertDialogue.setNegativeButton("Camera", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File file = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        cameraAlertDialogue.setNegativeButton("Camera", (dialog, which) -> {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            File file = new File(Environment.getExternalStorageDirectory(), "temp.jpg");
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-                getActivity().startActivityForResult(intent, CAMERA_REQUEST);
+            //TODO: Add File Provider to get through URI Exception
+            getActivity().startActivityForResult(intent, CAMERA_REQUEST);
 
-            }
         });
         cameraAlertDialogue.show();
     }

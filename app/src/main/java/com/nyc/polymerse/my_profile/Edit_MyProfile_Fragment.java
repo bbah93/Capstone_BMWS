@@ -1,4 +1,4 @@
-package com.nyc.polymerse.My_Profile;
+package com.nyc.polymerse.my_profile;
 
 
 import android.app.AlertDialog;

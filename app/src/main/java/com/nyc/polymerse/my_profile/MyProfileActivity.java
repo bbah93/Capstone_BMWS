@@ -1,7 +1,6 @@
-package com.nyc.polymerse.My_Profile;
+package com.nyc.polymerse.my_profile;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +13,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.SettingsActivity;
-import com.nyc.polymerse.fragments.UserResultsFragment;
 
 public class MyProfileActivity extends AppCompatActivity {
     private static final String TAG = null;

@@ -1,4 +1,4 @@
-package com.nyc.polymerse.Profile_Creation;
+package com.nyc.polymerse.profile_creation;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,13 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.nyc.polymerse.Constants;
-import com.nyc.polymerse.My_Profile.MyProfileActivity;
+import com.nyc.polymerse.my_profile.MyProfileActivity;
 import com.nyc.polymerse.R;
 
 
 public class Prof_Create_Activity extends AppCompatActivity {
 
-    //TODO:Add Transition Animation
 
     SharedPreferences profile_creator;
 
