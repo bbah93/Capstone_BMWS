@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nyc.polymerse.models.User;
 import com.nyc.polymerse.my_profile.MyProfileActivity;
 import com.nyc.polymerse.fragments.ExploreFragment;
 import com.nyc.polymerse.fragments.NotificationFragment;

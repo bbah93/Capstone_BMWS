@@ -1,7 +1,6 @@
 package com.nyc.polymerse.controller;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,7 @@ import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.Invites.Invite_Schema;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
+import com.nyc.polymerse.models.User;
 import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.fragments.InviteDialogFragment;
 import com.squareup.picasso.Picasso;

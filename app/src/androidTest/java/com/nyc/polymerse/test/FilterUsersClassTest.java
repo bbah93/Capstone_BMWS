@@ -1,13 +1,12 @@
 package com.nyc.polymerse.test;
 
 import com.nyc.polymerse.FilterUsersClass;
-import com.nyc.polymerse.User;
+import com.nyc.polymerse.models.User;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 

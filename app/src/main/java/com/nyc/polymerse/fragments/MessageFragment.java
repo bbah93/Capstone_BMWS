@@ -29,9 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.HomeActivity;
-import com.nyc.polymerse.Message;
+import com.nyc.polymerse.models.Message;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
+import com.nyc.polymerse.models.User;
 import com.nyc.polymerse.UserSingleton;
 
 import java.text.DateFormat;
