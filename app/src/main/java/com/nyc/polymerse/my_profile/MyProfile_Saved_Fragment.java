@@ -1,9 +1,11 @@
 package com.nyc.polymerse.my_profile;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.SimpleDateFormat;
@@ -11,10 +13,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,23 +29,19 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.nyc.polymerse.BuildConfig;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.models.User;
 import com.nyc.polymerse.UserSingleton;
 import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Map;
-
 import de.hdodenhof.circleimageview.CircleImageView;
-
 import static android.app.Activity.RESULT_OK;
 import static com.nyc.polymerse.Constants.PROF_CREATE_KEY;
 
@@ -49,6 +51,7 @@ import static com.nyc.polymerse.Constants.PROF_CREATE_KEY;
 public class MyProfile_Saved_Fragment extends Fragment {
 
     public static String TAG = "MyProfile_Saved_Fragment";
+    Intent cameraIntent;
     View rootView;
     Button addProfileImage;
     FloatingActionButton editProfileButton;
@@ -65,7 +68,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
     protected static final int CAMERA_REQUEST = 0;
     protected static final int GALLERY_PICTURE = 1;
-    private Intent pictureActionIntentI;
+    private Intent pictureActionIntent;
     Bitmap bitmap;
     String currentPhotoPath;
     private static final String AUTHORITY = BuildConfig.APPLICATION_ID+".fileprovider";
@@ -95,6 +98,13 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
         profileDetails = getActivity().getSharedPreferences(PROF_CREATE_KEY, Context.MODE_PRIVATE);
 
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getActivity(), "You have already granted this permission!",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            requestStoragePermission();
+        }
         if (currentUser != null) {
             grabProfileURL();
             editProfileClick();
@@ -105,6 +115,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
         return rootView;
     }
 
+
     //TODO: Seperate camera logic into a presenter class
     //TODO:Add File Provider to solve UriExposed exception
     /**
@@ -112,6 +123,24 @@ public class MyProfile_Saved_Fragment extends Fragment {
      */
     public void setAddProfileImage() {
         addProfileImage.setOnClickListener(v -> startDialogue());
+    }
+
+    private void requestStoragePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                Manifest.permission.CAMERA)) {
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Camera Permission needed")
+                    .setMessage("This permission is needed to access your phone's camera")
+                    .setPositiveButton("ok", (dialog, which) -> ActivityCompat.requestPermissions(getActivity(),
+                            new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST))
+                    .setNegativeButton("cancel", (dialog, which) -> dialog.dismiss())
+                    .create().show();
+
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
+        }
     }
 
     private void startDialogue() {
@@ -146,6 +175,17 @@ public class MyProfile_Saved_Fragment extends Fragment {
                    }
                }).show();
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == CAMERA_REQUEST)  {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getActivity(), "Permission GRANTED", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -206,8 +246,6 @@ public class MyProfile_Saved_Fragment extends Fragment {
                     .commit();
         });
     }
-
-
     //TODO: Decide how name and user info will be stored in db
     //Takes all user info which includes: about me, known and learning languages, fluency levels, and location
     public void grabUserInfo() {
