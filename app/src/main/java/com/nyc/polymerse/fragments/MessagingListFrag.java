@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
+import com.nyc.polymerse.models.User;
 import com.nyc.polymerse.controller.MessageListAdapter;
 
 import java.util.ArrayList;

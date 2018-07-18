@@ -6,7 +6,7 @@
     android:layout_centerInParent="true"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.nyc.polymerse.Profile_Creation.Location_Fragment">
+    tools:context="com.nyc.polymerse.profile_creation.Location_Fragment">
 
     <TextView
         android:id="@+id/closing_TV"

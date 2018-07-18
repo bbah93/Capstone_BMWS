@@ -1,6 +1,8 @@
 package com.nyc.polymerse;
 
 
+import com.nyc.polymerse.models.User;
+
 /**
  * Created by Wayne Kellman on 3/20/18.
  */

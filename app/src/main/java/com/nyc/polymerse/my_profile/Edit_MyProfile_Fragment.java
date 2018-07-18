@@ -1,4 +1,4 @@
-package com.nyc.polymerse.My_Profile;
+package com.nyc.polymerse.my_profile;
 
 
 import android.app.AlertDialog;
@@ -24,7 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
+import com.nyc.polymerse.models.User;
 import com.nyc.polymerse.UserSingleton;
 import com.squareup.picasso.Picasso;
 
