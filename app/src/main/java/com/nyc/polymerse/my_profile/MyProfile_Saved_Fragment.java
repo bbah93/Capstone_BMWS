@@ -100,8 +100,7 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getActivity(), "You have already granted this permission!",
-                    Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "CAMERA PERMISSION GRANTED");
         } else {
             requestStoragePermission();
         }
@@ -117,7 +116,6 @@ public class MyProfile_Saved_Fragment extends Fragment {
 
 
     //TODO: Seperate camera logic into a presenter class
-    //TODO:Add File Provider to solve UriExposed exception
     /**
      * Beginning of Camera Logic
      */
