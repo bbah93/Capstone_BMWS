@@ -26,11 +26,10 @@ import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.controller.SuggestedLocationsAdapter;
 import com.nyc.polymerse.models.SuggestedLocationModel;
-import com.nyc.polymerse.User;
+import com.nyc.polymerse.models.User;
 import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.models.SuggestedLocationsResultsModel;
 import com.nyc.polymerse.network.PlacesApi;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;

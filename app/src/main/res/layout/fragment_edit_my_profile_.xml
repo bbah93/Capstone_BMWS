@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="12dp"
     android:weightSum="3"
-    tools:context="com.nyc.polymerse.My_Profile.MyProfileActivity">
+    tools:context="com.nyc.polymerse.my_profile.MyProfileActivity">
 
 
     <RelativeLayout
@@ -88,7 +88,6 @@
             android:layout_height="150dp"
             android:layout_marginTop="7dp">
 
-            <!-- TODO: make EditText text the saved about me -->
             <EditText
                 android:padding="10dp"
                 android:id="@+id/aboutMe_EditTexts"

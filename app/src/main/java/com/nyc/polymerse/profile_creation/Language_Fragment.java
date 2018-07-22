@@ -1,4 +1,4 @@
-package com.nyc.polymerse.Profile_Creation;
+package com.nyc.polymerse.profile_creation;
 
 
 import android.content.Intent;
@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nyc.polymerse.Constants;
-import com.nyc.polymerse.My_Profile.MyProfileActivity;
+import com.nyc.polymerse.my_profile.MyProfileActivity;
 import com.nyc.polymerse.R;
 import com.nyc.polymerse.UserSingleton;
 

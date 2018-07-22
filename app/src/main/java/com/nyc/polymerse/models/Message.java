@@ -1,4 +1,4 @@
-package com.nyc.polymerse;
+package com.nyc.polymerse.models;
 
 import java.util.Date;
 

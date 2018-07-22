@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="10dp"
     android:weightSum="3"
-    tools:context="com.nyc.polymerse.My_Profile.MyProfileActivity">
+    tools:context="com.nyc.polymerse.my_profile.MyProfileActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

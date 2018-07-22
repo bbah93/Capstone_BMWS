@@ -6,8 +6,6 @@
     tools:context="com.nyc.polymerse.fragments.SuggestedLocationsFragment"
     android:id="@+id/suggestions_layout">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <EditText
         android:id="@+id/suggestions_search_text"
         android:layout_width="match_parent"

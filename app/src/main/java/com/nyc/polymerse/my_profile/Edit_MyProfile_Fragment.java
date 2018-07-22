@@ -1,4 +1,4 @@
-package com.nyc.polymerse.My_Profile;
+package com.nyc.polymerse.my_profile;
 
 
 import android.app.AlertDialog;
@@ -24,7 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
+import com.nyc.polymerse.models.User;
 import com.nyc.polymerse.UserSingleton;
 import com.squareup.picasso.Picasso;
 
@@ -86,42 +86,37 @@ public class Edit_MyProfile_Fragment extends Fragment implements AdapterView.OnI
         profileDetails = getActivity().getSharedPreferences(PROF_CREATE_KEY, Context.MODE_PRIVATE);
         editor = profileDetails.edit();
         Toast.makeText(getActivity().getApplicationContext(),"Edit Profile Mode", Toast.LENGTH_LONG).show();
-
         saveEditsClick();
-        setUpViews();
         grabProfileURL();
-
+        setUpViews();
         return rootView;
     }
 
     public void saveEditsClick(){
-        saveEditsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                user.setUsername(nameEdit.getText().toString());
-                user.setAboutMe(aboutMeEdit.getText().toString());
-                UserSingleton.getInstance().setUser(user);
+        saveEditsButton.setOnClickListener(v -> {
+            user.setUsername(nameEdit.getText().toString());
+            user.setAboutMe(aboutMeEdit.getText().toString());
+            UserSingleton.getInstance().setUser(user);
 
-                Map<String,String> langLearn = new HashMap<>();
-                Map<String,String> langTeach = new HashMap<>();
-                langLearn.put(learnString, profileDetails.getString("learning_level", null)  );
-                langTeach.put(knownString, profileDetails.getString("fluent_level", null) );
+            Map<String,String> langLearn = new HashMap<>();
+            Map<String,String> langTeach = new HashMap<>();
+            langLearn.put(learnString, profileDetails.getString("learning_level", null)  );
+            langTeach.put(knownString, profileDetails.getString("fluent_level", null) );
 
-                UserSingleton.getInstance().getUser().setLangLearn(langLearn);
-                UserSingleton.getInstance().getUser().setLangTeach(langTeach);
-                databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.USERS);
-                //This saves it to the database
-                FirebaseDatabase.getInstance().getReference().child(Constants.USERS)
-                        .child(user.getuID()).setValue(user);
+            UserSingleton.getInstance().getUser().setLangLearn(langLearn);
+            UserSingleton.getInstance().getUser().setLangTeach(langTeach);
+            databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.USERS);
+            //This saves it to the database
+            FirebaseDatabase.getInstance().getReference().child(Constants.USERS)
+                    .child(user.getuID()).setValue(user);
 
 
-                Edit_MyProfile_Fragment editFragment = new Edit_MyProfile_Fragment();
-                MyProfile_Saved_Fragment profile_saved_fragment = new MyProfile_Saved_Fragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.my_prof_fragment_container, profile_saved_fragment)
-                        .commit();
-            }
+            Edit_MyProfile_Fragment editFragment = new Edit_MyProfile_Fragment();
+            MyProfile_Saved_Fragment profile_saved_fragment = new MyProfile_Saved_Fragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.my_prof_fragment_container, profile_saved_fragment)
+                    .commit();
         });
     }
 
@@ -153,57 +148,37 @@ public class Edit_MyProfile_Fragment extends Fragment implements AdapterView.OnI
             String [] fluencyLevels = {"Beginner", "Intermediate", "Advanced", "Fluent"};
 
             int checkedItem = 0;
-            alertDialogue.setSingleChoiceItems(fluencyLevels, checkedItem, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            alertDialogue.setSingleChoiceItems(fluencyLevels, checkedItem, (dialog, which) -> {
 
-                }
             });
 
-            alertDialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String [] fluencyLevels = {"Beginner", "Intermediate", "Advanced", "Fluent"};
-                    String learningLevel = fluencyLevels[which];
-                    editor.putString("learning_level", learningLevel);
-                    editor.putString("learning_lang", learnString);
-                    editor.apply();
-                }
+            alertDialogue.setPositiveButton("OK", (dialog, which) -> {
+                String [] fluencyLevels1 = {"Beginner", "Intermediate", "Advanced", "Fluent"};
+                //TODO: AlertDialogue needs debugging
+                String learningLevel = fluencyLevels1[0];
+                editor.putString("learning_level", learningLevel);
+                editor.putString("learning_lang", learnString);
+                editor.apply();
             });
-
             alertDialogue.setNegativeButton("Cancel", null);
-
             AlertDialog dialog = alertDialogue.create();
             dialog.show();
-
         } else if (spinner.getId() == R.id.sharing_lang_spinner) {
             learnString = parent.getItemAtPosition(position).toString();
             AlertDialog.Builder alertDialogue = new AlertDialog.Builder(getActivity());
             alertDialogue.setTitle("Choose Your Fluency Level");
             String [] fluencyLevels = {"Beginner", "Intermediate", "Advanced", "Fluent"};
-
             int checkedItem = 0;
-            alertDialogue.setSingleChoiceItems(fluencyLevels, checkedItem, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
+            alertDialogue.setSingleChoiceItems(fluencyLevels, checkedItem, (dialog, which) -> {
             });
-
-            alertDialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String knownFluency = fluencyLevels[which];
-
-                    editor.putString("fluent_level", knownFluency);
-                    editor.putString("fluent", knownString);
-                    editor.apply();
-
-                }
+            alertDialogue.setPositiveButton("OK", (dialog, which) -> {
+                //TODO: Debug AlertDialogue
+                String knownFluency = fluencyLevels[0];
+                editor.putString("fluent_level", knownFluency);
+                editor.putString("fluent", knownString);
+                editor.apply();
             });
-
             alertDialogue.setNegativeButton("Cancel", null);
-
             AlertDialog dialog = alertDialogue.create();
             dialog.show();
         }
@@ -225,8 +200,8 @@ public class Edit_MyProfile_Fragment extends Fragment implements AdapterView.OnI
     }
 
     public void setUpViews() {
-        setLangKnown_Spinner();
-        setLangLearn_Spinner();
+       setLangKnown_Spinner();
+        //setLangLearn_Spinner();
     }
 
 }

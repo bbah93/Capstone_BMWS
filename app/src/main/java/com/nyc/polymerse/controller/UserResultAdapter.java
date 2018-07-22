@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.nyc.polymerse.DummyUser_Data;
 import com.nyc.polymerse.HomeActivity;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
+import com.nyc.polymerse.models.User;
 import com.nyc.polymerse.fragments.UserDetailsFragment;
 import com.squareup.picasso.Picasso;
 

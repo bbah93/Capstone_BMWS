@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import com.nyc.polymerse.Constants;
 import com.nyc.polymerse.FilterUsersClass;
 import com.nyc.polymerse.R;
-import com.nyc.polymerse.User;
+import com.nyc.polymerse.models.User;
 import com.nyc.polymerse.UserSingleton;
 import com.nyc.polymerse.controller.UserResultAdapter;
 

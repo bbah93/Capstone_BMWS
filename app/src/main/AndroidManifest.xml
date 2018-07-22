@@ -3,9 +3,11 @@
     package="com.nyc.polymerse">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-feature
         android:name="android.hardware.camera.autofocus"
@@ -36,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".Profile_Creation.Prof_Create_Activity" />
+        <activity android:name=".profile_creation.Prof_Create_Activity" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -45,7 +47,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nyc.polymerse.HomeActivity" />
         </activity>
-        <activity android:name=".My_Profile.MyProfileActivity"></activity>
+        <activity android:name=".my_profile.MyProfileActivity"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
     </application>
 
 </manifest>
