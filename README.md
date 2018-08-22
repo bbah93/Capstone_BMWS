@@ -1,4 +1,4 @@
-![](https://github.com/bbah93/Polymerse/blob/master/Screen%20Shot%202018-08-21%20at%2011.15.08%20PM.png "Polymerse")
+![](https://github.com/bbah93/Polymerse/blob/master/app/src/main/logo_screenshot.png "Polymerse")
 
 
 # Welcome To Polymerse!
@@ -13,7 +13,7 @@ Polymerse is a social education app on the Android platform that connects people
 - Profile reviews from the Polymerse community
 - Cultural Event suggestions based on the language of your choice
 ---
-![](https://github.com/Waynekellman/Capstone_BMWS/blob/Bobby/app/src/main/res/images/Screen%20Shot%202018-04-13%20at%203.17.11%20PM%20copy.png "People Tab")        ![](https://github.com/bbah93/Polymerse/blob/master/Explore_ScreenShot_2.png "Explore Page")              ![](https://github.com/Waynekellman/Capstone_BMWS/blob/Bobby/app/src/main/res/images/ScreenShot_Profile_shot%20copy.png "Profile Page")
+![](https://github.com/bbah93/Polymerse/blob/master/app/src/main/UserList_ScreenShot.png "People Tab")        ![](https://github.com/bbah93/Polymerse/blob/master/Explore_ScreenShot_2.png "Explore Page")              ![](https://github.com/bbah93/Polymerse/blob/master/app/src/main/User_Prof_ScreenShot.png "Profile Page")
 
 ---
 ## Future Iterations
