@@ -13,7 +13,7 @@ Polymerse is a social education app on the Android platform that connects people
 - Profile reviews from the Polymerse community
 - Cultural Event suggestions based on the language of your choice
 ---
-![](https://github.com/bbah93/Polymerse/blob/master/app/src/main/UserList_ScreenShot.png "People Tab")        ![](https://github.com/bbah93/Polymerse/blob/master/Explore_ScreenShot_2.png "Explore Page")              ![](https://github.com/bbah93/Polymerse/blob/master/app/src/main/User_Prof_ScreenShot.png "Profile Page")
+![](https://github.com/bbah93/Polymerse/blob/master/app/src/main/UserList_ScreenShot.png "People Tab")        ![](https://github.com/bbah93/Polymerse/blob/master/app/src/main/Explore_ScreenShot_2.png "Explore Page")              ![](https://github.com/bbah93/Polymerse/blob/master/app/src/main/User_Prof_ScreenShot.png "Profile Page")
 
 ---
 ## Future Iterations
